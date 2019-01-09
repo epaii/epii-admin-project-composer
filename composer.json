@@ -1,0 +1,19 @@
+{
+  "name": "epii/admin",
+  "description": "通用后台管理中心",
+  "authors": [
+    {
+      "name": "MrRen Epii",
+      "email": "543169072@qq.com"
+    }
+  ],
+  "license": "MIT",
+  "require": {
+    "php": ">=7.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "epii\\admin\\center": "src/"
+    }
+  }
+}
