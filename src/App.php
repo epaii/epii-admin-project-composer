@@ -27,13 +27,18 @@ class App extends \epii\app\App
                 $_REQUEST['app'] = "epii\\admin\\center\\app\\" . $_REQUEST['app'];
             }
         }
+        if (!isset($_REQUEST['app'])) {
+
+            $_REQUEST['app'] = root::class . "@start";
+
+        }
         parent::__construct();
     }
 
     public function run($app = null)
     {
         $this->init(AdminCenterCommonInit::class);
-        Route::get("/", root::class . "@start");
+
 
         return parent::run($app);
     }
@@ -44,5 +49,6 @@ class App extends \epii\app\App
             echo '$appPlusInitConfig must  extends AdminCenterPlusInitConfig';
             exit;
         }
+        return parent::setConfig($appPlusInitConfig);
     }
 }

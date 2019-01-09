@@ -18,6 +18,7 @@ class AdminCenterCommonInit implements IRun
     public function run()
     {
         // TODO: Implement run() method.
+
         Session::start();
     }
 }
