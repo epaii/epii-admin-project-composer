@@ -10,7 +10,7 @@ use epii\template\engine\EpiiViewEngine;
  * Date: 2019/1/9
  * Time: 10:51 AM
  */
-class controller extends \epii\app\controller
+class _controller extends \epii\app\controller
 {
     public function init()
     {
