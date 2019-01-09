@@ -1,7 +1,8 @@
 <?php
 namespace epii\admin\center\app;
 
-use epii\admin\center\common\controller;
+use epii\admin\center\common\_controller;
+
 use epii\admin\center\ProjectConfig;
 use epii\ui\login\AdminLogin;
 use epii\ui\login\IloginConfig;
@@ -13,7 +14,7 @@ use wangshouwei\session\Session;
  * Date: 2019/1/9
  * Time: 10:04 AM
  */
-class root extends controller
+class root extends _controller
 {
     public function start()
     {
