@@ -18,7 +18,7 @@
   "autoload": {
     "psr-4": {
       "epii\\admin\\center\\": "../src/",
-      "app\\": "src/"
+      "app\\": "app/"
     }
   },
   "config":{
