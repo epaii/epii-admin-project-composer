@@ -12,6 +12,7 @@ namespace epii\admin\center\config;
 use epii\admin\ui\lib\epiiadmin\MenuConfig;
 use epii\admin\ui\lib\epiiadmin\SiteConfig;
 use epii\admin\ui\lib\i\epiiadmin\IEpiiAdminUi;
+use think\Db;
 
 class AdminCenterUiConfig implements IEpiiAdminUi
 {
@@ -28,11 +29,11 @@ class AdminCenterUiConfig implements IEpiiAdminUi
     {
         // TODO: Implement getLeftMenuData() method.
         $m_config = new MenuConfig();
-        $m_config->addMenu(1, 0, "仪表盘", "", "fa fa-dashboard");
-        $m_config->addMenu(2, 1, "gongneng", "?app=index@index", "fa fa-circle-o");
+        $menus = Db::name('node')->select();
+        foreach ($menus as $menu){
+            $m_config->addMenu($menu['id'], $menu['pid'], $menu['name'], $menu['url'], $menu['icon']);
+        }
 
-        $m_config->addMenuHeader("小组件");
-        $m_config->addMenu(5, 0, "开发文档", "http://docs.epii-admin.epii.cn", "fa fa-dashboard");
         $m_config->selectId(2)->isAllOpen(true);
 
         return $m_config;

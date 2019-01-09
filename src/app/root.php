@@ -2,11 +2,11 @@
 namespace epii\admin\center\app;
 
 use epii\admin\center\common\_controller;
-
 use epii\admin\center\libs\Tools;
 use epii\admin\center\ProjectConfig;
 use epii\ui\login\AdminLogin;
 use epii\ui\login\IloginConfig;
+use think\Db;
 use wangshouwei\session\Session;
 
 /**
@@ -26,8 +26,24 @@ class root extends _controller
                 public function onPost(string $username, string $password, &$msg): bool
                 {
                     // TODO: Implement onPost() method.
-                    Session::set("is_login", 1);
-                    return true;
+                    $user = Db::name('admin')
+                        ->field('id,password')
+                        ->where('username', $username)
+                        ->find();
+                    if ($user) {
+
+                        if ($user['password'] == md5($password)) {
+                            Session::set("is_login", 1);
+                            $msg = '登录成功';
+                            return true;
+                        } else {
+                            $msg = '密码错误';
+                            return false;
+                        }
+                    } else {
+                        $msg = '用户名不存在';
+                        return false;
+                    }
                 }
 
                 public function getConfigs(): array
