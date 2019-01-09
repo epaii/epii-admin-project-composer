@@ -2,6 +2,8 @@
 
 namespace epii\admin\center\common;
 
+use epii\template\engine\EpiiViewEngine;
+
 /**
  * Created by PhpStorm.
  * User: mrren
@@ -10,5 +12,10 @@ namespace epii\admin\center\common;
  */
 class controller extends \epii\app\controller
 {
-
+    public function init()
+    {
+        $engin = new EpiiViewEngine();
+        $engin->init(["tpl_dir" => __DIR__ . "/../view/", "cache_dir" => __DIR__ . "/../runtime/cache/view/"]);
+        $this->setViewEngine($engin);
+    }
 }
