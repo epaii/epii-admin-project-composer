@@ -6,15 +6,12 @@
  * Time: 15:13
  */
 
-namespace app\user\controller;
+namespace epii\admin\center\app;
 
-use app\epiiadmin\controller\EpiiController;
-use think\Db;
-use wslibs\epiiadmin\jscmd\Alert;
-use wslibs\epiiadmin\jscmd\JsCmd;
-use wslibs\epiiadmin\jscmd\Refresh;
-use wslibs\epiiadmin\jscmd\CloseAndRefresh;
-class Rolelist extends EpiiController
+
+use epii\admin\center\common\_controller;
+
+class Rolelist extends _controller
 {
     public function index(){
         $list = Db::name("role")->where("status=1")->select();
