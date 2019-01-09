@@ -24,6 +24,7 @@ class AdminCenterUiConfig implements IEpiiAdminUi
         $sitconfig->app_left_theme(\epii\admin\ui\lib\epiiadmin\SiteConfig::app_left_theme_light);
         $user_name = Session::has('username')?Session::get('username'):'';
         $sitconfig->user_name($user_name)->app_theme(SiteConfig::app_theme_success)->app_left_theme(SiteConfig::app_left_theme_dark);
+        //$sitconfig->user_avatar();
         return $sitconfig;
     }
 
@@ -36,7 +37,7 @@ class AdminCenterUiConfig implements IEpiiAdminUi
             $m_config->addMenu($menu['id'], $menu['pid'], $menu['name'], $menu['url'], $menu['icon']);
         }
 
-        $m_config->selectId(2)->isAllOpen(true);
+        $m_config->selectId(3)->isAllOpen(true);
 
         return $m_config;
     }
@@ -79,7 +80,6 @@ class AdminCenterUiConfig implements IEpiiAdminUi
             $son_list = self::sortarr("sort",SORT_ASC,array_filter($list,function($val) use($v){
                 return $val['pid'] == $v['id'];
             }));
-
 
             $big_list = array_merge($big_list,$son_list);
         }

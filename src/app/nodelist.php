@@ -13,6 +13,7 @@ use epii\admin\center\common\_controller;
 use epii\admin\ui\lib\epiiadmin\jscmd\Alert;
 use epii\admin\ui\lib\epiiadmin\jscmd\CloseAndRefresh;
 use epii\admin\ui\lib\epiiadmin\jscmd\JsCmd;
+use epii\admin\ui\lib\epiiadmin\jscmd\Refresh;
 use epii\server\Args;
 use think\Db;
 
@@ -73,7 +74,7 @@ class nodelist extends _controller
                 return JsCmd::make()->addCmd($alert)->run();
             }
 
-            $re = Db::name('node')->insertGetId(['name' => $name, 'slug' => $slug, 'parent' => $pid, 'icon' => $icon, 'url' => $url, 'remark' => $remark, 'status' => $status, "sort" => $sort]);
+            $re = Db::name('node')->insertGetId(['name' => $name, 'slug' => $slug, 'pid' => $pid, 'icon' => $icon, 'url' => $url, 'remark' => $remark, 'status' => $status, "sort" => $sort]);
             if ($re) {
                 $alert = Alert::make()->msg("操作成功")->onOk(CloseAndRefresh::make()->layerNum(0)->closeNum(0))->title("重要提示")->btn("好的");
             } else {
@@ -99,7 +100,7 @@ class nodelist extends _controller
         }
 
 
-            if ($this->is_admin) {
+            /*if ($this->is_admin) {
                 if ($id == 1) {
                     $alert = Alert::make()->msg("不能修改超级管理员")->title("重要提示")->btn("好的");
                     return JsCmd::make()->addCmd($alert)->run();
@@ -107,7 +108,7 @@ class nodelist extends _controller
             } else {
                 $alert = Alert::make()->msg("没有权限")->title("重要提示")->btn("好的");
                 return JsCmd::make()->addCmd($alert)->run();
-            }
+            }*/
             $name = trim(Args::params("name"));
             $slug = trim(Args::params("slug"));
             $pid = trim(Args::params("pid"));
@@ -127,7 +128,7 @@ class nodelist extends _controller
             }
 
 
-            $re = Db::name("node")->where("id = '$id'")->update(['name' => $name, 'slug' => $slug, 'parent' => $pid, 'icon' => $icon, 'url' => $url, 'remark' => $remark, 'status' => $status, "sort" => $sort]);
+            $re = Db::name("node")->where("id = '$id'")->update(['name' => $name, 'slug' => $slug, 'pid' => $pid, 'icon' => $icon, 'url' => $url, 'remark' => $remark, 'status' => $status, "sort" => $sort]);
 
             if ($re) {
                 $alert = Alert::make()->msg("操作成功")->onOk(CloseAndRefresh::make()->layerNum(0)->closeNum(0))->title("重要提示")->btn("好的");
@@ -139,6 +140,7 @@ class nodelist extends _controller
 
     }
     public function editpage(){
+        $id = Args::params('id');
         $list = Db::name("node")->where("pid =0")->select();
         $this->assign("list", $list);
 
@@ -150,5 +152,15 @@ class nodelist extends _controller
         }
 
         $this->adminUiDisplay('nodelist/edit');
+    }
+    public function del(){
+        $id = Args::params('id');
+        $res = Db::name('node')->delete($id);
+        if ($res) {
+            $cmd = Alert::make()->msg('删除成功')->icon('6')->onOk(Refresh::make()->type("table"));
+        } else {
+            $cmd = Alert::make()->msg('删除失败')->icon('5')->onOk(Refresh::make()->type("table"));
+        }
+        return JsCmd::make()->addCmd($cmd)->run();
     }
 }

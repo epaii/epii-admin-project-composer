@@ -1,5 +1,5 @@
 <div class="col-6">
-    <form role="form" method="post" data-form="1" action="{:url('user/Nodelist/add')}">
+    <form role="form" method="post" data-form="1" action="{url nodelist add _vendor=1}">
 
         <div class="form-group">
             <label>节点名称：</label>
