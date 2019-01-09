@@ -8,4 +8,4 @@
 
 require_once __DIR__ . "/../../vendor/epii_admin_project_vendor/autoload.php";
 
-(new \epii\admin\center\App())->run();
+(new \epii\admin\center\App())->setConfig(new pluseinit())->run();
