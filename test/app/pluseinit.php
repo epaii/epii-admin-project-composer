@@ -1,5 +1,7 @@
 <?php
 
+namespace app;
+
 /**
  * Created by PhpStorm.
  * User: mrren
