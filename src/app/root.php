@@ -3,6 +3,7 @@ namespace epii\admin\center\app;
 
 use epii\admin\center\common\_controller;
 
+use epii\admin\center\libs\Tools;
 use epii\admin\center\ProjectConfig;
 use epii\ui\login\AdminLogin;
 use epii\ui\login\IloginConfig;
@@ -32,7 +33,7 @@ class root extends _controller
                 public function getConfigs(): array
                 {
                     // TODO: Implement getConfigs() method.
-                    return ["success_url" => "#"];
+                    return ["success_url" => Tools::get_current_url()];
                 }
             });
         else
