@@ -21,7 +21,7 @@ class App extends \epii\app\App
     public function __construct()
     {
 
-        Route::get("/", root::class . "@start");
+
         if (Args::getVal("_vendor") && Args::getVal("_vendor") == 1) {
             if (isset($_REQUEST['app'])) {
                 $_REQUEST['app'] = "epii\\admin\\center\\app\\" . $_REQUEST['app'];
@@ -33,6 +33,8 @@ class App extends \epii\app\App
     public function run($app = null)
     {
         $this->init(AdminCenterCommonInit::class);
+        Route::get("/", root::class . "@start");
+
         return parent::run($app);
     }
 

@@ -12,7 +12,8 @@
     "php": ">=7.0",
     "epii/tiny-app-plus":">=0.0.1",
     "epii/admin-ui-login":">=0.0.1",
-    "epii/route":">=0.0.1"
+    "epii/route":">=0.0.1",
+    "wangshouwei/session":">=0.0.1"
   },
   "autoload": {
     "psr-4": {
