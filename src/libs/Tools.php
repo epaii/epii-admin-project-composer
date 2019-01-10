@@ -26,6 +26,7 @@ class Tools
         } else {
             $current_url .= $_SERVER['SERVER_NAME'];
         }
+        var_dump($_SERVER['SERVER_NAME']);
         var_dump($current_url);
         exit;
         return $current_url;
