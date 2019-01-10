@@ -33,78 +33,85 @@ class admin extends _controller
         });
     }
 
-    public function addpage()
-    {
-        $roles = Db::name('role')->field('id,name')->select();
-        $this->assign('roles',$roles);
-        $this->adminUiDisplay('admin/add');
-    }
-
     public function add()
     {
-        $username = trim(Args::params("username"));
-        $password = trim(Args::params("password"));
-        $group_name = trim(Args::params("group_name"));
-        $status = trim(Args::params("status"));
-        $role = trim(Args::params("role"));
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-        $data['username'] = $username;
-        $data['password'] = $password;
-        $data['group_name'] = $group_name;
-        $data['status'] = $status;
-        $data['role'] = $role;
-        $data['addtime'] = time();
-        $data['updatetime'] = time();
+            $username = trim(Args::params("username"));
+            $password = trim(Args::params("password"));
+            $group_name = trim(Args::params("group_name"));
+            $status = trim(Args::params("status"));
+            $role = trim(Args::params("role"));
 
-        $res = Db::name('admin')
-            ->insert($data);
+            $data['username'] = $username;
+            $data['password'] = $password;
+            $data['group_name'] = $group_name;
+            $data['status'] = $status;
+            $data['role'] = $role;
+            $data['addtime'] = time();
+            $data['updatetime'] = time();
 
-        if ($res) {
-            $cmd = Alert::make()->msg('添加成功')->icon('6')->onOk(CloseAndRefresh::make()->type("table"));
+            $res = Db::name('admin')
+                ->insert($data);
+
+            if ($res) {
+                $cmd = Alert::make()->msg('添加成功')->icon('6')->onOk(CloseAndRefresh::make()->type("table"));
+            } else {
+                $cmd = Alert::make()->msg('添加失败')->icon('5')->onOk(null);
+            }
+            return JsCmd::make()->addCmd($cmd)->run();
+
         } else {
-            $cmd = Alert::make()->msg('添加失败')->icon('5')->onOk(null);
+
+
+            $roles = Db::name('role')->field('name')->select();
+            $this->assign('roles', $roles);
+            $this->adminUiDisplay('admin/add');
         }
-        return JsCmd::make()->addCmd($cmd)->run();
     }
 
-    public function editpage(){
 
-        $id = trim(Args::params("id"));
-        $admin = Db::name('admin')->where('id',$id)->find();
-        $roles = Db::name('role')->field('id,name')->select();
-        $this->assign('id',$id);
-        $this->assign('roles',$roles);
-        $this->assign('admin',$admin);
-        $this->adminUiDisplay('admin/edit');
-    }
     public function edit()
     {
-        $id = trim(Args::params("id"));
-        $username = trim(Args::params("username"));
-        $password = trim(Args::params("password"));
-        $group_name = trim(Args::params("group_name"));
-        $status = trim(Args::params("status"));
-        $role = trim(Args::params("role"));
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $id = trim(Args::params("id"));
+            $username = trim(Args::params("username"));
+            $password = trim(Args::params("password"));
+            $group_name = trim(Args::params("group_name"));
+            $status = trim(Args::params("status"));
+            $role = trim(Args::params("role"));
 
-        $data['username'] = $username;
-        $data['group_name'] = $group_name;
-        $data['status'] = $status;
-        $data['role'] = $role;
-        $data['updatetime'] = time();
+            $data['username'] = $username;
+            $data['group_name'] = $group_name;
+            $data['status'] = $status;
+            $data['role'] = $role;
+            $data['updatetime'] = time();
 
-        if($password){
-            $data['password'] = $password;
-        }
-        $res = Db::name('admin')
-            ->where('id',$id)
-            ->update($data);
+            if ($password) {
+                $data['password'] = $password;
+            }
+            $res = Db::name('admin')
+                ->where('id', $id)
+                ->update($data);
 
-        if ($res) {
-            $cmd = Alert::make()->msg('修改成功')->icon('6')->onOk(CloseAndRefresh::make()->type("table"));
+            if ($res) {
+                $cmd = Alert::make()->msg('修改成功')->icon('6')->onOk(CloseAndRefresh::make()->type("table"));
+            } else {
+                $cmd = Alert::make()->msg('修改失败')->icon('5')->onOk(null);
+            }
+            return JsCmd::make()->addCmd($cmd)->run();
+
         } else {
-            $cmd = Alert::make()->msg('修改失败')->icon('5')->onOk(null);
+
+
+            $id = Args::params('id');
+            $admin = Db::name('admin')->where('id', $id)->find();
+            $roles = Db::name('role')->field('id,name')->select();
+            $this->assign('id', $id);
+            $this->assign('admin', $admin);
+            $this->assign('roles', $roles);
+            $this->adminUiDisplay('admin/edit');
         }
-        return JsCmd::make()->addCmd($cmd)->run();
     }
 
     public function del()

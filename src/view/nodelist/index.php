@@ -39,16 +39,16 @@
 
 
     <div class="card-body table-responsive" style="padding-top: 0px">
-        <a class="btn btn-info  btn-outline-info btn-table-tool btn-dialog" href="{url nodelist addpage _vendor=1}" data-area="70%,70%" title="新增节点">新增</a>
+        <a class="btn btn-info  btn-outline-info btn-table-tool btn-dialog" href="{url nodelist add _vendor=1}" data-area="70%,70%" title="新增节点">新增</a>
     </div>
     <div class="card-body table-responsive" style="padding-top: 0px">
         <table data-table="1" data-url="{url nodelist ajaxdata _vendor=1}" id="table1" class="table table-hover">
             <thead>
             <tr>
-                <th data-checkbox="true"></th>
+
                 <th data-field="id" data-formatter="epiiFormatter">ID</th>
                 <th data-field="name" data-formatter="epiiFormatter">节点名称</th>
-                <th data-field="slug" data-formatter="epiiFormatter">唯一标志</th>
+                <th data-field="slug" data-formatter="epiiFormatter">唯一标识</th>
                 <th data-field="pid" data-formatter="epiiFormatter">父节点</th>
                 <th data-field="icon" data-formatter="epiiFormatter">图标</th>
                 <th data-field="url" data-formatter="epiiFormatter">链接地址</th>
@@ -56,7 +56,7 @@
                 <th data-field="remark" data-formatter="epiiFormatter">备注</th>
                 <th data-field="sort" data-formatter="epiiFormatter">排序</th>
                 <th data-formatter="epiiFormatter.btns" data-btns="edit,del"
-                    data-edit-url="{url nodelist editpage _vendor=1}&id={id}" data-edit-title="编辑：{name}"
+                    data-edit-url="{url nodelist edit _vendor=1}&id={id}" data-edit-title="编辑：{name}"
                     data-del-url="{url nodelist del _vendor=1}&id={id}" data-del-title="删除：{name}"
                 >操作
                 </th>

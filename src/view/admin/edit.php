@@ -19,8 +19,10 @@
         <div class="form-group">
             <label for="class">用户状态：</label><br>
             <select class="selectpicker" id="class" name="status">
-                <option value="normal">正常</option>
-                <option value="locked">锁定</option>
+
+                <option value="normal" <?php if($admin['status'] == 'normal'){ ?> selected <?php } ?>>正常</option>
+                <option value="locked" <?php if($admin['status'] == 'locked'){ ?> selected <?php } ?>>锁定</option>
+
             </select>
         </div>
         <div class="form-group">

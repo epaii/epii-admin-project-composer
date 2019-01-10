@@ -52,7 +52,7 @@ class AdminCenterUiConfig implements IEpiiAdminUi
         // TODO: Implement getTopRightNavHtml() method.
         return '  <li class="nav-item">
             <a class="nav-link"  href="?app=user@logout&_vendor=1">
-                <i class="fa fa-times" ></i>
+                <i class="fa fa-power-off" ></i>
             </a>
         </li>';
         //return "";
