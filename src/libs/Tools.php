@@ -12,7 +12,7 @@ class Tools
 {
     public static function get_current_url()
     {
-        return self::get_current_url() . $_SERVER['REQUEST_URI'];
+        return self::get_web_root() . $_SERVER['REQUEST_URI'];
     }
 
     public static function get_web_root()
