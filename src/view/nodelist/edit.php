@@ -37,7 +37,7 @@
         </div>
         <div class="form-group">
             <label>排序：</label>
-            <input type="text" class="form-control" name="sort" placeholder="释: 数字越大越靠后">
+            <input type="number" class="form-control" name="sort" placeholder="释: 数字越大越靠后">
         </div>
         <div  class="form-group">
             <div class="custom-control custom-checkbox mb-3">

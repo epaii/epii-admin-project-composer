@@ -8,7 +8,7 @@
         </div>
         <div class="form-group">
             <label>秘密：</label>
-            <input type="password" class="form-control" name="password" required placeholder="请输入密码
+            <input type="password" class="form-control" name="password"  placeholder="请输入密码,不修改密码留空
 ">
         </div>
         <div class="form-group">

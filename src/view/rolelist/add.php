@@ -34,7 +34,7 @@
         </div>
         <div class="form-group">
             <label>排序：</label>
-            <input type="text" class="form-control" name="sort" required placeholder="请输入用戶昵称">
+            <input type="number" class="form-control" name="sort" required placeholder="请输入用戶昵称">
         </div>
         <div class="form-group">
             <button type="submit" class="btn btn-primary">提交</button>

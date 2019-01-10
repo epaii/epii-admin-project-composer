@@ -50,7 +50,12 @@ class AdminCenterUiConfig implements IEpiiAdminUi
     public function getTopRightNavHtml(): string
     {
         // TODO: Implement getTopRightNavHtml() method.
-        return "";
+        return '  <li class="nav-item">
+            <a class="nav-link"  href="?app=user@logout&_vendor=1">
+                <i class="fa fa-times" ></i>
+            </a>
+        </li>';
+        //return "";
     }
 
     private function sortarr($key,$sort,$arr){
