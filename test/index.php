@@ -8,4 +8,4 @@
 
 require_once __DIR__ . "/../../vendor/epii_admin_project_vendor/autoload.php";
 
-(new \epii\admin\center\App())->setConfig(new \app\pluseinit())->run();
+(new \epii\admin\center\App())->setConfig(new \app\pluseinit())->setDisableNameSpace("app\\pluseinit")->run();

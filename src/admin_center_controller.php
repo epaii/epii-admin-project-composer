@@ -9,17 +9,27 @@
 namespace epii\admin\center;
 
 
+use epii\admin\center\app\root;
 use epii\admin\center\libs\Tools;
 use epii\app\controller;
+
+use epii\server\App;
+use epii\server\Args;
 use wangshouwei\session\Session;
 
 class admin_center_controller extends controller
 {
     public function init()
     {
-        if (!Session::get("is_login")) {
+        if (Args::getVal("_show_runner"))
+        {
+            echo get_class(App::getInstance()->getRunner()[0])."@".App::getInstance()->getRunner()[1];
+            exit;
+        }
+        if ( (!Session::get("is_login")) &&  ( !( get_class(App::getInstance()->getRunner()[0]) ===root::class && App::getInstance()->getRunner()[1]==="start" ) ) ) {
             header("location:" . Tools::get_web_root());
         }
+
 
     }
 }

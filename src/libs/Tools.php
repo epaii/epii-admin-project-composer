@@ -12,7 +12,7 @@ class Tools
 {
     public static function get_current_url()
     {
-        return self::get_current_url() . $_SERVER['REQUEST_URI'];
+        return self::get_web_root() . $_SERVER['REQUEST_URI'];
     }
 
     public static function get_web_root()
@@ -22,10 +22,11 @@ class Tools
             $current_url = 'https://';
         }
         if ($_SERVER['SERVER_PORT'] != '80') {
-            $current_url .= $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'];
+            $current_url .= $_SERVER['HTTP_HOST'] . ':' . $_SERVER['SERVER_PORT'];
         } else {
-            $current_url .= $_SERVER['SERVER_NAME'];
+            $current_url .= $_SERVER['HTTP_HOST'];
         }
+
         return $current_url;
     }
 }
