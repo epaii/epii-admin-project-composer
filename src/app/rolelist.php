@@ -19,18 +19,9 @@ use think\Db;
 
 class rolelist extends _controller
 {
-<<<<<<< HEAD
-    /**
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\DbException
-     * @throws \think\db\exception\ModelNotFoundException
-     * 菜单
-     */
-=======
 
 
 
->>>>>>> 8f758e3fd37236a4d1e09fd263225327f951ddb8
     public function index(){
         $list = Db::name("role")->where("status=1")->select();
         $this->assign("list",$list);
