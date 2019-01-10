@@ -15,10 +15,7 @@ use epii\template\engine\EpiiViewEngine;
 class _controller extends admin_center_controller
 {
 
-<<<<<<< HEAD
-=======
 
->>>>>>> 8f758e3fd37236a4d1e09fd263225327f951ddb8
     public function init()
     {
 
