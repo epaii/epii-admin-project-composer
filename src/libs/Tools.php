@@ -22,13 +22,11 @@ class Tools
             $current_url = 'https://';
         }
         if ($_SERVER['SERVER_PORT'] != '80') {
-            $current_url .= $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'];
+            $current_url .= $_SERVER['HTTP_HOST'] . ':' . $_SERVER['SERVER_PORT'];
         } else {
-            $current_url .= $_SERVER['SERVER_NAME'];
+            $current_url .= $_SERVER['HTTP_HOST'];
         }
-        var_dump($_SERVER);
-        var_dump($current_url);
-        exit;
+
         return $current_url;
     }
 }
