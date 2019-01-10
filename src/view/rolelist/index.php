@@ -1,9 +1,4 @@
-<script>
-    function btn1(field_value, row, index,field_name) {
 
-        return "<a class='btn btn-outline-success btn-sm btn-dialog'   data-area='60%,60%' href='?app=user@power&_vendor=1'><i class=\"fa fa-pencil-square-o\" aria-hidden=\"true\"></i>权限</a>";
-    }
-</script>
 <section class="content" style="padding: 10px">
     <div class="row">
         <div class="col-12">
@@ -55,3 +50,9 @@
         </table>
     </div>
 </div>
+<script>
+    function btn1(field_value, row, index,field_name) {
+
+        return "<a class='btn btn-outline-success btn-sm btn-dialog'   data-area='60%,60%' href='?app=user@power&_vendor=1&id="+row.id+"+'><i class='fa fa-pencil-square-o' ></i>权限</a>";
+    }
+</script>
