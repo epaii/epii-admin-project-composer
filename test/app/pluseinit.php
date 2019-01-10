@@ -25,6 +25,7 @@ class pluseinit extends \epii\admin\center\config\AdminCenterPlusInitConfig
 
     public function get_db_config(): array
     {
+
         // TODO: Implement get_db_config() method.
         return [
             'type' => 'mysql',

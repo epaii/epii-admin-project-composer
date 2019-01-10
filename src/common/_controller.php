@@ -2,6 +2,8 @@
 
 namespace epii\admin\center\common;
 
+use epii\admin\center\admin_center_controller;
+
 use epii\template\engine\EpiiViewEngine;
 
 /**
@@ -10,7 +12,7 @@ use epii\template\engine\EpiiViewEngine;
  * Date: 2019/1/9
  * Time: 10:51 AM
  */
-class _controller extends \epii\app\controller
+class _controller extends admin_center_controller
 {
 
 
@@ -20,5 +22,6 @@ class _controller extends \epii\app\controller
         $engin = new EpiiViewEngine();
         $engin->init(["tpl_dir" => __DIR__ . "/../view/", "cache_dir" => __DIR__ . "/../runtime/cache/view/"]);
         $this->setViewEngine($engin);
+        parent::init();
     }
 }
