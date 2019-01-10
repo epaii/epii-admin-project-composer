@@ -35,6 +35,7 @@ class root extends _controller
                         if ($user['password'] == md5($password)) {
                             Session::set("is_login", 1);
                             Session::set("username", $user['username']);
+                            Session::set("user_id", $user['id']);
                             $msg = '登录成功';
                             return true;
                         } else {

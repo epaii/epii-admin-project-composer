@@ -3,39 +3,20 @@
 
         <div class="form-group">
             <label>角色名称：</label>
-            <input type="text" class="form-control" name="name" required placeholder="请输入角色名称">
+            <input type="text" class="form-control" name="name" value="{$role.name}" required placeholder="请输入角色名称">
         </div>
         <div class="form-group">
             <label>唯一标志：</label>
-            <input type="test" class="form-control" name="slug" required placeholder="请输入唯一标志">
-        </div>
-        <div class="form-group">
-            <label>用戶昵称：</label>
-            <input type="text" class="form-control" name="group_name" required placeholder="请输入用戶昵称">
-        </div>
-        <div class="form-group">
-            <label for="class">节点集合：</label><br>
-            {foreach $nodes $k=>$v}
-            <input type="checkbox" name="nodes[]" value="{$v.id}">
-            {$v.name} <br>
-            {/foreach}
+            <input type="test" class="form-control" name="slug" value="{$role.slug}" required placeholder="请输入唯一标志">
         </div>
         <div class="form-group">
             <label for="class">状态：</label><br>
             <select class="selectpicker" id="class" name="status">
-                <option value="">111</option>
-                <option value="">222</option>
+                <option value="0"  <?php if ($role['status']==0){?>selected="selected" <?php }?>>未启用</option>
+                <option value="1"  <?php if ($role['status']==1){?>selected="selected"<?php }?>>启用</option>
             </select>
         </div>
 
-        <div class="form-group">
-            <label>备注：</label>
-            <input type="text" class="form-control" name="remark" required placeholder="请输入用戶昵称">
-        </div>
-        <div class="form-group">
-            <label>排序：</label>
-            <input type="number" class="form-control" name="sort" required placeholder="请输入用戶昵称">
-        </div>
         <div class="form-group">
             <input type="hidden" name="id" value="{$id}">
         </div>

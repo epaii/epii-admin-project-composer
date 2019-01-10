@@ -12,6 +12,7 @@ use epii\template\engine\EpiiViewEngine;
  */
 class _controller extends \epii\app\controller
 {
+
     public function init()
     {
         $engin = new EpiiViewEngine();
