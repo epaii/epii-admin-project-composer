@@ -19,6 +19,9 @@ use think\Db;
 
 class rolelist extends _controller
 {
+
+
+
     public function index(){
         $list = Db::name("role")->where("status=1")->select();
         $this->assign("list",$list);
@@ -132,4 +135,6 @@ class rolelist extends _controller
         }
         return JsCmd::make()->addCmd($cmd)->run();
     }
+
+
 }

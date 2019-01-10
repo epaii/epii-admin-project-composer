@@ -12,8 +12,11 @@ use epii\template\engine\EpiiViewEngine;
  */
 class _controller extends \epii\app\controller
 {
+
+
     public function init()
     {
+
         $engin = new EpiiViewEngine();
         $engin->init(["tpl_dir" => __DIR__ . "/../view/", "cache_dir" => __DIR__ . "/../runtime/cache/view/"]);
         $this->setViewEngine($engin);
