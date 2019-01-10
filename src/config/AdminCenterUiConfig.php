@@ -33,11 +33,16 @@ class AdminCenterUiConfig implements IEpiiAdminUi
         // TODO: Implement getLeftMenuData() method.
         $m_config = new MenuConfig();
         $menus = $this->getLeftMenu();
+        $open_id = 3;
         foreach ($menus as $menu){
             $m_config->addMenu($menu['id'], $menu['pid'], $menu['name'], $menu['url'], $menu['icon']);
+            if($menu['is_open']){
+                $open_id = $menu['id'];
+            }
+
         }
 
-        $m_config->selectId(3)->isAllOpen(true);
+        $m_config->selectId($open_id)->isAllOpen(true);
 
         return $m_config;
     }

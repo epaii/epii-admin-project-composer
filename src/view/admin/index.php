@@ -29,7 +29,7 @@
 
 
     <div class="card-body table-responsive" style="padding-top: 0px">
-        <a class="btn btn-info  btn-outline-info btn-table-tool btn-dialog" href="{url admin add _vendor=1}" data-area="70%,70%" title="新增角色">新增</a>
+        <a class="btn btn-info  btn-outline-info btn-table-tool btn-dialog" href="{url admin addpage _vendor=1}" data-area="70%,70%" title="新增管理员">新增</a>
     </div>
     <div class="card-body table-responsive" style="padding-top: 0px">
         <table data-table="1" data-url="{url admin ajaxdata _vendor=1}" id="table1" class="table table-hover">
@@ -41,8 +41,9 @@
                 <th data-field="group_name" data-formatter="epiiFormatter">用戶名称</th>
                 <th data-field="addtime" data-formatter="epiiFormatter">添加时间</th>
                 <th data-field="updatetime" data-formatter="epiiFormatter">更新时间</th>
+                <th data-field="status" data-formatter="epiiFormatter">状态</th>
                 <th data-formatter="epiiFormatter.btns" data-btns="edit,del"
-                    data-edit-url="{url admin edit _vendor=1}&id={id}" data-edit-title="编辑：{name}"
+                    data-edit-url="{url admin editpage _vendor=1}&id={id}" data-edit-title="编辑：{name}"
                     data-del-url="{url admin del _vendor=1}&id={id}" data-del-title="删除：{name}"
                 >操作
                 </th>

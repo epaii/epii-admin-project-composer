@@ -29,7 +29,7 @@
 
 
     <div class="card-body table-responsive" style="padding-top: 0px">
-        <a class="btn btn-info  btn-outline-info btn-table-tool btn-dialog" href="{url nolelist add _vendor=1}" data-area="70%,70%" title="新增角色">新增</a>
+        <a class="btn btn-info  btn-outline-info btn-table-tool btn-dialog" href="{url rolelist addpage _vendor=1}" data-area="70%,70%" title="新增角色">新增</a>
     </div>
     <div class="card-body table-responsive" style="padding-top: 0px">
         <table data-table="1" data-url="{url rolelist ajaxdata _vendor=1}" id="table1" class="table table-hover">
@@ -44,7 +44,7 @@
                 <th data-field="remark" data-formatter="epiiFormatter">备注</th>
                 <th data-field="sort" data-formatter="epiiFormatter">排序</th>
                 <th data-formatter="epiiFormatter.btns" data-btns="edit,del"
-                    data-edit-url="{url rolelist edit _vendor=1}&id={id}" data-edit-title="编辑：{name}"
+                    data-edit-url="{url rolelist editpage _vendor=1}&id={id}" data-edit-title="编辑：{name}"
                     data-del-url="{url rolelist del _vendor=1}&id={id}" data-del-title="删除：{name}"
                 >操作
                 </th>
