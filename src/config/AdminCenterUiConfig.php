@@ -27,6 +27,9 @@ class AdminCenterUiConfig implements IEpiiAdminUi
 
         $sitconfig->app_left_top_theme(Settings::get("app.style.left_top_theme"));
         $sitconfig->app_left_selected_theme(Settings::get("app.style.left_selected_theme"));
+        $sitconfig->site_logo(Settings::get("app.logo"));
+        $sitconfig->site_title(Settings::get("app.title"));
+        $sitconfig->site_name(Settings::get("app.title"));
         //$sitconfig->user_avatar();
         return $sitconfig;
     }
