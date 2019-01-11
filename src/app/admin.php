@@ -43,7 +43,7 @@ class admin extends _controller
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             $username = trim(Args::params("username"));
-            $password = trim(Args::params("password"));
+            $password = md5(Args::params("password"));
             $group_name = trim(Args::params("group_name"));
             $status = trim(Args::params("status"));
             $role = trim(Args::params("role"));
@@ -86,7 +86,7 @@ class admin extends _controller
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $id = trim(Args::params("id"));
             $username = trim(Args::params("username"));
-            $password = trim(Args::params("password"));
+            $password = md5(Args::params("password"));
             $group_name = trim(Args::params("group_name"));
             $status = trim(Args::params("status"));
             $role = trim(Args::params("role"));

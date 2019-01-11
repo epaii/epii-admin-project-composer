@@ -226,6 +226,7 @@ class rolelist extends _controller
             $nodes = Db::name('node')
                 ->field('id,name')
                 ->select();
+            $this->assign('id',$id);
             $this->assign('nodes',$nodes);
             $this->adminUiDisplay('rolelist/nav');
         }
