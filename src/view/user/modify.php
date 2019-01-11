@@ -1,36 +1,48 @@
 <section class="content col-md-8" style="padding: 10px">
-    <form role="form"
-          data-form="1"
-          method="post"
-          data-ajax="1"
-          action="{url user modify _vendor=1}"
-          data-before-submit="confirm"
-          data-msg="你确定修改吗?">
-    <table class="table">
+    <h3>个人资料</h3>
+    <table class="table table-bordered">
         <tr>
-            <th colspan="2">资料修改</th>
-            <th></th>
+            <td>用户头像</td>
+            <td> <img src="http://img5.duitang.com/uploads/item/201410/05/20141005082835_2RTzn.thumb.700_0.jpeg"
+
+                      style="width: 100px;height: 100px;border-radius: 50%"
+                ></td>
+            <td><a class="btn btn-default btn-dialog"
+                   href="{url user modify_photo _vendor=1}&id={$user.id}"
+                   data-area="50%,50%"
+                   data-title="修改头像"
+                >更换头像</a></td>
         </tr>
         <tr>
             <td>用户名</td>
             <td>{$user.username}</td>
+            <td rowspan="5">
+                <a class="btn btn-default btn-dialog"
+                   href="{url user modify_info _vendor=1}&id={$user.id}"
+                   data-area="50%,50%"
+                   data-title="更改资料"
+
+                >更改资料</a>
+                <a class="btn btn-default btn-dialog"
+                   href="{url user modify_pwd _vendor=1}&id={$user.id}"
+                   data-area="50%,50%"
+                   data-title="更改密码"
+                >更改密码</a>
+            </td>
         </tr>
         <tr>
             <td>用户昵称</td>
-            <td><input type="text" class="form-control" name="group_name" value="{$user.group_name}"
-                       required maxlength="50">
+            <td>{$user.group_name}
             </td>
         </tr>
 
         <tr>
             <td>用户手机号</td>
-            <td><input type="text" class="form-control" name="phone" id="phone" maxlength="11"
-                       value="{$user.phone}" ></td>
+            <td>{$user.phone}</td>
         </tr>
         <tr>
             <td>用户邮箱</td>
-            <td><input type="text" class="form-control" name="email" id="email" maxlength="50"
-                       value="{$user.email}" ></td>
+            <td>{$user.email}</td>
         </tr>
 
         <tr>
@@ -38,16 +50,7 @@
             <td>{$user.addtime}</td>
 
         </tr>
-        <tr>
-            <td colspan="2">
-                <button type="submit" class="btn btn-sm btn-outline-success"><i class="fa fa-check"></i>修改</button>
-                <button type="reset" class="btn btn-sm btn-outline-warning"><i class="fa fa-reply-all"></i>重置
-                </button>
-            </td>
-            <td></td>
-        </tr>
     </table>
-
         </form>
 
 

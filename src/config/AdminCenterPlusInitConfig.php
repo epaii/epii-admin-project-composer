@@ -13,6 +13,7 @@ use epii\app\i\IAppPlusInitConfig;
  */
 abstract class AdminCenterPlusInitConfig     implements IAppPlusInitConfig
 {
+
     public function get_view_engine(): string
     {
         // TODO: Implement get_view_engine() method.

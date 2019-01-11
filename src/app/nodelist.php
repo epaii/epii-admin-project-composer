@@ -118,7 +118,8 @@ class nodelist extends _controller
             return JsCmd::make()->addCmd($alert)->run();
 
         } else {
-            $list = Db::name("node")->where("pid =0")->select();
+            $list = Db::name("node")->where('pid',0)->select();
+            print_r($list);exit();
             $this->assign("list", $list);
             $this->adminUiDisplay('nodelist/add');
         }
@@ -177,9 +178,9 @@ class nodelist extends _controller
             $data['is_open']=$is_open;
 
             if (strpos($url,'?')!==false){
-                $data['url']='?app=' . $url . '&_vendor=1';
-            }else{
                 $data['url']=$url;
+            }else{
+                $data['url']='?app=' . $url . '&_vendor=1';
             }
 
 
@@ -196,7 +197,7 @@ class nodelist extends _controller
 
         } else {
             $id = Args::params('id');
-            $list = Db::name("node")->where("pid =0")->select();
+            $list = Db::name("node")->where('pid',0)->select();
             $this->assign("list", $list);
             $this->assign("id", $id);
             $nodeinfo = Db::name("node")->where("id",$id)->find();
