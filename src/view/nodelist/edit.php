@@ -5,10 +5,6 @@
             <label>节点名称：</label>
             <input type="text" class="form-control" name="name" value="{$nodeinfo.name}" placeholder="请输入父节点名称" required>
         </div>
-        <div class="form-group">
-            <label>唯一标识：</label>
-            <input type="text" class="form-control" name="slug" value="{$nodeinfo.slug}" placeholder="请输入唯一标识" required>
-        </div>
         <label for="class">父节点：</label><br>
         <select class="selectpicker" id="class" name="pid">
             <option value="0">无</option>

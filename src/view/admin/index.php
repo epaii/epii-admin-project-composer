@@ -40,13 +40,32 @@
                 <th data-field="addtime" data-formatter="epiiFormatter">添加时间</th>
                 <th data-field="updatetime" data-formatter="epiiFormatter">更新时间</th>
                 <th data-field="status" data-formatter="epiiFormatter">状态</th>
-                <th data-formatter="epiiFormatter.btns" data-btns="edit,del"
-                    data-edit-url="{url admin edit _vendor=1}&id={id}" data-edit-title="编辑：{name}"
-                    data-del-url="{url admin del _vendor=1}&id={id}" data-del-title="删除：{name}"
+                <th data-formatter="epiiFormatter.btns" data-btns="edit1,del1"
+
                 >操作
                 </th>
             </tr>
             </thead>
         </table>
     </div>
+
 </div>
+
+<script>
+    function edit1(field_value, row, index,field_name) {
+        if(row.id !=1){
+            return "<a class='btn btn-outline-info btn-sm btn-dialog'   data-area='60%,60%' href='?app=admin@edit&_vendor=1&id="+row.id+"+'><i class='fa fa-pencil-square-o' ></i>编辑</a>";
+        }else{
+            return '';
+        }
+    }
+    function del1(field_value, row, index,field_name) {
+        if(row.id !=1){
+            return "<a class='btn btn-outline-danger btn-sm '    href='?app=admin@del&_vendor=1&id="+row.id+"+'><i class='fa fa-trash' ></i>删除</a>";
+        }else{
+            return '';
+        }
+
+
+    }
+</script>

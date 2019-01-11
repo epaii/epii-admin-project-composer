@@ -6,10 +6,6 @@
             <input type="text" class="form-control" name="name" value="{$role.name}" required placeholder="请输入角色名称">
         </div>
         <div class="form-group">
-            <label>唯一标志：</label>
-            <input type="test" class="form-control" name="slug" value="{$role.slug}" required placeholder="请输入唯一标志">
-        </div>
-        <div class="form-group">
             <label for="class">状态：</label><br>
             <select class="selectpicker" id="class" name="status">
                 <option value="0"  <?php if ($role['status']==0){?>selected="selected" <?php }?>>未启用</option>

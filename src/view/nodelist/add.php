@@ -5,10 +5,6 @@
             <label>节点名称：</label>
             <input type="text" class="form-control" name="name" required placeholder="请输入父节点名称">
         </div>
-        <div class="form-group">
-            <label>唯一标识：</label>
-            <input type="text" class="form-control" name="slug" required placeholder="请输入唯一标识">
-        </div>
         <label for="class">父节点：</label><br>
         <select class="selectpicker" id="class" name="pid">
             <option value="0">无</option>
@@ -22,7 +18,7 @@
         </div>
         <div class="form-group">
             <label>链接地址：</label>
-            <input type="text" class="form-control" name="url" placeholder="格式:控制器@方法名,如:index@index,没有父级不填">
+            <input type="text" class="form-control" name="url" placeholder="如:?app=config@index&_vendor=1,没有父级不填">
         </div>
         <div class="form-group">
             <label>备注：</label>

@@ -12,6 +12,7 @@ namespace epii\admin\center\app;
 use epii\admin\center\common\_controller;
 use epii\admin\center\config\Rbac;
 use epii\admin\center\config\Settings;
+use epii\admin\center\libs\Tools;
 use epii\admin\ui\lib\epiiadmin\jscmd\Alert;
 use epii\admin\ui\lib\epiiadmin\jscmd\CloseAndRefresh;
 use epii\admin\ui\lib\epiiadmin\jscmd\JsCmd;
@@ -53,7 +54,7 @@ class rolelist extends _controller
             }
              $data['nodes'] = implode('   ',$arr);
              $arr = [];*/
-            $data['status'] = $data['status'] == 1 ? "已启用" : "未启用";
+            $data['status'] = $data['status'] == 1 ? "<i class=\"fa fa-toggle-on\" aria-hidden=\"true\"></i>" : "<i class=\"fa fa-toggle-off\" aria-hidden=\"true\"></i>";
             return $data;
         });
     }
@@ -70,10 +71,8 @@ class rolelist extends _controller
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $name = trim(Args::params("name"));
-            $slug = trim(Args::params("slug"));
             $status = trim(Args::params("status"));
             $data['name'] = $name;
-            $data['slug'] = $slug;
             $data['status'] = $status;
             $res = Db::name('role')
                 ->insert($data);
@@ -108,10 +107,8 @@ class rolelist extends _controller
 
             $id = trim(Args::params("id"));
             $name = trim(Args::params("name"));
-            $slug = trim(Args::params("slug"));
             $status = trim(Args::params("status"));
             $data['name'] = $name;
-            $data['slug'] = $slug;
             $data['status'] = $status;
             $res = Db::name('role')
                 ->where('id', $id)
@@ -197,7 +194,7 @@ class rolelist extends _controller
             return JsCmd::make()->addCmd($cmd)->run();
 
         } else {
-            $list = ClassTools::get_all_classes_and_methods(["epii\\admin\\center\\app\\"]);
+            $list = ClassTools::get_all_classes_and_methods(Tools::getEnableNameSpacePre());
             $power_array = Db::name('role')->where('id', $id)->value('powers');
 
             if (!$power_array) {
@@ -220,4 +217,17 @@ class rolelist extends _controller
 
     }
 
+
+    public function nav(){
+        $id = Args::params('id');
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+        }else{
+            $nodes = Db::name('node')
+                ->field('id,name')
+                ->select();
+            $this->assign('nodes',$nodes);
+            $this->adminUiDisplay('rolelist/nav');
+        }
+    }
 }
