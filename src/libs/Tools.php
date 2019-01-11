@@ -17,6 +17,7 @@ class Tools
 
     public static function get_web_root()
     {
+
         $current_url = 'http://';
         if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') {
             $current_url = 'https://';
@@ -27,6 +28,7 @@ class Tools
             $current_url .= $_SERVER['HTTP_HOST'];
         }
 
-        return $current_url;
+
+        return $current_url.(substr($_SERVER["SCRIPT_NAME"],0,strrpos($_SERVER["SCRIPT_NAME"],"/")));
     }
 }

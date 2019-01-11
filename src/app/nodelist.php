@@ -99,13 +99,14 @@ class nodelist extends _controller
             }
 
             $data['name']=$name;
-            $data['slug']=$slug;
+
             $data['pid']=$pid;
             $data['remark']=$remark;
             $data['status']=$status;
             $data['sort']=$sort;
             $data['icon']=$icon;
             $data['url']='?app=' . $url . '&_vendor=1';
+            $data['slug']='?app=' . $url . '&_vendor=1';
             $re = Db::name('node')
                 ->insertGetId($data);
             if ($re) {
