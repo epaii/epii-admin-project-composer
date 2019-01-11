@@ -27,7 +27,7 @@ class Rbac
 
         if ($list) {
 
-            $all_roles = ClassTools::get_all_classes_and_methods(["epii\\admin\\center\\app"]);
+            $all_roles = ClassTools::get_all_classes_and_methods(explode(",",Settings::get("app.app_class_namespace_pre")));
 
             foreach ($all_roles as $class => $ms) {
                 foreach ($ms as $metod) {
