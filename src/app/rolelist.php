@@ -10,6 +10,8 @@ namespace epii\admin\center\app;
 
 
 use epii\admin\center\common\_controller;
+use epii\admin\center\config\Rbac;
+use epii\admin\center\config\Settings;
 use epii\admin\ui\lib\epiiadmin\jscmd\Alert;
 use epii\admin\ui\lib\epiiadmin\jscmd\CloseAndRefresh;
 use epii\admin\ui\lib\epiiadmin\jscmd\JsCmd;
@@ -77,6 +79,7 @@ class rolelist extends _controller
                 ->insert($data);
 
             if ($res) {
+                Settings::_saveCache();
                 $cmd = Alert::make()->msg('添加成功')->icon('6')->onOk(CloseAndRefresh::make()->type("table"));
             } else {
                 $cmd = Alert::make()->msg('添加失败')->icon('5')->onOk(null);
@@ -115,6 +118,7 @@ class rolelist extends _controller
                 ->update($data);
 
             if ($res) {
+                Settings::_saveCache();
                 $cmd = Alert::make()->msg('修改成功')->icon('6')->onOk(CloseAndRefresh::make()->type("table"));
             } else {
                 $cmd = Alert::make()->msg('修改失败')->icon('5')->onOk(null);
@@ -144,6 +148,7 @@ class rolelist extends _controller
         $id = Args::params('id');
         $res = Db::name('role')->delete($id);
         if ($res) {
+            Settings::_saveCache();
             $cmd = Alert::make()->msg('删除成功')->icon('6')->onOk(Refresh::make()->type("table"));
         } else {
             $cmd = Alert::make()->msg('删除失败')->icon('5')->onOk(null);
@@ -184,6 +189,7 @@ class rolelist extends _controller
                 ->where('id', $id)
                 ->update(['powers' => json_encode($power_array)]);
             if ($res) {
+                Rbac::_saveCache();
                 $cmd = Alert::make()->msg('成功')->icon('6')->onOk(CloseAndRefresh::make()->type("page"));
             } else {
                 $cmd = Alert::make()->msg('失败')->icon('5')->onOk(null);

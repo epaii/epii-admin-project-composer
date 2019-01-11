@@ -10,6 +10,7 @@ namespace epii\admin\center\app;
 
 use app\epiiadmin\controller\EpiiController;
 use epii\admin\center\common\_controller;
+use epii\admin\center\config\Settings;
 use epii\admin\ui\lib\epiiadmin\jscmd\Alert;
 use epii\admin\ui\lib\epiiadmin\jscmd\CloseAndRefresh;
 use epii\admin\ui\lib\epiiadmin\jscmd\JsCmd;
@@ -110,6 +111,7 @@ class nodelist extends _controller
             $re = Db::name('node')
                 ->insertGetId($data);
             if ($re) {
+                Settings::_saveCache();
                 $alert = Alert::make()->msg("操作成功")->onOk(CloseAndRefresh::make()->layerNum(0)->closeNum(0))->title("重要提示")->btn("好的");
             } else {
                 $alert = Alert::make()->msg("操作失败，请重试")->title("重要提示")->btn("好的");
@@ -189,6 +191,7 @@ class nodelist extends _controller
                 ->update($data);
 
             if ($re) {
+                Settings::_saveCache();
                 $alert = Alert::make()->msg("操作成功")->onOk(CloseAndRefresh::make()->layerNum(0)->closeNum(0))->title("重要提示")->btn("好的");
             } else {
                 $alert = Alert::make()->msg("失败或未修改，请重试")->title("重要提示")->btn("好的");
@@ -221,6 +224,7 @@ class nodelist extends _controller
         $id = Args::params('id');
         $res = Db::name('node')->delete($id);
         if ($res) {
+            Settings::_saveCache();
             $cmd = Alert::make()->msg('删除成功')->icon('6')->onOk(Refresh::make()->type("table"));
         } else {
             $cmd = Alert::make()->msg('删除失败')->icon('5')->onOk(null);

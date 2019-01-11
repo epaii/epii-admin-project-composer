@@ -9,6 +9,7 @@ namespace epii\admin\center\app;
 
 
 use epii\admin\center\common\_controller;
+use epii\admin\center\config\Settings;
 use epii\admin\ui\lib\epiiadmin\jscmd\Alert;
 use epii\admin\ui\lib\epiiadmin\jscmd\CloseAndRefresh;
 use epii\admin\ui\lib\epiiadmin\jscmd\JsCmd;
@@ -20,6 +21,7 @@ class config extends _controller
 {
     public function index()
     {
+
      $this->adminUiDisplay('config/index');
     }
     public function ajaxdata()
@@ -46,6 +48,7 @@ class config extends _controller
              $res = Db::name('setting')
                  ->insert($data);
             if ($res) {
+                Settings::_saveCache();
                 $cmd = Alert::make()->msg('添加成功')->icon('6')->onOk(CloseAndRefresh::make()->type("table"));
             } else {
                 $cmd = Alert::make()->msg('添加失败')->icon('5')->onOk(null);
@@ -76,6 +79,7 @@ class config extends _controller
                 ->where('id',$id)
                 ->update($data);
             if ($res) {
+                Settings::_saveCache();
                 $cmd = Alert::make()->msg('修改成功')->icon('6')->onOk(CloseAndRefresh::make()->type("table"));
             } else {
                 $cmd = Alert::make()->msg('修改失败')->icon('5')->onOk(null);
@@ -98,6 +102,7 @@ class config extends _controller
         $id = Args::params('id');
         $res = Db::name('setting')->delete($id);
         if ($res) {
+            Settings::_saveCache();
             $cmd = Alert::make()->msg('删除成功')->icon('6')->onOk(Refresh::make()->type("table"));
         } else {
             $cmd = Alert::make()->msg('删除失败')->icon('5')->onOk(null);

@@ -1,12 +1,12 @@
 <div class="col-12">
     <div class="card card-default">
 
-        <div class="card-body">
+        <div class="card-body" style="width: 50%;">
             <form role="form"
                   method="post"
                   data-form="1"
                   action="{url config add _vendor=1}" >
-                <div class="form-inline">
+
                     <div class="form-group">
                         <label>属性</label>
                         <input type="text" class="form-control" name="name"  >
@@ -16,10 +16,10 @@
                         <input type="text" class="form-control" name="value"  >
                     </div>
 
-                </div>
+
                 <div class="form-group">
                     <label>提示</label>
-                    <input type="text" class="form-control" name="tip" style="width: 40%" >
+                    <input type="text" class="form-control" name="tip"  >
 
                 </div>
                 <br>

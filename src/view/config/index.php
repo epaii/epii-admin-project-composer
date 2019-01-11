@@ -13,11 +13,15 @@
                     <th data-field="value" data-formatter="epiiFormatter">值</th>
 <!--                    <th data-field="addtime" data-formatter="epiiFormatter">添加时间</th>-->
                     <th data-field="tip" data-formatter="epiiFormatter">提示</th>
-                    <th data-formatter="epiiFormatter.btns" data-btns="edit,del"
-                        data-edit-url="{url config edit _vendor=1}&id={id}" data-edit-title="编辑：{name}"
-                        data-del-url="{url config del _vendor=1}&id={id}" data-del-title="删除：{name}"
+                    <th data-formatter="epiiFormatter.btns"
+                        data-btns="edit,del"
+                        data-edit-url="{url config edit _vendor=1}&id={id}"
+                        data-edit-title="编辑：{name}"
+                        data-del-url="{url config del _vendor=1}&id={id}"
+                        data-del-title="删除：{name}"
                     >操作
                     </th>
+
                 </tr>
                 </thead>
             </table>
