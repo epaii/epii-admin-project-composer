@@ -22,6 +22,7 @@ class AdminCenterUiConfig implements IEpiiAdminUi
         $sitconfig = new \epii\admin\ui\lib\epiiadmin\SiteConfig();
         $sitconfig->app_left_theme(\epii\admin\ui\lib\epiiadmin\SiteConfig::app_left_theme_light);
         $user_name = Session::has('username')?Session::get('username'):'';
+        //var_dump(Settings::get("app.style.nav_theme"));
         $sitconfig->user_name($user_name)->app_theme(Settings::get("app.style.nav_theme"))->app_left_theme(Settings::get("app.style.left_bg_theme"));
 
         $sitconfig->app_left_top_theme(Settings::get("app.style.left_top_theme"));
