@@ -9,10 +9,12 @@
 namespace epii\admin\center\app;
 
 
+use Closure;
 use epii\admin\center\admin_center_controller;
 use epii\admin\center\config\Rbac;
 use epii\admin\center\config\Settings;
 use epii\admin\center\libs\Tools;
+use epii\server\App;
 use epii\tools\classes\ClassTools;
 
 class test extends admin_center_controller
@@ -20,7 +22,9 @@ class test extends admin_center_controller
         public function index()
         {
           //  var_dump(Settings::_saveCache());
-          var_dump(Tools::get_web_root());
+
+                print_r(Tools::getObjectAttr(App::getInstance(),"name_space_pre",App::class));
+            exit;
 //
 //            $all_roles = ClassTools::get_all_classes_and_methods(["epii\\admin\\center\\app"]);
 //

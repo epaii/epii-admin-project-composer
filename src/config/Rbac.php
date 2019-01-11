@@ -9,7 +9,9 @@
 namespace epii\admin\center\config;
 
 
+use epii\admin\center\libs\Tools;
 use epii\admin\center\ProjectConfig;
+
 use epii\tools\classes\ClassTools;
 use think\Db;
 
@@ -27,7 +29,10 @@ class Rbac
 
         if ($list) {
 
-            $all_roles = ClassTools::get_all_classes_and_methods(["epii\\admin\\center\\app"]);
+            $name_pre = Tools::getEnableNameSpacePre();
+
+
+            $all_roles = ClassTools::get_all_classes_and_methods($name_pre);
 
             foreach ($all_roles as $class => $ms) {
                 foreach ($ms as $metod) {
