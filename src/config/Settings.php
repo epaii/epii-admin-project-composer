@@ -14,8 +14,11 @@ use think\Db;
 
 class Settings
 {
+    private static $map = null;
+
     public static function _saveCache()
     {
+        self::$map = null;
         $map = Db::name("setting")->column("value", "name");
         return file_put_contents(self::getCachefile(), "<?php return  " . var_export($map, true) . " ;");
 
@@ -30,16 +33,20 @@ class Settings
         return $cachedir;
     }
 
-    public static function get($key = null,$defualt_value="")
+    public static function get($key = null, $defualt_value = "")
     {
 
-        if (!is_file($file = self::getCachefile())) {
-            if (!self::_saveCache()) {
-                echo "setting cache file write error";
-                exit();
+        if (!self::$map) {
+            if (!is_file($file = self::getCachefile())) {
+                if (!self::_saveCache()) {
+                    echo "setting cache file write error";
+                    exit();
+                }
             }
+            self::$map  = include $file;
         }
-        $map = include_once $file;
+        $map = self::$map;
+
         if ($key) {
             if (is_string($key)) {
                 if (isset($map[$key])) return $map[$key];

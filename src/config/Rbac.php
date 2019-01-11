@@ -15,8 +15,11 @@ use think\Db;
 
 class Rbac
 {
+    private static $map = null;
+
     public static function _saveCache()
     {
+        self::$map = null;
         $list = Db::name("role")->select();
 
         $roles = ["type" => [], "info" => []];
@@ -31,7 +34,6 @@ class Rbac
                     $roles["info"][$class . "@" . $metod] = [];
                 }
             }
-
 
 
             foreach ($list as $key => $value) {
@@ -70,14 +72,17 @@ class Rbac
 
     public static function check(int $groud_id, $string)
     {
-
-        if (!is_file($file = self::getCachefile())) {
-            if (!self::_saveCache()) {
-                echo "setting roles file write error";
-                exit();
+        if (!self::$map) {
+            if (!is_file($file = self::getCachefile())) {
+                if (!self::_saveCache()) {
+                    echo "setting roles file write error";
+                    exit();
+                }
             }
+            self::$map = include $file;
         }
-        $map = include_once $file;
+        $map = self::$map;
+
 
         if (!isset($map["type"][$groud_id])) {
             return false;
