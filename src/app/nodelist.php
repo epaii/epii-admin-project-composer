@@ -10,6 +10,7 @@ namespace epii\admin\center\app;
 
 use app\epiiadmin\controller\EpiiController;
 use epii\admin\center\common\_controller;
+use epii\admin\center\config\AdminCenterUiConfig;
 use epii\admin\center\config\Settings;
 use epii\admin\ui\lib\epiiadmin\jscmd\Alert;
 use epii\admin\ui\lib\epiiadmin\jscmd\CloseAndRefresh;
@@ -49,9 +50,9 @@ class nodelist extends _controller
         if (!empty($pid)) {
             $map[] = ["pid", "eq", $pid];
         }
+      // $sql= "SELECT *,if(pid=0,id,pid) as pidd from epii_node order by pidd asc,pid asc,sort desc";
 
         echo $this->tableJsonData('node', $map, function($data) {
-
             $data['status'] = $data['status'] == 1 ? "<i class=\"fa fa-toggle-on\" aria-hidden=\"true\"></i>" : "<i class=\"fa fa-toggle-off\" aria-hidden=\"true\"></i>";
             $data['icon'] = '<i class="' . $data['icon'] . '" ></i>';
             if ($data['pid'] == 0) {
@@ -62,6 +63,7 @@ class nodelist extends _controller
 
             return $data;
         });
+
     }
 
     /**
@@ -164,7 +166,6 @@ class nodelist extends _controller
                 $alert = Alert::make()->msg("URL不能是空")->title("重要提示")->btn("好的");
                 return JsCmd::make()->addCmd($alert)->run();
             }
-
 
             $data['name'] = $name;
             $data['pid'] = $pid;

@@ -8,8 +8,22 @@
             {foreach $nodes $key=>$value}
 
             <li class="list-group-item">
-                {$value.name}
-                <input type="checkbox" value="{$value.id}" name="nodes[]">
+                <?php if($value['pid'] !=0){ ?>
+                ------{$value.name}
+                <?php }else{ ?>
+
+                    {$value.name}
+
+                <?php } ?>
+                <input type="checkbox"
+                       value="{$value.id}"
+                       name="nodes[]"
+                {foreach $node_array $k=>$v}
+                <?php if($v == $value['id']){?>
+                checked
+                <?php } ?>
+                {/foreach}
+                >
             </li>
             {/foreach}
 

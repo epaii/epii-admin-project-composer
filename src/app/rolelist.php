@@ -10,6 +10,7 @@ namespace epii\admin\center\app;
 
 
 use epii\admin\center\common\_controller;
+use epii\admin\center\config\AdminCenterUiConfig;
 use epii\admin\center\config\Rbac;
 use epii\admin\center\config\Settings;
 use epii\admin\center\libs\Tools;
@@ -42,18 +43,10 @@ class rolelist extends _controller
         if (!empty($name)) {
             $map[] = ["name", "LIKE", "%{$name}%"];
         }
+
+
         echo $this->tableJsonData('role', $map, function($data) {
 
-            /*$nodeArr =  Db::name('node')
-                ->field('id,name')
-                ->where(['id'=>unserialize($data['nodes'])])
-                ->select();
-             $arr = [];
-            foreach ($nodeArr as $v){
-                 array_push($arr,$v['name']);
-            }
-             $data['nodes'] = implode('   ',$arr);
-             $arr = [];*/
             $data['status'] = $data['status'] == 1 ? "<i class=\"fa fa-toggle-on\" aria-hidden=\"true\"></i>" : "<i class=\"fa fa-toggle-off\" aria-hidden=\"true\"></i>";
             return $data;
         });
@@ -217,15 +210,46 @@ class rolelist extends _controller
 
     }
 
-
+    /**
+     * @return array|false|string
+     * @throws \think\Exception
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\DbException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\db\exception\PDOException
+     * 导航数据
+     */
     public function nav(){
         $id = Args::params('id');
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
+            $nodes = Args::params('nodes');
+            if(!$nodes[0]){
+                $cmd = Alert::make()->msg('至少选择一项')->icon('5')->onOk(null);
+                return JsCmd::make()->addCmd($cmd)->run();
+            }
+            $nodes = json_encode($nodes);
+            $res = Db::name('role')
+                ->where('id',$id)
+                ->update(['nodes'=>$nodes]);
+            if ($res) {
+                //Rbac::_saveCache();
+                $cmd = Alert::make()->msg('成功')->icon('6')->onOk(CloseAndRefresh::make()->type("page"));
+            } else {
+                $cmd = Alert::make()->msg('失败')->icon('5')->onOk(null);
+            }
+            return JsCmd::make()->addCmd($cmd)->run();
         }else{
-            $nodes = Db::name('node')
-                ->field('id,name')
-                ->select();
+
+            $nodes= Db::query('SELECT *,if(pid=0,id,pid) as pidd from epii_node where status=1 order by pidd asc,pid asc,sort desc');
+            $node_str = Db::name('role')
+                ->where('id',$id)
+                ->value('nodes');
+            if($node_str){
+                $node_array = json_decode($node_str,true);
+            }else{
+                $node_array = [];
+            }
+            $this->assign('node_array',$node_array);
             $this->assign('id',$id);
             $this->assign('nodes',$nodes);
             $this->adminUiDisplay('rolelist/nav');

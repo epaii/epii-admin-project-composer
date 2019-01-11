@@ -77,22 +77,19 @@ class AdminCenterUiConfig implements IEpiiAdminUi
 
     public function getLeftMenu()//获取菜单
     {
+        $map = [];
+        $map['status']=1;
 
-       /* $admin_id = $_SESSION['admin_id'];
-        $role = "";
-        if($admin_id == 1 ){
-            //$role = " and slug in ()";//还没写
-        }*/
-        $role = "";
-        $list = Db::name("node")->where("status = 1".$role)->select();
-
+        if(Session::get('user_id') != 1){
+            $user_role_id = Db::name('admin')->where('id',Session::get('user_id'))->value('role');
+            $nodes_arr = Db::name('role')->where('id',$user_role_id)->value('nodes');
+            $map['id'] = json_dncode($nodes_arr,true);
+        }
+        $list = Db::name("node")->where($map)->select();
         $arr1 = $this->sortarr('sort',SORT_ASC,array_filter($list,function($val){return $val['pid'] == 0;}));
-
         $big_list = [];
         foreach ($arr1 as $k=>$v){
-
             $big_list[] = $arr1[$k];
-
             $son_list = self::sortarr("sort",SORT_ASC,array_filter($list,function($val) use($v){
                 return $val['pid'] == $v['id'];
             }));
