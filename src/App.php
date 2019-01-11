@@ -50,6 +50,8 @@ class App extends \epii\app\App
             echo '$appPlusInitConfig must  extends AdminCenterPlusInitConfig';
             exit;
         }
+        ProjectConfig::_setAdminCenterPlusInitConfig($appPlusInitConfig);
+
         return parent::setConfig($appPlusInitConfig);
     }
 }

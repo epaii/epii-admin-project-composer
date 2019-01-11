@@ -27,13 +27,14 @@ class root extends _controller
                 {
                     // TODO: Implement onPost() method.
                     $user = Db::name('admin')
-                        ->field('id,password,username')
+                        ->field('id,password,username,role')
                         ->where('username', $username)
                         ->find();
                     if ($user) {
 
                         if ($user['password'] == md5($password)) {
                             Session::set("is_login", 1);
+                            Session::set("admin_gid", $user["role"]);
                             Session::set("username", $user['username']);
                             Session::set("user_id", $user['id']);
                             $msg = '登录成功';
