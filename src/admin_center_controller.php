@@ -10,6 +10,7 @@ namespace epii\admin\center;
 
 
 use epii\admin\center\app\root;
+use epii\admin\center\app\user;
 use epii\admin\center\config\Rbac;
 use epii\admin\center\libs\Tools;
 use epii\app\controller;
@@ -22,26 +23,32 @@ class admin_center_controller extends controller
 {
     public function init()
     {
-        if (Args::getVal("_show_runner"))
-        {
-            echo get_class(\epii\server\App::getInstance()->getRunner()[0])."@".\epii\server\App::getInstance()->getRunner()[1];
+        if (Args::getVal("_show_runner")) {
+            echo get_class(\epii\server\App::getInstance()->getRunner()[0]) . "@" . \epii\server\App::getInstance()->getRunner()[1];
             exit;
         }
 
-        $is_login = get_class(\epii\server\App::getInstance()->getRunner()[0]) ===root::class && \epii\server\App::getInstance()->getRunner()[1]==="start" ;
-        if ( (!Session::get("is_login")  || Session::get("is_login") =="null") &&   !  $is_login   ) {
+        $c_class = get_class(\epii\server\App::getInstance()->getRunner()[0]);
+
+        $c_action = \epii\server\App::getInstance()->getRunner()[1];
+
+        if ($c_class === user::class && $c_action == "logout") {
+            return;
+        }
+
+
+        $is_login = $c_class === root::class && $c_action === "start";
+        if ((!Session::get("is_login") || Session::get("is_login") == "null") && !$is_login) {
             header("location:" . Tools::get_web_root());
         }
 
-        if (!$is_login && !Session::get("admin_gid"))
-        {
+        if (!$is_login && !Session::get("admin_gid")) {
             echo "who you are? and which your group join in?";
             exit;
         }
 
 
-        if ( !$is_login &&  (Session::get("admin_gid") !=1 ) && !Rbac::check(Session::get("admin_gid"),get_class(\epii\server\App::getInstance()->getRunner()[0])."@".\epii\server\App::getInstance()->getRunner()[1]))
-        {
+        if (!$is_login && (Session::get("admin_gid") != 1) && !Rbac::check(Session::get("admin_gid"), get_class(\epii\server\App::getInstance()->getRunner()[0]) . "@" . \epii\server\App::getInstance()->getRunner()[1])) {
             echo "Permission denied;";
             exit;
         }
