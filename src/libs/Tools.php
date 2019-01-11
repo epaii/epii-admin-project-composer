@@ -2,6 +2,8 @@
 
 namespace epii\admin\center\libs;
 
+use Closure;
+
 /**
  * Created by PhpStorm.
  * User: mrren
@@ -29,6 +31,34 @@ class Tools
         }
 
 
-        return $current_url.(substr($_SERVER["SCRIPT_NAME"],0,strrpos($_SERVER["SCRIPT_NAME"],"/")));
+        return $current_url . (substr($_SERVER["SCRIPT_NAME"], 0, strrpos($_SERVER["SCRIPT_NAME"], "/")));
+    }
+
+
+    public static function getEnableNameSpacePre()
+    {
+        $name_pre =  Tools::getObjectAttr(App::getInstance(), "name_space_pre", App::class);
+        $app_need = true;
+        foreach ($name_pre as $value) {
+            if (stripos($value, "app\\") === 0) {
+                $app_need = false;
+                break;
+            }
+        }
+        if ($app_need) {
+            $name_pre[] = "app";
+        }
+        return $name_pre;
+    }
+
+    public static function getObjectAttr($object, $name ,$newscop=null)
+    {
+        var_dump($newscop);
+        $tmp = Closure::bind(function () use ($name) {
+            return $this->{$name};
+        }, $object, $newscop?$newscop:get_class($object));
+
+
+        return $tmp();
     }
 }

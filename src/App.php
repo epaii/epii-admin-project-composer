@@ -33,13 +33,14 @@ class App extends \epii\app\App
         }
         parent::__construct();
 
-        $this->setBaseNameSpace("epii\\admin\\center\\app");
+
     }
 
     public function run($app = null)
     {
         $this->init(AdminCenterCommonInit::class);
 
+        $this->setBaseNameSpace("epii\\admin\\center\\app");
 
         return parent::run($app);
     }
