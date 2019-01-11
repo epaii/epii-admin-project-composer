@@ -1,6 +1,6 @@
 <section class="content col-md-8" style="padding: 10px">
 
-    <form action="{url user power _vendor=1}"
+    <form action="{url rolelist power _vendor=1}"
           method="post" data-form="1"
     >
         <h3>包含以下权限<input type="radio"
