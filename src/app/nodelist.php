@@ -51,13 +51,14 @@ class nodelist extends _controller
 
         echo $this->tableJsonData('node', $map, function($data) {
 
-            $data['status'] = $data['status'] == 1 ? "已启用" : "未启用";
+            $data['status'] = $data['status'] == 1 ? "<i class=\"fa fa-toggle-on\" aria-hidden=\"true\"></i>" : "<i class=\"fa fa-toggle-off\" aria-hidden=\"true\"></i>";
             $data['icon'] = '<i class="' . $data['icon'] . '" ></i>';
             if ($data['pid'] == 0){
                 $data['pid'] = '顶级菜单';
             }else{
                 $data['pid']=Db::name('node')->where('id',$data['pid'])->value('name');
             }
+
             return $data;
         });
     }
@@ -97,14 +98,16 @@ class nodelist extends _controller
                 return JsCmd::make()->addCmd($alert)->run();
             }
 
-            $re = Db::name('node')->insertGetId(['name' => $name,
-                'slug' => $slug,
-                'pid' => $pid,
-                'icon' => $icon,
-                'url' => 'app=' . $url . '&_vendor=1',
-                'remark' => $remark,
-                'status' => $status,
-                "sort" => $sort]);
+            $data['name']=$name;
+            $data['slug']=$slug;
+            $data['pid']=$pid;
+            $data['remark']=$remark;
+            $data['status']=$status;
+            $data['sort']=$sort;
+            $data['icon']=$icon;
+            $data['url']='?app=' . $url . '&_vendor=1';
+            $re = Db::name('node')
+                ->insertGetId($data);
             if ($re) {
                 $alert = Alert::make()->msg("操作成功")->onOk(CloseAndRefresh::make()->layerNum(0)->closeNum(0))->title("重要提示")->btn("好的");
             } else {
@@ -162,15 +165,26 @@ class nodelist extends _controller
                 return JsCmd::make()->addCmd($alert)->run();
             }
 
-            $re = Db::name("node")->where("id = '$id'")->update(['name' => $name,
-                'slug' => $slug,
-                'pid' => $pid,
-                'icon' => $icon,
-                'remark' => $remark,
-                'status' => $status,
-                'url' => '?app=' . $url . '&_vendor=1',
-                "sort" => $sort,
-                'is_open' => $is_open]);
+
+            $data['name']=$name;
+            $data['slug']=$slug;
+            $data['pid']=$pid;
+            $data['remark']=$remark;
+            $data['status']=$status;
+            $data['sort']=$sort;
+            $data['icon']=$icon;
+            $data['is_open']=$is_open;
+
+            if (strpos($url,'?')!==false){
+                $data['url']='?app=' . $url . '&_vendor=1';
+            }else{
+                $data['url']=$url;
+            }
+
+
+            $re = Db::name("node")
+                ->where("id = '$id'")
+                ->update($data);
 
             if ($re) {
                 $alert = Alert::make()->msg("操作成功")->onOk(CloseAndRefresh::make()->layerNum(0)->closeNum(0))->title("重要提示")->btn("好的");
@@ -183,13 +197,10 @@ class nodelist extends _controller
             $id = Args::params('id');
             $list = Db::name("node")->where("pid =0")->select();
             $this->assign("list", $list);
+            $this->assign("id", $id);
             $nodeinfo = Db::name("node")->where("id",$id)->find();
             $this->assign('nodeinfo',$nodeinfo);
-            if ($nodeinfo['pid'] == 0) {
-                $this->assign("id", null);
-            } else {
-                $this->assign("id", $id);
-            }
+
 
             $this->adminUiDisplay('nodelist/edit');
         }

@@ -82,7 +82,7 @@ class user extends _controller
                 return JsCmd::make()->addCmd($cmd)->run();
             }
             foreach ($power as $k => $v) {
-                $power[$k]=array_flip($v);
+                
                 if (!$v[0]) {
                     unset($power[$k]);
                 }
@@ -108,6 +108,10 @@ class user extends _controller
 
             $power_array = Db::name('role')->where('id',$id)->value('powers');
             $power = json_decode($power_array,true)['power'];
+            foreach ($power as $k => $v) {
+                $power[$k]=array_flip($v);
+            }
+
             $type = json_decode($power_array,true)['type'];
 
             $this->assign('type',$type);
