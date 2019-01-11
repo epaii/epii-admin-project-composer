@@ -3,6 +3,7 @@
 namespace epii\admin\center\libs;
 
 use Closure;
+use epii\server\App;
 
 /**
  * Created by PhpStorm.
@@ -53,7 +54,6 @@ class Tools
 
     public static function getObjectAttr($object, $name ,$newscop=null)
     {
-        var_dump($newscop);
         $tmp = Closure::bind(function () use ($name) {
             return $this->{$name};
         }, $object, $newscop?$newscop:get_class($object));
