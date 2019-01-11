@@ -3,6 +3,7 @@
 namespace epii\admin\center\libs;
 
 use Closure;
+use epii\server\App;
 
 /**
  * Created by PhpStorm.
