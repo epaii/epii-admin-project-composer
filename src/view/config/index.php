@@ -9,11 +9,9 @@
                 <thead>
                 <tr>
 
-                    <th data-field="id" data-formatter="epiiFormatter">ID</th>
                     <th data-field="name" data-formatter="epiiFormatter">属性</th>
                     <th data-field="value" data-formatter="epiiFormatter">值</th>
 <!--                    <th data-field="addtime" data-formatter="epiiFormatter">添加时间</th>-->
-                    <th data-field="type" data-formatter="epiiFormatter">类型</th>
                     <th data-field="tip" data-formatter="epiiFormatter">提示</th>
                     <th data-formatter="epiiFormatter.btns" data-btns="edit,del"
                         data-edit-url="{url config edit _vendor=1}&id={id}" data-edit-title="编辑：{name}"

@@ -15,18 +15,12 @@
                         <label>值</label>
                         <input type="text" class="form-control" name="value"  >
                     </div>
-                    <div class="form-group">
-                        <label>提示</label>
-                        <input type="text" class="form-control" name="tip"  >
-                    </div>
-                    <div class="form-group">
-                        <label>类型</label>
-                        <select name="type" class="selectpicker">
-                            <option value="">请选择</option>
-                            <option value="1">类型1</option>
-                            <option value="2">类型2</option>
-                        </select>
-                    </div>
+
+                </div>
+                <div class="form-group">
+                    <label>提示</label>
+                    <input type="text" class="form-control" name="tip" style="width: 40%" >
+
                 </div>
                 <br>
                 <div class="form-group">

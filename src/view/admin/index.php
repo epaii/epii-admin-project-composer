@@ -36,6 +36,7 @@
                 <th data-field="id" data-formatter="epiiFormatter">ID</th>
                 <th data-field="username" data-formatter="epiiFormatter">用戶名</th>
                 <th data-field="group_name" data-formatter="epiiFormatter">用戶名称</th>
+                <th data-field="rname" data-formatter="epiiFormatter">所属角色</th>
                 <th data-field="addtime" data-formatter="epiiFormatter">添加时间</th>
                 <th data-field="updatetime" data-formatter="epiiFormatter">更新时间</th>
                 <th data-field="status" data-formatter="epiiFormatter">状态</th>

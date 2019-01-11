@@ -25,7 +25,11 @@ class admin extends _controller
 
     public function ajaxdata()
     {
-        echo $this->tableJsonData('admin', [], function($data) {
+        $table = Db::name('admin')
+            ->alias('a')
+            ->field('a.*,r.name as rname')
+            ->join('role r','a.role=r.id');
+        echo $this->tableJsonData($table, [], function($data) {
             $data['addtime'] = date('Y-m-d H:i:s', $data['addtime']);
             $data['updatetime'] = date('Y-m-d H:i:s', $data['updatetime']);
             $data['status'] = $data['status'] == 'normal' ? "正常" : "禁用";

@@ -34,7 +34,7 @@ class config extends _controller
             $value= trim(Args::params("value"));
             $tip = trim(Args::params("tip"));
             $type=trim(Args::params("type"));
-            if(!$name || !$value || !$tip || !$type){
+            if(!$name || !$value || !$tip ){
                 $cmd = Alert::make()->msg('缺少参数')->icon('5')->onOk(null);
                 return JsCmd::make()->addCmd($cmd)->run();
             }
@@ -64,7 +64,7 @@ class config extends _controller
             $value= trim(Args::params("value"));
             $tip = trim(Args::params("tip"));
             $type=trim(Args::params("type"));
-            if(!$name || !$value || !$tip || !$type){
+            if(!$name || !$value || !$tip ){
                 $cmd = Alert::make()->msg('缺少参数')->icon('5')->onOk(null);
                 return JsCmd::make()->addCmd($cmd)->run();
             }
