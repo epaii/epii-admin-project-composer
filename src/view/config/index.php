@@ -14,18 +14,28 @@
 <!--                    <th data-field="addtime" data-formatter="epiiFormatter">添加时间</th>-->
                     <th data-field="tip" data-formatter="epiiFormatter">提示</th>
                     <th data-formatter="epiiFormatter.btns"
-                        data-btns="edit,del"
-                        data-edit-url="{url config edit _vendor=1}&id={id}"
-                        data-edit-title="编辑：{name}"
-                        data-del-url="{url config del _vendor=1}&id={id}"
-                        data-del-title="删除：{name}"
+                        data-btns="edit1,del1"
+
                     >操作
                     </th>
 
                 </tr>
                 </thead>
             </table>
+
         </div>
     </div>
+    <script>
+        function edit1(field_value, row, index,field_name) {
 
+            return "<a class='btn btn-outline-info btn-sm btn-dialog'   data-area='60%,60%' href='?app=config@edit&_vendor=1&id="+row.id+"+'><i class='fa fa-pencil-square-o' ></i>编辑</a>";
+        }
+        function del1(field_value, row, index,field_name) {
+            if(row.type ===2){
+                return "<a class='btn btn-outline-danger btn-sm btn-dialog'   data-area='60%,60%' href='?app=config@del&_vendor=1&id="+row.id+"+'><i class='fa fa-trash' ></i>删除</a>";
+            }else{
+                return "";
+            }
+        }
+    </script>
 </section>
