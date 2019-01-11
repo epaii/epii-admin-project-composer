@@ -11,6 +11,7 @@ namespace epii\admin\center\config;
 
 use epii\admin\ui\lib\epiiadmin\MenuConfig;
 use epii\admin\ui\lib\i\epiiadmin\IEpiiAdminUi;
+use epii\server\Args;
 use think\Db;
 use wangshouwei\session\Session;
 
@@ -39,10 +40,11 @@ class AdminCenterUiConfig implements IEpiiAdminUi
         // TODO: Implement getLeftMenuData() method.
         $m_config = new MenuConfig();
         $menus = $this->getLeftMenu();
-        $open_id = 3;
+
+        $open_id = Args::getVal("_code_id");
         foreach ($menus as $menu){
             $m_config->addMenu($menu['id'], $menu['pid'], $menu['name'], $menu['url'], $menu['icon']);
-            if($menu['is_open']){
+            if( (!$open_id) && $menu['is_open']){
                 $open_id = $menu['id'];
             }
 

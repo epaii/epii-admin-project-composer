@@ -28,6 +28,12 @@ class admin_center_controller extends controller
             exit;
         }
 
+        if (Args::getVal("ref") === "addtabs") {
+            header("location:".Tools::get_web_root()."/?_code_id=".Args::getVal("_code_id"));
+            exit;
+        }
+
+
         $c_class = get_class(\epii\server\App::getInstance()->getRunner()[0]);
 
         $c_action = \epii\server\App::getInstance()->getRunner()[1];
