@@ -9,14 +9,16 @@
 namespace epii\admin\center;
 
 
+use epii\admin\center\config\AdminCenterPlusInitConfig;
 use epii\admin\center\config\AdminCenterUiConfig;
 
 
 class ProjectConfig
 {
     private static $adminUi = null;
+    private static $AdminCenterPlusInitConfig = null;
 
-    public static function setAdminUiConfig(AdminCenterUiConfig $adminUi)
+    public static function _setAdminUiConfig(AdminCenterUiConfig $adminUi)
     {
         self::$adminUi = $adminUi;
     }
@@ -27,4 +29,18 @@ class ProjectConfig
             self::$adminUi = new AdminCenterUiConfig();
         return self::$adminUi;
     }
+
+    public static function _setAdminCenterPlusInitConfig(AdminCenterPlusInitConfig $AdminCenterPlusInitConfig)
+    {
+        self::$AdminCenterPlusInitConfig = $AdminCenterPlusInitConfig;
+    }
+
+    public static function getAdminCenterPlusInitConfig(): AdminCenterPlusInitConfig
+    {
+//        if (!self::$AdminCenterPlusInitConfig)
+//            self::$AdminCenterPlusInitConfig = new AdminCenterUiConfig();
+        return self::$AdminCenterPlusInitConfig;
+    }
+
+
 }
