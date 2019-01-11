@@ -1,6 +1,6 @@
 <div class="col-6">
     <form role="form" method="post" data-form="1" action="{url nodelist edit _vendor=1}">
-        <input type="hidden" class="form-control" value="{$id}" name="id">
+        <input type="hidden"  value="{$id}" name="id">
         <div class="form-group">
             <label>节点名称：</label>
             <input type="text" class="form-control" name="name" value="{$nodeinfo.name}" placeholder="请输入父节点名称" required>
@@ -29,6 +29,7 @@
             <input type="text" class="form-control" name="remark" value="{$nodeinfo.remark}" placeholder="请输入备注信息">
         </div>
         <div class="form-group">
+
             <label>状态：</label>
             <select class="selectpicker"  name="status" required>
                 <option value="0"  <?php if ($nodeinfo['status']==0){?>selected="selected" <?php }?>>未启用</option>

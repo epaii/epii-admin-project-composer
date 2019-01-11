@@ -48,16 +48,19 @@
 
                 <th data-field="id" data-formatter="epiiFormatter">ID</th>
                 <th data-field="name" data-formatter="epiiFormatter">节点名称</th>
-                <th data-field="slug" data-formatter="epiiFormatter">唯一标识</th>
+<!--                <th data-field="slug" data-formatter="epiiFormatter">唯一标识</th>-->
                 <th data-field="pid" data-formatter="epiiFormatter">父节点</th>
                 <th data-field="icon" data-formatter="epiiFormatter">图标</th>
                 <th data-field="url" data-formatter="epiiFormatter">链接地址</th>
                 <th data-field="status" data-formatter="epiiFormatter">状态</th>
                 <th data-field="remark" data-formatter="epiiFormatter">备注</th>
                 <th data-field="sort" data-formatter="epiiFormatter">排序</th>
-                <th data-formatter="epiiFormatter.btns" data-btns="edit,del"
-                    data-edit-url="{url nodelist edit _vendor=1}&id={id}" data-edit-title="编辑：{name}"
-                    data-del-url="{url nodelist del _vendor=1}&id={id}" data-del-title="删除：{name}"
+                <th data-formatter="epiiFormatter.btns"
+                    data-btns="edit,del"
+                    data-edit-url="{url nodelist edit _vendor=1}&id={id}"
+                    data-edit-title="编辑：{name}"
+                    data-del-url="{url nodelist del _vendor=1}&id={id}"
+                    data-del-title="删除：{name}"
                 >操作
                 </th>
             </tr>
