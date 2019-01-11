@@ -54,10 +54,10 @@ class nodelist extends _controller
 
             $data['status'] = $data['status'] == 1 ? "<i class=\"fa fa-toggle-on\" aria-hidden=\"true\"></i>" : "<i class=\"fa fa-toggle-off\" aria-hidden=\"true\"></i>";
             $data['icon'] = '<i class="' . $data['icon'] . '" ></i>';
-            if ($data['pid'] == 0){
+            if ($data['pid'] == 0) {
                 $data['pid'] = '顶级菜单';
-            }else{
-                $data['pid']=Db::name('node')->where('id',$data['pid'])->value('name');
+            } else {
+                $data['pid'] = Db::name('node')->where('id', $data['pid'])->value('name');
             }
 
             return $data;
@@ -76,7 +76,6 @@ class nodelist extends _controller
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $name = trim(Args::params("name"));
-            $slug = trim(Args::params("slug"));
             $pid = trim(Args::params("pid"));
             $icon = trim(Args::params("icon"));
             $url = trim(Args::params("url"));
@@ -84,7 +83,7 @@ class nodelist extends _controller
             $status = trim(Args::params("status")) ?: 0;
             $sort = trim(Args::params("sort"));
 
-            if (!$name || !$slug || !$icon) {
+            if (!$name || !$icon) {
                 $alert = Alert::make()->msg("缺少参数")->title("重要提示")->btn("好的");
                 return JsCmd::make()->addCmd($alert)->run();
             }
@@ -99,15 +98,13 @@ class nodelist extends _controller
                 return JsCmd::make()->addCmd($alert)->run();
             }
 
-            $data['name']=$name;
-
-            $data['pid']=$pid;
-            $data['remark']=$remark;
-            $data['status']=$status;
-            $data['sort']=$sort;
-            $data['icon']=$icon;
-            $data['url']='?app=' . $url . '&_vendor=1';
-            $data['slug']='?app=' . $url . '&_vendor=1';
+            $data['name'] = $name;
+            $data['pid'] = $pid;
+            $data['remark'] = $remark;
+            $data['status'] = $status;
+            $data['sort'] = $sort;
+            $data['icon'] = $icon;
+            $data['url'] =  $url;
             $re = Db::name('node')
                 ->insertGetId($data);
             if ($re) {
@@ -120,8 +117,8 @@ class nodelist extends _controller
             return JsCmd::make()->addCmd($alert)->run();
 
         } else {
-            $list = Db::name("node")->where('pid',0)->select();
-            print_r($list);exit();
+            $list = Db::name("node")->where('pid', 0)->select();
+
             $this->assign("list", $list);
             $this->adminUiDisplay('nodelist/add');
         }
@@ -146,7 +143,6 @@ class nodelist extends _controller
             }
 
             $name = trim(Args::params("name"));
-            $slug = trim(Args::params("slug"));
             $pid = trim(Args::params("pid"));
             $icon = trim(Args::params("icon"));
             $url = trim(Args::params("url"));
@@ -159,7 +155,7 @@ class nodelist extends _controller
                 Db::name("node")->where('id', '<>', $id)->setField('is_open', null);
             }
 
-            if (!$name || !$slug || !$icon) {
+            if (!$name || !$icon) {
                 $alert = Alert::make()->msg("缺少参数")->title("重要提示")->btn("好的");
                 return JsCmd::make()->addCmd($alert)->run();
             }
@@ -170,21 +166,14 @@ class nodelist extends _controller
             }
 
 
-            $data['name']=$name;
-            $data['slug']=$slug;
-            $data['pid']=$pid;
-            $data['remark']=$remark;
-            $data['status']=$status;
-            $data['sort']=$sort;
-            $data['icon']=$icon;
-            $data['is_open']=$is_open;
-
-            if (strpos($url,'?')!==false){
-                $data['url']=$url;
-            }else{
-                $data['url']='?app=' . $url . '&_vendor=1';
-            }
-
+            $data['name'] = $name;
+            $data['pid'] = $pid;
+            $data['remark'] = $remark;
+            $data['status'] = $status;
+            $data['sort'] = $sort;
+            $data['icon'] = $icon;
+            $data['is_open'] = $is_open;
+            $data['url'] = $url;
 
             $re = Db::name("node")
                 ->where("id = '$id'")
@@ -200,11 +189,11 @@ class nodelist extends _controller
 
         } else {
             $id = Args::params('id');
-            $list = Db::name("node")->where('pid',0)->select();
+            $list = Db::name("node")->where('pid', 0)->select();
             $this->assign("list", $list);
             $this->assign("id", $id);
-            $nodeinfo = Db::name("node")->where("id",$id)->find();
-            $this->assign('nodeinfo',$nodeinfo);
+            $nodeinfo = Db::name("node")->where("id", $id)->find();
+            $this->assign('nodeinfo', $nodeinfo);
 
 
             $this->adminUiDisplay('nodelist/edit');

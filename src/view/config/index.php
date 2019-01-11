@@ -11,7 +11,6 @@
 
                     <th data-field="name" data-formatter="epiiFormatter">属性</th>
                     <th data-field="value" data-formatter="epiiFormatter">值</th>
-<!--                    <th data-field="addtime" data-formatter="epiiFormatter">添加时间</th>-->
                     <th data-field="tip" data-formatter="epiiFormatter">提示</th>
                     <th data-formatter="epiiFormatter.btns"
                         data-btns="edit1,del1"
@@ -32,7 +31,7 @@
         }
         function del1(field_value, row, index,field_name) {
             if(row.type ===2){
-                return "<a class='btn btn-outline-danger btn-sm btn-dialog'   data-area='60%,60%' href='?app=config@del&_vendor=1&id="+row.id+"+'><i class='fa fa-trash' ></i>删除</a>";
+                return "<a class='btn btn-outline-danger btn-sm btn-confirm' data-msg=\"确定删除吗?\" href='?app=config@del&_vendor=1&id="+row.id+"+'><i class='fa fa-trash' ></i>删除</a>";
             }else{
                 return "";
             }

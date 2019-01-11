@@ -47,7 +47,11 @@ class admin extends _controller
             $group_name = trim(Args::params("group_name"));
             $status = trim(Args::params("status"));
             $role = trim(Args::params("role"));
-
+            $has = Db::name('admin')->where('username',$username)->find();
+            if($has){
+                $cmd = Alert::make()->msg('名字已存在')->icon('5')->onOk(null);
+                return JsCmd::make()->addCmd($cmd)->run();
+            }
             $data['username'] = $username;
             $data['password'] = $password;
             $data['group_name'] = $group_name;
@@ -70,7 +74,7 @@ class admin extends _controller
         } else {
 
 
-            $roles = Db::name('role')->field('name')->select();
+            $roles = Db::name('role')->field('id,name')->select();
             $this->assign('roles', $roles);
             $this->adminUiDisplay('admin/add');
         }

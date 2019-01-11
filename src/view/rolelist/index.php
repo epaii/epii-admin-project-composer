@@ -37,12 +37,9 @@
             <tr>
                 <th data-field="id" data-formatter="epiiFormatter">ID</th>
                 <th data-field="name" data-formatter="epiiFormatter">角色名称</th>
-                <th data-field="slug" data-formatter="epiiFormatter">唯一标志</th>
                 <th data-field="status" data-formatter="epiiFormatter">状态</th>
-                <th data-formatter="epiiFormatter.btns" data-btns="edit,del,btn1"
-                    data-edit-url="{url rolelist edit _vendor=1}&id={id}" data-edit-title="编辑：{name}"
-                    data-del-url="{url rolelist del _vendor=1}&id={id}" data-del-title="删除：{name}"
-
+                <th data-formatter="epiiFormatter.btns"
+                    data-btns="edit1,del1,btn1,btn2"
                 >操作
                 </th>
             </tr>
@@ -52,7 +49,34 @@
 </div>
 <script>
     function btn1(field_value, row, index,field_name) {
+        if(row.id !=1){
+        return "<a class='btn btn-outline-warning btn-sm btn-dialog'   data-area='60%,60%' href='?app=rolelist@power&_vendor=1&id="+row.id+"+'><i class='fa fa-address-card-o' ></i>权限</a>";
+        }else{
+            return '';
+        }
+    }
+    function btn2(field_value, row, index,field_name) {
+        if(row.id !=1){
+            return "<a class='btn btn-outline-success btn-sm btn-dialog'   data-area='60%,60%' href='?app=rolelist@nav&_vendor=1&id="+row.id+"+'><i class='fa fa-bars' ></i>导航</a>";
+        }else{
+            return '';
+        }
+    }
 
-        return "<a class='btn btn-outline-success btn-sm btn-dialog'   data-area='60%,60%' href='?app=rolelist@power&_vendor=1&id="+row.id+"+'><i class='fa fa-pencil-square-o' ></i>权限</a>";
+    function edit1(field_value, row, index,field_name) {
+        if(row.id !=1){
+        return "<a class='btn btn-outline-info btn-sm btn-dialog'   data-area='60%,60%' href='?app=rolelist@edit&_vendor=1&id="+row.id+"+'><i class='fa fa-pencil-square-o' ></i>编辑</a>";
+        }else{
+            return '';
+        }
+    }
+    function del1(field_value, row, index,field_name) {
+            if(row.id !=1){
+                return "<a class='btn btn-outline-danger btn-sm '    href='?app=rolelist@del&_vendor=1&id="+row.id+"+'><i class='fa fa-trash' ></i>删除</a>";
+            }else{
+                return '';
+            }
+
+
     }
 </script>
