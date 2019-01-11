@@ -37,7 +37,7 @@ class admin_center_controller extends controller
             exit;
         }
 
-        if (!Rbac::check(Session::get("admin_gid"),get_class(\epii\server\App::getInstance()->getRunner()[0])."@".\epii\server\App::getInstance()->getRunner()[1]))
+        if ( (Session::get("admin_gid") !=1 ) && !Rbac::check(Session::get("admin_gid"),get_class(\epii\server\App::getInstance()->getRunner()[0])."@".\epii\server\App::getInstance()->getRunner()[1]))
         {
             echo "Permission denied;";
             exit;
