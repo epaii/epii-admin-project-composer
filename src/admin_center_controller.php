@@ -9,6 +9,7 @@
 namespace epii\admin\center;
 
 
+use epii\admin\center\app\install;
 use epii\admin\center\app\root;
 use epii\admin\center\app\user;
 use epii\admin\center\config\Rbac;
@@ -43,7 +44,7 @@ class admin_center_controller extends controller
         }
 
 
-        $is_login = $c_class === root::class && $c_action === "start";
+        $is_login = ($c_class === root::class && $c_action === "start")|| $c_class==install::class;
         if ((!Session::get("is_login") || Session::get("is_login") == "null") && !$is_login) {
             header("location:" . Tools::get_web_root());
         }
