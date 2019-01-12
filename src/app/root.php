@@ -35,7 +35,7 @@ class root extends _controller
                 {
                     // TODO: Implement onPost() method.
 
-                    if(!empty($username)){
+                    if(empty($username)){
                         $msg = '用户名不能为空!';
                         return false;
                     }
@@ -45,7 +45,7 @@ class root extends _controller
                         return false;
                     }
 
-                    if(!empty($password)){
+                    if(empty($password)){
                         $msg = '密码不能为空!';
                         return false;
                     }
