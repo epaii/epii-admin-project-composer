@@ -22,15 +22,16 @@ class AdminCenterUiConfig implements IEpiiAdminUi
         // TODO: Implement getConfig() method.
         $sitconfig = new \epii\admin\ui\lib\epiiadmin\SiteConfig();
         $sitconfig->app_left_theme(\epii\admin\ui\lib\epiiadmin\SiteConfig::app_left_theme_light);
+      //左上角用户名
         $user_name = Session::has('username')?Session::get('username'):'';
         //var_dump(Settings::get("app.style.nav_theme"));
         $sitconfig->user_name($user_name)->app_theme(Settings::get("app.style.nav_theme"))->app_left_theme(Settings::get("app.style.left_bg_theme"));
-
         $sitconfig->app_left_top_theme(Settings::get("app.style.left_top_theme"));
         $sitconfig->app_left_selected_theme(Settings::get("app.style.left_selected_theme"));
         $sitconfig->site_logo(Settings::get("app.logo"));
         $sitconfig->site_title(Settings::get("app.title"));
         $sitconfig->site_name(Settings::get("app.title"));
+        //用户头像
         //$sitconfig->user_avatar();
         return $sitconfig;
     }
@@ -51,7 +52,6 @@ class AdminCenterUiConfig implements IEpiiAdminUi
         }
 
         $m_config->selectId($open_id)->isAllOpen(true);
-
         return $m_config;
     }
 
@@ -63,7 +63,6 @@ class AdminCenterUiConfig implements IEpiiAdminUi
                 <i class="fa fa-power-off" ></i>
             </a>
         </li>';
-        //return "";
     }
 
     private function sortarr($key,$sort,$arr){
@@ -82,10 +81,9 @@ class AdminCenterUiConfig implements IEpiiAdminUi
         $map = [];
         $map['status']=1;
 
-        if(Session::get('user_id') != 1){
-            $user_role_id = Db::name('admin')->where('id',Session::get('user_id'))->value('role');
-            $nodes_arr = Db::name('role')->where('id',$user_role_id)->value('nodes');
-            $map['id'] = json_dncode($nodes_arr,true);
+        if(Session::get('admin_gid') != 1){
+            $nodes_arr = Db::name('role')->where('id',Session::get('admin_gid'))->value('nodes');
+            $map['id'] = json_decode($nodes_arr,true);
         }
         $list = Db::name("node")->where($map)->select();
         $arr1 = $this->sortarr('sort',SORT_ASC,array_filter($list,function($val){return $val['pid'] == 0;}));

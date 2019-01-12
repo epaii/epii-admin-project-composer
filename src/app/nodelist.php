@@ -42,27 +42,31 @@ class nodelist extends _controller
 
         $name = trim(Args::params("name"));
         $pid = trim(Args::params("pid"));
-        $map = [];
+        $offset = trim(Args::params("offset"));
+        $limit = trim(Args::params("limit"));
+        $sql= "SELECT *,if(pid=0,id,pid) as pidd from epii_node order by pidd asc,pid asc,sort desc limit ".$offset.','.$limit;
         if (!empty($name)) {
-            $map[] = ["name", "LIKE", "%{$name}%"];
+            $sql= "SELECT *,if(pid=0,id,pid) as pidd from epii_node where name like '%".$name."%' order by pidd asc,pid asc,sort desc limit ".$offset.','.$limit;
 
         }
         if (!empty($pid)) {
-            $map[] = ["pid", "eq", $pid];
+            $sql= "SELECT *,if(pid=0,id,pid) as pidd from epii_node where  pid=".$pid." order by pidd asc,pid asc,sort desc limit ".$offset.','.$limit;
+           
         }
-      // $sql= "SELECT *,if(pid=0,id,pid) as pidd from epii_node order by pidd asc,pid asc,sort desc";
-
-        echo $this->tableJsonData('node', $map, function($data) {
-            $data['status'] = $data['status'] == 1 ? "<i class=\"fa fa-toggle-on\" aria-hidden=\"true\"></i>" : "<i class=\"fa fa-toggle-off\" aria-hidden=\"true\"></i>";
-            $data['icon'] = '<i class="' . $data['icon'] . '" ></i>';
-            if ($data['pid'] == 0) {
-                $data['pid'] = '顶级菜单';
-            } else {
-                $data['pid'] = Db::name('node')->where('id', $data['pid'])->value('name');
+        if(!empty($name) && !empty($pid)){
+            $sql= "SELECT *,if(pid=0,id,pid) as pidd from epii_node where name like '%".$name."%' and pid=".$pid."order by pidd asc,pid asc,sort desc limit ".$offset.','.$limit;
+        }
+        $data = Db::query($sql);
+        foreach ($data as $k=> $v){
+            if($data[$k]['pid'] != 0){
+                $data[$k]['name']='------'.$v['name'];
             }
+            $data[$k]['status']=$v['status'] == 1 ? "<i class=\"fa fa-toggle-on\" aria-hidden=\"true\"></i>" : "<i class=\"fa fa-toggle-off\" aria-hidden=\"true\"></i>";;
+            $data[$k]['icon']='<i class="'.$v['icon'].'"></i>';
 
-            return $data;
-        });
+        }
+        $total = Db::name('node')->count('id');
+        echo json_encode(['rows'=>$data,'total'=>$total]);
 
     }
 

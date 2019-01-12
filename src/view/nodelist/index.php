@@ -48,8 +48,8 @@
 
                 <th data-field="id" data-formatter="epiiFormatter">ID</th>
                 <th data-field="name" data-formatter="epiiFormatter">节点名称</th>
-<!--                <th data-field="slug" data-formatter="epiiFormatter">唯一标识</th>-->
-                <th data-field="pid" data-formatter="epiiFormatter">父节点</th>
+
+<!--                <th data-field="pid" data-formatter="epiiFormatter">父节点</th>-->
                 <th data-field="icon" data-formatter="epiiFormatter">图标</th>
                 <th data-field="url" data-formatter="epiiFormatter">链接地址</th>
                 <th data-field="status" data-formatter="epiiFormatter">状态</th>
