@@ -1,7 +1,7 @@
 <?php
 namespace epii\admin\center\app;
 
-use app\index;
+
 use epii\admin\center\common\_controller;
 use epii\admin\center\libs\Tools;
 use epii\admin\center\ProjectConfig;
