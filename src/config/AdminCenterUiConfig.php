@@ -82,10 +82,10 @@ class AdminCenterUiConfig implements IEpiiAdminUi
         $map = [];
         $map['status']=1;
 
-        if(Session::get('user_id') != 1){
+        if(Session::get('admin_gid') != 1){
             $user_role_id = Db::name('admin')->where('id',Session::get('user_id'))->value('role');
             $nodes_arr = Db::name('role')->where('id',$user_role_id)->value('nodes');
-            $map['id'] = json_dncode($nodes_arr,true);
+            $map['id'] = json_decode($nodes_arr,true);
         }
         $list = Db::name("node")->where($map)->select();
         $arr1 = $this->sortarr('sort',SORT_ASC,array_filter($list,function($val){return $val['pid'] == 0;}));
