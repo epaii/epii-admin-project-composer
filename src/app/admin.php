@@ -29,7 +29,7 @@ class admin extends _controller
         $map = [];
         $group_name = Args::params('group_name');
         if($group_name){
-           
+
             $map[] = ["a.group_name", "LIKE", "%{$group_name}%"];
         }
         $table = Db::name('admin')
