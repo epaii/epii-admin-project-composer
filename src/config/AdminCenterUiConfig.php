@@ -59,7 +59,9 @@ class AdminCenterUiConfig implements IEpiiAdminUi
     {
         // TODO: Implement getTopRightNavHtml() method.
         return '  <li class="nav-item">
-            <a class="nav-link btn-confirm" data-msg="确定要退出吗?" href="?app=user@logout&_vendor=1">
+            <a class="nav-link btn-confirm" 
+            data-msg="确定要退出吗?" 
+            href="?app=user@logout&_vendor=1">
                 <i class="fa fa-power-off" ></i>
             </a>
         </li>';
@@ -78,9 +80,7 @@ class AdminCenterUiConfig implements IEpiiAdminUi
 
     public function getLeftMenu()//获取菜单
     {
-        $map = [];
         $map['status']=1;
-
         if(Session::get('admin_gid') != 1){
             $nodes_arr = Db::name('role')->where('id',Session::get('admin_gid'))->value('nodes');
             $map['id'] = json_decode($nodes_arr,true);

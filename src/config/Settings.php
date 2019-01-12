@@ -43,23 +43,23 @@ class Settings
                     exit();
                 }
             }
-            self::$map  = include $file;
+            self::$map = include $file;
         }
-        $map = self::$map;
+
 
         if ($key) {
             if (is_string($key)) {
-                if (isset($map[$key])) return $map[$key];
+                if (isset(self::$map[$key])) return self::$map[$key];
                 else return $defualt_value;
             } elseif (is_array($key)) {
                 $out = [];
                 foreach ($key as $item) {
-                    $out[$item] = isset($map[$item]) ? $map[$item] : $defualt_value;
+                    $out[$item] = isset(self::$map[$item]) ? self::$map[$item] : $defualt_value;
                 }
                 return $out;
             }
         } else {
-            return $map;
+            return self::$map;
         }
         return null;
     }

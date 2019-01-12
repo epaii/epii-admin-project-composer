@@ -17,6 +17,9 @@ use epii\server\Args;
  */
 class App extends \epii\app\App
 {
+
+    private $_is_setconfig = false;
+
     public function __construct()
     {
 
@@ -38,6 +41,11 @@ class App extends \epii\app\App
 
     public function run($app = null)
     {
+
+        if (!$this->_is_setconfig) {
+            $this->setConfig(new AdminCenterPlusInitConfig());
+        }
+
         $this->init(AdminCenterCommonInit::class);
 
         $this->setBaseNameSpace("epii\\admin\\center\\app");
@@ -51,6 +59,7 @@ class App extends \epii\app\App
             echo '$appPlusInitConfig must  extends AdminCenterPlusInitConfig';
             exit;
         }
+        $this->_is_setconfig = true;
         ProjectConfig::_setAdminCenterPlusInitConfig($appPlusInitConfig);
 
         return parent::setConfig($appPlusInitConfig);

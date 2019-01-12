@@ -86,20 +86,20 @@ class Rbac
             }
             self::$map = include $file;
         }
-        $map = self::$map;
 
 
-        if (!isset($map["type"][$groud_id])) {
+
+        if (!isset(self::$map["type"][$groud_id])) {
             return false;
         }
-        $type = $map["type"][$groud_id];
+        $type = self::$map["type"][$groud_id];
 
         $type_bool = false;
         if ($type == 2) $type_bool = true;
 
-        if (!isset($map["info"][$string])) return $type_bool;
+        if (!isset(self::$map["info"][$string])) return $type_bool;
 
-        if (in_array($groud_id, $map["info"][$string])) {
+        if (in_array($groud_id, self::$map["info"][$string])) {
             return !$type_bool;
         } else {
             return $type_bool;

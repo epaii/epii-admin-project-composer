@@ -99,8 +99,8 @@ class user extends _controller
                 return JsCmd::make()->addCmd($cmd)->run();
             }
 
-            if (!preg_match("/^[a-zA-Z\d_]{8,}$/", $new_password)) {
-                $cmd = Alert::make()->icon('5')->msg('密码不得低于8位')->onOk(null);
+            if (!preg_match("/^[a-zA-Z\d_]{6,16}$/", $new_password)) {
+                $cmd = Alert::make()->icon('5')->msg('密码6~16位')->onOk(null);
                 return JsCmd::make()->addCmd($cmd)->run();
             }
 
