@@ -7,9 +7,10 @@
         </div>
         <label for="class">父节点：</label><br>
         <select class="selectpicker" id="class" name="pid">
-            <option value="0">无</option>
+
             <?php foreach($list as $k=>$v){ ?>
-            <option value="{$v['id']}"  <?php if($v['id']==$id){?>selected="selected"<?php } ?>>{$v['name']}</option>
+                <option value="0" <?php if($nodeinfo['pid'] ==0){?>selected="selected"<?php } ?>>无</option>
+            <option value="{$v['id']}"  <?php if($v['id']==$nodeinfo['pid']){?>selected="selected"<?php } ?>>{$v['name']}</option>
             <?php }?>
         </select>
         <div class="form-group">
