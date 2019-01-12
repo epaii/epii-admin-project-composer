@@ -3,7 +3,7 @@
 
         <div class="form-group">
             <label>角色名称：</label>
-            <input type="text" class="form-control" name="name" value="{$role.name}" required placeholder="请输入角色名称">
+            <input type="text" class="form-control" name="name" value="{$role.name}" required >
         </div>
         <div class="form-group">
             <label for="class">状态：</label><br>

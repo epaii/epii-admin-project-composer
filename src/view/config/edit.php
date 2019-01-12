@@ -13,17 +13,17 @@
                                <?php if($config['type'] == 1){?>
                             readonly="readonly"
                             <?php }?>
-                               class="form-control" name="name" value="{$config.name}" >
+                               class="form-control" name="name" value="{$config.name}" required>
                     </div>
                     <div class="form-group">
                         <label>值</label>
-                        <input type="text" class="form-control" name="value" value="{$config.value}" >
+                        <input type="text" class="form-control" name="value" value="{$config.value}" required>
                     </div>
                     <input type="hidden" name="id" value="{$id}">
 
                 <div class="form-group" >
                     <label>提示</label>
-                    <input type="text" class="form-control" name="tip" value="{$config.tip}" >
+                    <input type="text" class="form-control" name="tip" value="{$config.tip}" required>
 
                 </div>
                 <br>

@@ -72,7 +72,7 @@
     }
     function del1(field_value, row, index,field_name) {
             if(row.id !=1){
-                return "<a class='btn btn-outline-danger btn-sm '    href='?app=rolelist@del&_vendor=1&id="+row.id+"+'><i class='fa fa-trash' ></i>删除</a>";
+                return "<a class='btn btn-outline-danger btn-sm btn-confirm' data-msg=\"确定删除吗?\"   href='?app=rolelist@del&_vendor=1&id="+row.id+"+'><i class='fa fa-trash' ></i>删除</a>";
             }else{
                 return '';
             }

@@ -8,9 +8,7 @@
 
 namespace epii\admin\center\app;
 
-
 use epii\admin\center\common\_controller;
-use epii\admin\center\config\AdminCenterUiConfig;
 use epii\admin\center\config\Rbac;
 use epii\admin\center\config\Settings;
 use epii\admin\center\libs\Tools;
@@ -25,7 +23,12 @@ use think\Db;
 class rolelist extends _controller
 {
 
-
+    /**
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\DbException
+     * @throws \think\db\exception\ModelNotFoundException
+     * 菜单主页
+     */
     public function index()
     {
         $list = Db::name("role")->where("status=1")->select();
@@ -43,8 +46,6 @@ class rolelist extends _controller
         if (!empty($name)) {
             $map[] = ["name", "LIKE", "%{$name}%"];
         }
-
-
         echo $this->tableJsonData('role', $map, function($data) {
 
             $data['status'] = $data['status'] == 1 ? "<i class=\"fa fa-toggle-on\" aria-hidden=\"true\"></i>" : "<i class=\"fa fa-toggle-off\" aria-hidden=\"true\"></i>";
@@ -65,11 +66,16 @@ class rolelist extends _controller
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $name = trim(Args::params("name"));
             $status = trim(Args::params("status"));
+
+            if(!$name || $status){
+                $cmd = Alert::make()->msg('不能为空')->icon('5')->onOk(null);
+                return JsCmd::make()->addCmd($cmd)->run();
+            }
+
             $data['name'] = $name;
             $data['status'] = $status;
             $res = Db::name('role')
                 ->insert($data);
-
             if ($res) {
                 Settings::_saveCache();
                 $cmd = Alert::make()->msg('添加成功')->icon('6')->onOk(CloseAndRefresh::make()->type("table"));
@@ -101,6 +107,12 @@ class rolelist extends _controller
             $id = trim(Args::params("id"));
             $name = trim(Args::params("name"));
             $status = trim(Args::params("status"));
+
+            if(!$name || $status){
+                $cmd = Alert::make()->msg('不能为空')->icon('5')->onOk(null);
+                return JsCmd::make()->addCmd($cmd)->run();
+            }
+
             $data['name'] = $name;
             $data['status'] = $status;
             $res = Db::name('role')
@@ -136,6 +148,11 @@ class rolelist extends _controller
     public function del()
     {
         $id = Args::params('id');
+        $admin = Db::name('admin')->where('role',$id)->find();
+        if($admin){
+            $alert = Alert::make()->msg("还有属于该角色的用户")->icon('5')->title("重要提示")->btn("好的");
+            return JsCmd::make()->addCmd($alert)->run();
+        }
         $res = Db::name('role')->delete($id);
         if ($res) {
             Settings::_saveCache();
@@ -143,7 +160,7 @@ class rolelist extends _controller
         } else {
             $cmd = Alert::make()->msg('删除失败')->icon('5')->onOk(null);
         }
-        return JsCmd::make()->addCmd($cmd)->run();
+        echo JsCmd::make()->addCmd($cmd)->run();
     }
 
 
@@ -163,13 +180,17 @@ class rolelist extends _controller
                 $cmd = Alert::make()->msg('至少选择一种类型')->icon('5')->onOk(null);
                 return JsCmd::make()->addCmd($cmd)->run();
             }
+
             foreach ($power as $k => $v) {
 
                 if (!$v[0]) {
                     unset($power[$k]);
                 }
             }
-
+            if (!$power) {
+                $cmd = Alert::make()->msg('至少选择一个类一个方法')->icon('5')->onOk(null);
+                return JsCmd::make()->addCmd($cmd)->run();
+            }
             $power_array = [
                 'type' => $type,
                 'power' => $power
@@ -232,7 +253,7 @@ class rolelist extends _controller
                 ->where('id',$id)
                 ->update(['nodes'=>$nodes]);
             if ($res) {
-                //Rbac::_saveCache();
+
                 $cmd = Alert::make()->msg('成功')->icon('6')->onOk(CloseAndRefresh::make()->type("page"));
             } else {
                 $cmd = Alert::make()->msg('失败')->icon('5')->onOk(null);

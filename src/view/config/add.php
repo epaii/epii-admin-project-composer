@@ -9,17 +9,17 @@
 
                     <div class="form-group">
                         <label>属性</label>
-                        <input type="text" class="form-control" name="name"  >
+                        <input type="text" class="form-control" name="name"  required>
                     </div>
                     <div class="form-group">
                         <label>值</label>
-                        <input type="text" class="form-control" name="value"  >
+                        <input type="text" class="form-control" name="value"  required>
                     </div>
 
 
                 <div class="form-group">
                     <label>提示</label>
-                    <input type="text" class="form-control" name="tip"  >
+                    <input type="text" class="form-control" name="tip"  required>
 
                 </div>
                 <br>

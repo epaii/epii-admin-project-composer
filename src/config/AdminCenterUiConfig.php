@@ -42,12 +42,10 @@ class AdminCenterUiConfig implements IEpiiAdminUi
         $m_config = new MenuConfig();
         $menus = $this->getLeftMenu();
 
-        $open_id = Args::getVal("_code_id");
+        $open_id = Args::getVal("_code_id")?:$menus[0]['id'];
+
         foreach ($menus as $menu){
             $m_config->addMenu($menu['id'], $menu['pid'], $menu['name'], $menu['url'], $menu['icon']);
-            if( (!$open_id) && $menu['is_open']){
-                $open_id = $menu['id'];
-            }
 
         }
 

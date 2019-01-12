@@ -26,11 +26,17 @@ class admin extends _controller
 
     public function ajaxdata()
     {
+        $map = [];
+        $group_name = Args::params('group_name');
+        if($group_name){
+           
+            $map[] = ["a.group_name", "LIKE", "%{$group_name}%"];
+        }
         $table = Db::name('admin')
             ->alias('a')
             ->field('a.*,r.name as rname')
-            ->join('role r','a.role=r.id');
-        echo $this->tableJsonData($table, [], function($data) {
+            ->join('role r', 'a.role=r.id');
+        echo $this->tableJsonData($table, $map, function($data) {
             $data['addtime'] = date('Y-m-d H:i:s', $data['addtime']);
             $data['updatetime'] = date('Y-m-d H:i:s', $data['updatetime']);
             $data['status'] = $data['status'] == 'normal' ? "正常" : "禁用";
@@ -47,8 +53,14 @@ class admin extends _controller
             $group_name = trim(Args::params("group_name"));
             $status = trim(Args::params("status"));
             $role = trim(Args::params("role"));
-            $has = Db::name('admin')->where('username',$username)->find();
-            if($has){
+
+            if (!$username || !$group_name || !$status || !$role) {
+                $cmd = Alert::make()->msg('不能为空')->icon('5')->onOk(null);
+                return JsCmd::make()->addCmd($cmd)->run();
+            }
+
+            $has = Db::name('admin')->where('username', $username)->find();
+            if ($has) {
                 $cmd = Alert::make()->msg('名字已存在')->icon('5')->onOk(null);
                 return JsCmd::make()->addCmd($cmd)->run();
             }
@@ -91,6 +103,15 @@ class admin extends _controller
             $status = trim(Args::params("status"));
             $role = trim(Args::params("role"));
 
+            if (!$username || !$group_name || !$status || !$role) {
+                $cmd = Alert::make()->msg('不能为空')->icon('5')->onOk(null);
+                return JsCmd::make()->addCmd($cmd)->run();
+            }
+            $has = Db::name('admin')->where('username', $username)->find();
+            if ($has) {
+                $cmd = Alert::make()->msg('名字已存在')->icon('5')->onOk(null);
+                return JsCmd::make()->addCmd($cmd)->run();
+            }
             $data['username'] = $username;
             $data['group_name'] = $group_name;
             $data['status'] = $status;
@@ -113,7 +134,6 @@ class admin extends _controller
             return JsCmd::make()->addCmd($cmd)->run();
 
         } else {
-
 
             $id = Args::params('id');
             $admin = Db::name('admin')->where('id', $id)->find();
