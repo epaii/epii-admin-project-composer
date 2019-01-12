@@ -17,13 +17,15 @@ use epii\admin\center\libs\Tools;
 use epii\server\App;
 use epii\tools\classes\ClassTools;
 
-class test extends admin_center_controller
+class test
 {
         public function index()
         {
           //  var_dump(Settings::_saveCache());
 
-                print_r(Tools::getObjectAttr(App::getInstance(),"name_space_pre",App::class));
+          echo Tools::getVendorDir() ;
+
+             //   print_r(Tools::getObjectAttr(App::getInstance(),"name_space_pre",App::class));
             exit;
 //
 //            $all_roles = ClassTools::get_all_classes_and_methods(["epii\\admin\\center\\app"]);
