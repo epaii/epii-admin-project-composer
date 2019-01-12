@@ -35,7 +35,6 @@ class config extends _controller
             $name = trim(Args::params("name"));
             $value= trim(Args::params("value"));
             $tip = trim(Args::params("tip"));
-            $type=trim(Args::params("type"));
             if(!$name || !$value || !$tip ){
                 $cmd = Alert::make()->msg('缺少参数')->icon('5')->onOk(null);
                 return JsCmd::make()->addCmd($cmd)->run();
@@ -43,7 +42,6 @@ class config extends _controller
              $data['name']=$name;
              $data['value']=$value;
              $data['tip']=$tip;
-             $data['type']=$type;
              $data['addtime']=time();
              $res = Db::name('setting')
                  ->insert($data);
@@ -66,7 +64,6 @@ class config extends _controller
             $name = trim(Args::params("name"));
             $value= trim(Args::params("value"));
             $tip = trim(Args::params("tip"));
-            $type=trim(Args::params("type"));
             if(!$name || !$value || !$tip ){
                 $cmd = Alert::make()->msg('缺少参数')->icon('5')->onOk(null);
                 return JsCmd::make()->addCmd($cmd)->run();
@@ -74,7 +71,6 @@ class config extends _controller
             $data['name']=$name;
             $data['value']=$value;
             $data['tip']=$tip;
-            $data['type']=$type;
             $res = Db::name('setting')
                 ->where('id',$id)
                 ->update($data);

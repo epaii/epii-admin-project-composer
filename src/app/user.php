@@ -52,6 +52,11 @@ class user extends _controller
             $phone = Args::params('phone');
             $email = Args::params('email');
 
+            if (!$username || !$group_name || !$phone || !$email) {
+                $cmd = Alert::make()->msg('不能为空')->icon('5')->onOk(null);
+                return JsCmd::make()->addCmd($cmd)->run();
+            }
+
             $data['id'] = Session::get('user_id');
             $data['username'] = $username;
             $data['group_name'] = $group_name;

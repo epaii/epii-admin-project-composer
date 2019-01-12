@@ -10,7 +10,7 @@
                         <div class="form-inline">
                             <div class="form-group">
                                 <label>角色名称：</label>
-                                <input type="text" class="form-control" name="name" placeholder="支持模糊搜索">
+                                <input type="text" class="form-control" name="group_name" placeholder="支持模糊搜索">
                             </div>
                             <div class="form-group">
                                 <button type="submit" class="btn btn-primary">提交</button>

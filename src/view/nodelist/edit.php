@@ -19,7 +19,7 @@
         </div>
         <div class="form-group">
             <label>链接地址：</label>
-            <input type="text" class="form-control" name="url" value="{$nodeinfo.url}" placeholder="格式:控制器@方法名,如:index@index,没有父级不填">
+            <input type="text" class="form-control" name="url" value="{$nodeinfo.url}" placeholder="如:?app=config@index&_vendor=1,没有父级不填">
         </div>
         <div class="form-group">
             <label>备注：</label>
@@ -37,19 +37,7 @@
             <label>排序：</label>
             <input type="number" class="form-control" name="sort" value="{$nodeinfo.sort}" placeholder="释: 数字越大越靠后">
         </div>
-        <div  class="form-group">
-            <div class="custom-control custom-checkbox mb-3">
-                <input type="checkbox"
-                       class="custom-control-input"
-                       <?php if($nodeinfo['is_open']){?>
-                       checked="checked"
-                       <?php }?>
-                       name="is_open"
-                       value="1"
-                       id="is_open">
-                <label class="custom-control-label" for="is_open">是否默认打开</label>
-            </div>
-        </div>
+
         <div class="form-group">
             <button type="submit" class="btn btn-primary">提交</button>
         </div>

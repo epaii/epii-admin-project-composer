@@ -90,17 +90,17 @@ class nodelist extends _controller
             $sort = trim(Args::params("sort"));
 
             if (!$name || !$icon) {
-                $alert = Alert::make()->msg("缺少参数")->title("重要提示")->btn("好的");
+                $alert = Alert::make()->msg("缺少参数")->icon('5')->title("重要提示")->btn("好的");
                 return JsCmd::make()->addCmd($alert)->run();
             }
 
             if ($pid != 0 && !$url) {
-                $alert = Alert::make()->msg("URL不能是空")->title("重要提示")->btn("好的");
+                $alert = Alert::make()->msg("URL不能是空")->icon('5')->title("重要提示")->btn("好的");
                 return JsCmd::make()->addCmd($alert)->run();
             }
 
             if (Db::name('node')->where("name = '$name'")->find()) {
-                $alert = Alert::make()->msg($name . "节点已存在")->title("重要提示")->btn("好的");
+                $alert = Alert::make()->msg($name . "节点已存在")->icon('5')->title("重要提示")->btn("好的");
                 return JsCmd::make()->addCmd($alert)->run();
             }
 
@@ -115,9 +115,9 @@ class nodelist extends _controller
                 ->insertGetId($data);
             if ($re) {
                 Settings::_saveCache();
-                $alert = Alert::make()->msg("操作成功")->onOk(CloseAndRefresh::make()->layerNum(0)->closeNum(0))->title("重要提示")->btn("好的");
+                $alert = Alert::make()->msg("操作成功")->icon('6')->onOk(CloseAndRefresh::make()->layerNum(0)->closeNum(0))->title("重要提示")->btn("好的");
             } else {
-                $alert = Alert::make()->msg("操作失败，请重试")->title("重要提示")->btn("好的");
+                $alert = Alert::make()->msg("操作失败，请重试")->icon('5')->title("重要提示")->btn("好的");
             }
 
             return JsCmd::make()->addCmd($alert)->run();
@@ -155,19 +155,15 @@ class nodelist extends _controller
             $remark = trim(Args::params("remark"));
             $status = trim(Args::params("status")) ?: 0;
             $sort = trim(Args::params("sort"));
-            $is_open = trim(Args::params("is_open"));
 
-            if ($is_open) {
-                Db::name("node")->where('id', '<>', $id)->setField('is_open', null);
-            }
 
             if (!$name || !$icon) {
-                $alert = Alert::make()->msg("缺少参数")->title("重要提示")->btn("好的");
+                $alert = Alert::make()->msg("缺少参数")->icon('5')->title("重要提示")->btn("好的");
                 return JsCmd::make()->addCmd($alert)->run();
             }
 
             if ($pid != 0 && !$url) {
-                $alert = Alert::make()->msg("URL不能是空")->title("重要提示")->btn("好的");
+                $alert = Alert::make()->msg("URL不能是空")->icon('5')->title("重要提示")->btn("好的");
                 return JsCmd::make()->addCmd($alert)->run();
             }
 
@@ -177,7 +173,6 @@ class nodelist extends _controller
             $data['status'] = $status;
             $data['sort'] = $sort;
             $data['icon'] = $icon;
-            $data['is_open'] = $is_open;
             $data['url'] = $url;
 
             $re = Db::name("node")
@@ -186,9 +181,9 @@ class nodelist extends _controller
 
             if ($re) {
                 Settings::_saveCache();
-                $alert = Alert::make()->msg("操作成功")->onOk(CloseAndRefresh::make()->layerNum(0)->closeNum(0))->title("重要提示")->btn("好的");
+                $alert = Alert::make()->msg("操作成功")->icon('6')->onOk(CloseAndRefresh::make()->layerNum(0)->closeNum(0))->title("重要提示")->btn("好的");
             } else {
-                $alert = Alert::make()->msg("失败或未修改，请重试")->title("重要提示")->btn("好的");
+                $alert = Alert::make()->msg("失败或未修改，请重试")->icon('5')->title("重要提示")->btn("好的");
             }
             return JsCmd::make()->addCmd($alert)->run();
 
@@ -223,6 +218,6 @@ class nodelist extends _controller
         } else {
             $cmd = Alert::make()->msg('删除失败')->icon('5')->onOk(null);
         }
-        return JsCmd::make()->addCmd($cmd)->run();
+        echo JsCmd::make()->addCmd($cmd)->run();
     }
 }
