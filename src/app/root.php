@@ -1,6 +1,7 @@
 <?php
 namespace epii\admin\center\app;
 
+use app\index;
 use epii\admin\center\common\_controller;
 use epii\admin\center\libs\Tools;
 use epii\admin\center\ProjectConfig;
@@ -19,6 +20,13 @@ class root extends _controller
 {
     public function start()
     {
+        if (!install::isInstall())
+        {
+            $install = new install();
+            $install->init();
+            $install->index();
+            exit;
+        }
 
         if (!Session::get("is_login"))
             AdminLogin::login(new class implements IloginConfig

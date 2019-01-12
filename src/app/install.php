@@ -13,7 +13,6 @@ use epii\admin\center\common\_controller;
 use epii\admin\center\libs\Tools;
 use epii\admin\ui\lib\epiiadmin\jscmd\Alert;
 use epii\admin\ui\lib\epiiadmin\jscmd\JsCmd;
-use think\Db;
 
 class install extends _controller
 {
@@ -22,7 +21,7 @@ class install extends _controller
 
     public function init()
     {
-        if (self::$is_install !== false) {
+        if (self::isInstall() !== false) {
             header("location:" . Tools::get_web_root());
             exit;
         }
@@ -32,6 +31,7 @@ class install extends _controller
 
     public function index()
     {
+
         $this->adminUiDisplay("install/index", "安装程序");
     }
 
@@ -49,13 +49,39 @@ class install extends _controller
             }
 
 
-
             $config = $_POST;
-            \think\Db::setConfig($_POST);
-             $db_has = Db::query("show databases ".$config["database"]);
-             var_dump($db_has);
-             exit;
+            $link = mysqli_connect($config["hostname"], $config["username"], $config["password"], '', $config["hostport"]);
+
+            if (!$link) {
+                return JsCmd::make()->addCmd(Alert::make()->msg("数据库设置错误，检查账号或密码是否正确"))->run();
+
+            }
+
+
+            $db_has = mysqli_query($link, "use " . $config["database"]);
+            if (!$db_has) {
+                return JsCmd::make()->addCmd(Alert::make()->msg("数据库不存在"))->run();
+            }
+
+            $sql = file_get_contents(__DIR__ . "/../config/install.sql");
+
+            $_arr = explode(';', $sql);
+
+            foreach ($_arr as $_value) {
+                if ($_value = trim($_value))
+                {
+                    $query_info = mysqli_query($link, $_value);
+
+
+                    if ($query_info === false) {
+
+                        return JsCmd::make()->addCmd(Alert::make()->msg("安装失败"))->run();
+                    }
+                }
+
+            }
             file_put_contents(Tools::getVendorDir() . "/../config/db.conf.php", "<?php return  " . var_export($_POST, true) . " ;");
+            return JsCmd::alertCloseRefresh("安装成功");
         } else {
             $this->adminUiDisplay("install/config", "安装程序");
         }
