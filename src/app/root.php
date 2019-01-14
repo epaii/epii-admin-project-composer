@@ -18,6 +18,11 @@ use wangshouwei\session\Session;
  */
 class root extends _controller
 {
+    public function home()
+    {
+        $this->adminUiDisplay("start/home");
+    }
+
     public function start()
     {
         if (!install::isInstall())

@@ -47,7 +47,7 @@ class AdminCenterUiConfig implements IEpiiAdminUi
         foreach ($menus as $menu){
             if ($open_id===null)
             {
-                if ( $menu['pid']!=0)
+                if ( $menu['url'])
                 {
                     $open_id = $menu['id'];
                 }

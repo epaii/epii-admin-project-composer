@@ -15,6 +15,7 @@ use epii\admin\center\config\Settings;
 use epii\admin\ui\lib\epiiadmin\jscmd\Alert;
 use epii\admin\ui\lib\epiiadmin\jscmd\CloseAndRefresh;
 use epii\admin\ui\lib\epiiadmin\jscmd\JsCmd;
+use epii\admin\ui\lib\epiiadmin\jscmd\JsEval;
 use epii\admin\ui\lib\epiiadmin\jscmd\Refresh;
 use epii\server\Args;
 use think\Db;
@@ -181,7 +182,15 @@ class nodelist extends _controller
 
             if ($re) {
                 Settings::_saveCache();
-                $alert = Alert::make()->msg("操作成功")->icon('6')->onOk(CloseAndRefresh::make()->layerNum(0)->closeNum(0))->title("重要提示")->btn("好的");
+
+                if (Args::postVal("inhome"))
+                {
+                    $alert = Alert::make()->msg("操作成功")->icon('6')->onOk(JsEval::make()->add_string("top.window.location.reload();"))->title("重要提示")->btn("好的");
+                }else{
+                    $alert = Alert::make()->msg("操作成功")->icon('6')->onOk(CloseAndRefresh::make()->layerNum(0)->closeNum(0))->title("重要提示")->btn("好的");
+                }
+
+
             } else {
                 $alert = Alert::make()->msg("失败或未修改，请重试")->icon('5')->title("重要提示")->btn("好的");
             }

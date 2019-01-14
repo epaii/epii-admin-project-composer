@@ -1,5 +1,6 @@
 <form role="form" class="epii" method="post" data-form="1" action="{url nodelist edit _vendor=1}">
     <input type="hidden" value="{$id}" name="id">
+    <input type="hidden" value="{$_GET.inhome}" name="inhome">
     <div class="form-group">
         <label>节点名称：</label>
         <input type="text" class="form-control" name="name" value="{$nodeinfo.name}" placeholder="请输入父节点名称" required>

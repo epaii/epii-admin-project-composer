@@ -51,7 +51,7 @@
 <script>
     function btn1(field_value, row, index,field_name) {
         if(row.id !=1){
-        return "<a class='btn btn-outline-warning btn-sm btn-dialog'   data-area='60%,60%' href='?app=rolelist@power&_vendor=1&id="+row.id+"+'><i class='fa fa-address-card-o' ></i>权限</a>";
+        return "<a class='btn btn-outline-warning btn-sm btn-dialog'   data-area='60%,90%' data-title='权限设置:"+row["name"]+"' data-intop=1 href='?app=rolelist@power&_vendor=1&id="+row.id+"+'><i class='fa fa-address-card-o' ></i>权限</a>";
         }else{
             return '';
         }
