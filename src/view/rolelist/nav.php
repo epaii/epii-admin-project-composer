@@ -1,40 +1,24 @@
-<section class="content col-md-8" style="padding: 10px">
 
     <form action="{url rolelist nav _vendor=1}"
           method="post" data-form="1"
     >
 
-        <ul class="list-group">
-            {foreach $nodes $key=>$value}
 
-            <li class="list-group-item">
-                <?php if($value['pid'] !=0){ ?>
-                ------{$value.name}
-                <?php }else{ ?>
 
-                    {$value.name}
+        <ul class="list-group" style="padding: 20px">
+            <div  >{foreach $nodes $key=>$value}<?php if ($value['pid'] != 0) { ?>
+                    <input type="checkbox"
+                           value="{$value.id}"
 
-                <?php } ?>
-                <input type="checkbox"
-                       value="{$value.id}"
-                       name="nodes[]"
-                {foreach $node_array $k=>$v}
-                <?php if($v == $value['id']){?>
-                checked
-                <?php } ?>
-                {/foreach}
-                >
-            </li>
-            {/foreach}
-
+                           name="nodes[]" {if in_array($value["id"],$node_array) } checked {/if} style="margin-right: 3px"><span style="margin-right: 10px">{$value.name}</span><?php } else { ?></div><div><span style="color: blue;margin-right: 20px">{$value.name}:</span><?php } ?>{/foreach}
+            </div>
 
         </ul>
-        <div class="form-group">
+
             <input type="hidden" name="id" value="{$id}">
-        </div>
-        <div class="form-group">
+
+        <div class="form-footer">
             <button type="submit" class="btn btn-primary">提交</button>
         </div>
     </form>
-    </ul>
-</section>
+

@@ -48,7 +48,7 @@ class rolelist extends _controller
         }
         echo $this->tableJsonData('role', $map, function($data) {
 
-            $data['status'] = $data['status'] == 1 ? "<i class=\"fa fa-toggle-on\" aria-hidden=\"true\"></i>" : "<i class=\"fa fa-toggle-off\" aria-hidden=\"true\"></i>";
+
             return $data;
         });
     }
@@ -67,7 +67,7 @@ class rolelist extends _controller
             $name = trim(Args::params("name"));
             $status = trim(Args::params("status"));
 
-            if(!$name || $status){
+            if(!$name ){
                 $cmd = Alert::make()->msg('不能为空')->icon('5')->onOk(null);
                 return JsCmd::make()->addCmd($cmd)->run();
             }
@@ -108,7 +108,7 @@ class rolelist extends _controller
             $name = trim(Args::params("name"));
             $status = trim(Args::params("status"));
 
-            if(!$name || $status){
+            if( !$name  ){
                 $cmd = Alert::make()->msg('不能为空')->icon('5')->onOk(null);
                 return JsCmd::make()->addCmd($cmd)->run();
             }
@@ -248,6 +248,9 @@ class rolelist extends _controller
                 $cmd = Alert::make()->msg('至少选择一项')->icon('5')->onOk(null);
                 return JsCmd::make()->addCmd($cmd)->run();
             }
+            $nodes = array_merge($nodes,Db::name("node")->whereIn("id",$nodes)->column("pid"));
+
+
             $nodes = json_encode($nodes);
             $res = Db::name('role')
                 ->where('id',$id)
@@ -270,6 +273,7 @@ class rolelist extends _controller
             }else{
                 $node_array = [];
             }
+
             $this->assign('node_array',$node_array);
             $this->assign('id',$id);
             $this->assign('nodes',$nodes);

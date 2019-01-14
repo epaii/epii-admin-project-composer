@@ -1,5 +1,5 @@
-<div class="col-6">
-    <form role="form" method="post" data-form="1" action="{url admin edit _vendor=1}">
+
+    <form role="form" class="epii" method="post" data-form="1" action="{url admin edit _vendor=1}">
 
         <div class="form-group">
             <label>用戶名：</label>
@@ -36,8 +36,7 @@
         <div class="form-group">
             <input type="hidden" name="id" value="{$id}">
         </div>
-        <div class="form-group">
+        <div class="form-footer">
             <button type="submit" class="btn btn-primary">提交</button>
         </div>
     </form>
-</div>

@@ -21,17 +21,28 @@ class admin extends _controller
 {
     public function index()
     {
-        $this->adminUiDisplay('admin/index');
+        $roles = Db::name('role')->field('id,name')->select();
+        array_unshift($roles,["id"=>"","name"=>"全部"]);
+        $this->assign('roles', $roles);
+        $this->adminUiDisplay('admin/index',"",["version"=>time()]);
     }
 
     public function ajaxdata()
     {
         $map = [];
-        $group_name = Args::params('group_name');
+        $group_name = Args::postVal('role');
         if($group_name){
            
-            $map[] = ["a.group_name", "LIKE", "%{$group_name}%"];
+            $map["a.role"]=$group_name;
         }
+        $name = Args::postVal('username');
+        if($name){
+            $map["a.username"]=$name;
+        }
+
+
+
+
         $table = Db::name('admin')
             ->alias('a')
             ->field('a.*,r.name as rname')
@@ -39,7 +50,7 @@ class admin extends _controller
         echo $this->tableJsonData($table, $map, function($data) {
             $data['addtime'] = date('Y-m-d H:i:s', $data['addtime']);
             $data['updatetime'] = date('Y-m-d H:i:s', $data['updatetime']);
-            $data['status'] = $data['status'] == 'normal' ? "正常" : "禁用";
+            $data['status'] = $data['status'] == 'normal' ? "1" : "0";
             return $data;
         });
     }
@@ -107,11 +118,7 @@ class admin extends _controller
                 $cmd = Alert::make()->msg('不能为空')->icon('5')->onOk(null);
                 return JsCmd::make()->addCmd($cmd)->run();
             }
-            $has = Db::name('admin')->where('username', $username)->find();
-            if ($has) {
-                $cmd = Alert::make()->msg('名字已存在')->icon('5')->onOk(null);
-                return JsCmd::make()->addCmd($cmd)->run();
-            }
+
             $data['username'] = $username;
             $data['group_name'] = $group_name;
             $data['status'] = $status;

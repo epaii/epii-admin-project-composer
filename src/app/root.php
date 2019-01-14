@@ -65,7 +65,7 @@ class root extends _controller
                             Session::set("admin_gid", $user["role"]);
                             Session::set("username", $user['username']);
                             Session::set("user_id", $user['id']);
-                            $msg = '登录成功';
+                            $msg = '';
                             return true;
                         } else {
                             $msg = '密码错误';

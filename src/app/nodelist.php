@@ -61,7 +61,7 @@ class nodelist extends _controller
             if($data[$k]['pid'] != 0){
                 $data[$k]['name']='------'.$v['name'];
             }
-            $data[$k]['status']=$v['status'] == 1 ? "<i class=\"fa fa-toggle-on\" aria-hidden=\"true\"></i>" : "<i class=\"fa fa-toggle-off\" aria-hidden=\"true\"></i>";;
+
             $data[$k]['icon']='<i class="'.$v['icon'].'"></i>';
 
         }

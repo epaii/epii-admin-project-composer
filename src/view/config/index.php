@@ -2,7 +2,7 @@
 
     <div class="content">
         <div class="card-body table-responsive" style="padding-top: 0px">
-            <a class="btn btn-info  btn-outline-info btn-table-tool btn-dialog" href="{url config add _vendor=1}" data-area="70%,70%" title="新增配置">新增配置</a>
+            <a class="btn  btn-outline-primary btn-table-tool btn-dialog" href="{url config add _vendor=1}" data-area="40%,40%" title="新增配置">新增配置</a>
         </div>
         <div class="card-body table-responsive" style="padding-top: 0px">
             <table data-table="1" data-url="{url config ajaxdata _vendor=1}" id="table1" class="table table-hover">
@@ -24,7 +24,7 @@
     <script>
         function edit1(field_value, row, index,field_name) {
 
-            return "<a class='btn btn-outline-info btn-sm btn-dialog'   data-area='60%,60%' href='?app=config@edit&_vendor=1&id="+row.id+"+'><i class='fa fa-pencil-square-o' ></i>编辑</a>";
+            return "<a class='btn btn-outline-info btn-sm btn-dialog'   data-area=\"40%,40%\" data-title='编辑' href='?app=config@edit&_vendor=1&id="+row.id+"+'><i class='fa fa-pencil-square-o' ></i>编辑</a>";
         }
         function del1(field_value, row, index,field_name) {
             if(row.type ==2){
