@@ -32,8 +32,9 @@ class admin extends _controller
         $map = [];
         $group_name = Args::postVal('role');
         if($group_name){
-           
+
             $map["a.role"]=$group_name;
+
         }
         $name = Args::postVal('username');
         if($name){
