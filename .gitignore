@@ -6,3 +6,4 @@ gitpush.sh
 composer.lock
 vendor
 runtime
+dist_test

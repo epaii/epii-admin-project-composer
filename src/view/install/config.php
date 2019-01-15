@@ -4,7 +4,7 @@
             <label for="hostname" class="col-sm-2 control-label">数据库Ip:</label>
 
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="hostname" name="hostname" placeholder="hostname" required value="192.168.16.6">
+                <input type="text" class="form-control" id="hostname" name="hostname" placeholder="hostname" required value="">
             </div>
         </div>
         <div class="form-group row">
@@ -18,21 +18,21 @@
             <label for="username" class="col-sm-2 control-label">数据库用户:</label>
 
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="username" name="username" placeholder="username" required value="epii_db_user">
+                <input type="text" class="form-control" id="username" name="username" placeholder="username" required value="">
             </div>
         </div>
         <div class="form-group row">
             <label for="password" class="col-sm-2 control-label">数据库密码:</label>
 
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="password"  name="password" placeholder="password" required value="Pg6oWIbyfRuT5Qmw">
+                <input type="text" class="form-control" id="password"  name="password" placeholder="password" required value="">
             </div>
         </div>
         <div class="form-group row">
             <label for="database" class="col-sm-2 control-label">数据库名称:</label>
 
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="database" name="database" placeholder="database" required value="epii1">
+                <input type="text" class="form-control" id="database" name="database" placeholder="database" required value="">
             </div>
         </div>
         <div class="form-group row">
