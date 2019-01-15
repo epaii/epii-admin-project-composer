@@ -11,12 +11,15 @@ namespace epii\admin\center;
 
 use epii\admin\center\config\AdminCenterPlusInitConfig;
 use epii\admin\center\config\AdminCenterUiConfig;
+use epii\admin\center\config\LoginPageConfig;
+use epii\ui\login\IloginConfig;
 
 
 class ProjectConfig
 {
     private static $adminUi = null;
     private static $AdminCenterPlusInitConfig = null;
+    private static $loginConfig = null;
 
     public static function _setAdminUiConfig(AdminCenterUiConfig $adminUi)
     {
@@ -30,6 +33,18 @@ class ProjectConfig
         return self::$adminUi;
     }
 
+    public static function _setLoginPageConfig(IloginConfig $loginConfig)
+    {
+        self::$loginConfig = $loginConfig;
+    }
+
+    public static function getLoginPageConfig(): IloginConfig
+    {
+        if (!self::$loginConfig)
+            self::$loginConfig = new LoginPageConfig();
+        return self::$adminUi;
+    }
+
     public static function _setAdminCenterPlusInitConfig(AdminCenterPlusInitConfig $AdminCenterPlusInitConfig)
     {
         self::$AdminCenterPlusInitConfig = $AdminCenterPlusInitConfig;
@@ -37,8 +52,6 @@ class ProjectConfig
 
     public static function getAdminCenterPlusInitConfig(): AdminCenterPlusInitConfig
     {
-//        if (!self::$AdminCenterPlusInitConfig)
-//            self::$AdminCenterPlusInitConfig = new AdminCenterUiConfig();
         return self::$AdminCenterPlusInitConfig;
     }
 
