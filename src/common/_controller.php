@@ -21,7 +21,7 @@ class _controller extends admin_center_controller
     {
 
         $engin = new EpiiViewEngine();
-        $engin->init(["tpl_dir" => Tools::getVendorDir()  . "/../view/", "cache_dir" => Tools::getVendorDir()  . "/../runtime/cache/view/"]);
+        $engin->init(["tpl_dir" => __DIR__ . "/../view/", "cache_dir" => Tools::getVendorDir()  . "/../runtime/cache/view/"]);
         $this->setViewEngine($engin);
         parent::init();
     }

@@ -37,7 +37,7 @@ use epii\app\i\IAppPlusInitConfig;
     public function get_view_config(): array
     {
         // TODO: Implement get_view_config() method.
-        return ["tpl_dir" => __DIR__ . "/../view/", "cache_dir" => Tools::getVendorDir()  . "/../runtime/cache/view/"];
+        return ["tpl_dir" => Tools::getVendorDir()  . "/../view/", "cache_dir" => Tools::getVendorDir()  . "/../runtime/cache/view/"];
     }
     public function get_db_config(): array
     {
