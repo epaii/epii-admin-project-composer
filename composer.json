@@ -1,6 +1,6 @@
 {
-  "name": "epii/admin",
-  "description": "通用后台管理中心",
+  "name": "epii/admin-center",
+  "description": "通用后台管理中心，一件安装，全界面可定制！",
   "authors": [
     {
       "name": "MrRen Epii",
@@ -10,7 +10,10 @@
   "license": "MIT",
   "require": {
     "php": ">=7.0",
-    "ext-json": "*"
+    "epii/tiny-app-plus":">=0.0.1",
+    "epii/admin-ui-login":">=0.0.1",
+    "wangshouwei/session":">=0.0.1",
+    "epii/get-all-classes-and-methods-for-namespaces": ">=0.0.1"
   },
   "autoload": {
     "psr-4": {
