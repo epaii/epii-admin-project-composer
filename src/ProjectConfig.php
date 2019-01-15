@@ -42,7 +42,7 @@ class ProjectConfig
     {
         if (!self::$loginConfig)
             self::$loginConfig = new LoginPageConfig();
-        return self::$adminUi;
+        return self::$loginConfig;
     }
 
     public static function _setAdminCenterPlusInitConfig(AdminCenterPlusInitConfig $AdminCenterPlusInitConfig)
