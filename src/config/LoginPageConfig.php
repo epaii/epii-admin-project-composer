@@ -9,7 +9,9 @@
 namespace epii\admin\center\config;
 
 
+use epii\admin\center\libs\Tools;
 use epii\ui\login\IloginConfig;
+use think\Db;
 use wangshouwei\session\Session;
 
 class LoginPageConfig implements IloginConfig
@@ -64,6 +66,6 @@ class LoginPageConfig implements IloginConfig
     public function getConfigs(): array
     {
         // TODO: Implement getConfigs() method.
-        return ["success_url" => Tools::get_current_url()];
+        return ["success_url" => Tools::get_web_root()];
     }
 }
