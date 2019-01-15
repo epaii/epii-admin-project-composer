@@ -17,7 +17,7 @@
   },
   "autoload": {
     "psr-4": {
-      "epii\\admin\\center": "src/"
+      "epii\\admin\\center\\": "src/"
     }
   }
 }
