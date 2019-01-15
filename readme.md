@@ -16,4 +16,10 @@ useage:
 
 ```
 
+初始效果
+
+![screen]
+
+[screen]:http://epii.gitee.io/epiiadmin/img/admin_center.png
+
  
