@@ -4,6 +4,7 @@ namespace epii\admin\center\common;
 
 use epii\admin\center\admin_center_controller;
 
+use epii\admin\center\libs\Tools;
 use epii\template\engine\EpiiViewEngine;
 
 /**
@@ -20,7 +21,7 @@ class _controller extends admin_center_controller
     {
 
         $engin = new EpiiViewEngine();
-        $engin->init(["tpl_dir" => __DIR__ . "/../view/", "cache_dir" => __DIR__ . "/../runtime/cache/view/"]);
+        $engin->init(["tpl_dir" => Tools::getVendorDir()  . "/../view/", "cache_dir" => Tools::getVendorDir()  . "/../runtime/cache/view/"]);
         $this->setViewEngine($engin);
         parent::init();
     }
