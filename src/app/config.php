@@ -87,6 +87,7 @@ class config extends _controller
                 ->where('id',$id)
                 ->find();
             $this->assign('config',$config);
+
             $this->assign('id',$id);
             $this->adminUiDisplay('config/edit');
         }

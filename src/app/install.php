@@ -65,11 +65,12 @@ class install extends _controller
 
             $sql = file_get_contents(__DIR__ . "/../config/install.sql");
 
+            $sql = str_replace("`epii_", "`" . $config["prefix"], $sql);
+
             $_arr = explode(';', $sql);
 
             foreach ($_arr as $_value) {
-                if ($_value = trim($_value))
-                {
+                if ($_value = trim($_value)) {
                     $query_info = mysqli_query($link, $_value);
 
 
@@ -80,7 +81,15 @@ class install extends _controller
                 }
 
             }
-            file_put_contents(Tools::getVendorDir() . "/../config/db.conf.php", "<?php return  " . var_export($_POST, true) . " ;");
+
+            mysqli_query($link, "update `".$config["prefix"]."admin` set username='".$config["admin_username"]."',password='".md5($config["admin_password"])."'  where id=1");
+
+
+            mysqli_close($link);
+            unset($config["admin_username"]);
+            unset($config["admin_password"]);
+            $config["type"]="mysql";
+            file_put_contents(Tools::getVendorDir() . "/../config/db.conf.php", "<?php return  " . var_export($config, true) . " ;");
             return JsCmd::alertCloseRefresh("安装成功");
         } else {
             $this->adminUiDisplay("install/config", "安装程序");

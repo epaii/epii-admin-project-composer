@@ -1,29 +1,28 @@
--- phpMyAdmin SQL Dump
--- version 4.8.2
--- https://www.phpmyadmin.net/
+-- MySQL dump 10.13  Distrib 5.7.17, for osx10.12 (x86_64)
 --
--- Host: 172.16.0.6
--- Generation Time: 2019-01-12 03:37:40
--- 服务器版本： 5.6.19-log
--- PHP Version: 7.2.8
+-- Host: 192.168.16.6    Database: epii
+-- ------------------------------------------------------
+-- Server version	5.6.19-log
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
-SET time_zone = "+00:00";
-
---
--- Database: `epii`
---
-
--- --------------------------------------------------------
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- 表的结构 `epii_admin`
+-- Table structure for table `epii_admin`
 --
 
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `epii_admin` (
-  `id` int(10) UNSIGNED NOT NULL COMMENT 'ID',
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `username` varchar(20) NOT NULL DEFAULT '' COMMENT '用户名',
   `password` varchar(32) NOT NULL DEFAULT '' COMMENT '密码',
   `addtime` int(11) NOT NULL COMMENT '创建时间',
@@ -33,162 +32,123 @@ CREATE TABLE `epii_admin` (
   `photo` varchar(255) DEFAULT NULL COMMENT '用户头像',
   `status` varchar(30) NOT NULL DEFAULT 'normal' COMMENT '状态',
   `group_name` varchar(80) NOT NULL,
-  `role` smallint(6) DEFAULT NULL COMMENT '管理员角色'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='管理员表' ROW_FORMAT=COMPACT;
+  `role` smallint(6) DEFAULT NULL COMMENT '管理员角色',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `username` (`username`) USING BTREE,
+  KEY `role` (`role`)
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='管理员表';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- 转存表中的数据 `epii_admin`
+-- Dumping data for table `epii_admin`
 --
 
-INSERT INTO `epii_admin` (`id`, `username`, `password`, `addtime`, `updatetime`, `phone`, `email`, `photo`, `status`, `group_name`, `role`) VALUES
-(1, 'admin', 'dd4b21e9ef71e1291183a46b913ae6f2', 1546926683, 1547098630, '3333355881', '1222455', 'http://img5.duitang.com/uploads/item/201410/05/20141005082835_2RTzn.thumb.700_0.jpeg', 'normal', '超级管理员', 1),
-(14, 'yunwei', '3c9e656d1f13e0fc2cbc3af658e20243', 1547196609, 1547202406, NULL, NULL, NULL, 'normal', 'yunwei', 9),
-(15, 'jishu', 'e10adc3949ba59abbe56e057f20f883e', 1547260829, 1547260829, NULL, NULL, NULL, 'normal', '123456', 10);
-
--- --------------------------------------------------------
+LOCK TABLES `epii_admin` WRITE;
+/*!40000 ALTER TABLE `epii_admin` DISABLE KEYS */;
+INSERT INTO `epii_admin` VALUES (1,'admin','dd4b21e9ef71e1291183a46b913ae6f2',1546926683,1547449710,'3333355881','1222455','','normal','超级管理员',1);
+/*!40000 ALTER TABLE `epii_admin` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- 表的结构 `epii_node`
+-- Table structure for table `epii_node`
 --
 
+DROP TABLE IF EXISTS `epii_node`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `epii_node` (
-  `id` smallint(6) UNSIGNED NOT NULL,
+  `id` smallint(6) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(50) DEFAULT NULL COMMENT '节点名称',
   `url` varchar(255) DEFAULT NULL COMMENT 'url',
   `status` tinyint(1) DEFAULT '0' COMMENT '状态0未开启,1开启',
   `remark` varchar(255) DEFAULT NULL COMMENT '备注',
-  `sort` smallint(6) UNSIGNED DEFAULT '255' COMMENT '排序',
+  `sort` smallint(6) unsigned DEFAULT '255' COMMENT '排序',
   `pid` int(11) NOT NULL DEFAULT '0' COMMENT '父级节点ID',
   `icon` varchar(50) NOT NULL COMMENT '图标',
   `badge` varchar(20) DEFAULT NULL COMMENT '小标',
-  `is_open` varchar(10) DEFAULT NULL COMMENT '是否默认打开'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='节点表';
+  `is_open` varchar(10) DEFAULT NULL COMMENT '是否默认打开',
+  PRIMARY KEY (`id`),
+  KEY `pid` (`pid`),
+  KEY `status` (`status`),
+  KEY `pid_2` (`pid`)
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8 COMMENT='节点表';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- 转存表中的数据 `epii_node`
+-- Dumping data for table `epii_node`
 --
 
-INSERT INTO `epii_node` (`id`, `name`, `url`, `status`, `remark`, `sort`, `pid`, `icon`, `badge`, `is_open`) VALUES
-(3, '系统中心', '', 1, '权限管理', 2, 0, 'fa fa fa-cog', NULL, NULL),
-(4, '管理员列表', '?app=admin@index&_vendor=1', 1, '管理员列表', 1, 3, 'fa fa-users', NULL, NULL),
-(5, '导航管理', '?app=nodelist@index&_vendor=1', 1, '', 2, 3, 'fa fa-bars', NULL, NULL),
-(6, '角色管理', '?app=rolelist@index&_vendor=1', 1, '111', 8, 3, 'fa fa-address-card', NULL, '1'),
-(13, '个人中心', '', 1, '', 1, 0, 'fa fa-user', NULL, ''),
-(14, '修改资料', '?app=user@modify&_vendor=1', 1, '', 3, 13, 'fa fa-pencil', NULL, ''),
-(16, '应用设置', '?app=config@index&_vendor=1', 1, '', 20, 3, 'fa fa-cogs', NULL, '');
-
--- --------------------------------------------------------
+LOCK TABLES `epii_node` WRITE;
+/*!40000 ALTER TABLE `epii_node` DISABLE KEYS */;
+INSERT INTO `epii_node` VALUES (3,'系统中心','',1,'权限管理',2,0,'fa fa fa-cog',NULL,NULL),(4,'管理员列表','?app=admin@index&_vendor=1',1,'管理员列表',1,3,'fa fa-users',NULL,NULL),(5,'导航管理','?app=nodelist@index&_vendor=1',1,'',2,3,'fa fa-bars',NULL,NULL),(6,'角色管理','?app=rolelist@index&_vendor=1',1,'111',8,3,'fa fa-address-card',NULL,'1'),(13,'个人中心','',1,'',10,0,'fa fa-user',NULL,''),(14,'修改资料','?app=user@modify&_vendor=1',1,'',3,13,'fa fa-pencil',NULL,''),(16,'应用设置','?app=config@index&_vendor=1',1,'',20,3,'fa fa-cogs',NULL,''),(17,'后台首页','?app=root@home',1,'请修改为您的连接地址',1,0,'fa fa-dashboard',NULL,NULL),(18,'教程','http://docs.epii-admin.epii.cn/704402',1,'',100,0,'fa fa-circle-o',NULL,NULL);
+/*!40000 ALTER TABLE `epii_node` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- 表的结构 `epii_role`
+-- Table structure for table `epii_role`
 --
 
+DROP TABLE IF EXISTS `epii_role`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `epii_role` (
-  `id` smallint(6) UNSIGNED NOT NULL,
+  `id` smallint(6) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(30) DEFAULT NULL COMMENT '角色名称',
-  `status` tinyint(1) UNSIGNED DEFAULT NULL COMMENT '状态0未启用1启用',
+  `status` tinyint(1) unsigned DEFAULT NULL COMMENT '状态0未启用1启用',
   `powers` text,
-  `nodes` text
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `nodes` text,
+  PRIMARY KEY (`id`),
+  KEY `status` (`status`)
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- 转存表中的数据 `epii_role`
+-- Dumping data for table `epii_role`
 --
 
-INSERT INTO `epii_role` (`id`, `name`, `status`, `powers`, `nodes`) VALUES
-(1, '总管理员', 1, '{\"type\":\"2\",\"power\":{\"epii\\\\admin\\\\center\\\\app\\\\admin\":[\"ajaxdata\",\"add\"],\"epii\\\\admin\\\\center\\\\app\\\\nodelist\":[\"add\",\"edit\"],\"epii\\\\admin\\\\center\\\\app\\\\rolelist\":[\"index\",\"ajaxdata\"],\"epii\\\\admin\\\\center\\\\app\\\\test\":[\"index\"],\"epii\\\\admin\\\\center\\\\app\\\\user\":[\"logout\",\"modify\"]}}', NULL),
-(9, '运维人员', 1, '{\"type\":\"1\",\"power\":{\"epii\\\\admin\\\\center\\\\app\\\\user\":[\"logout\",\"modify\"]}}', '[\"13\",\"14\"]'),
-(10, '技术人员', 1, '{\"type\":\"1\",\"power\":{\"epii\\\\admin\\\\center\\\\app\\\\nodelist\":[\"index\",\"ajaxdata\",\"add\"],\"epii\\\\admin\\\\center\\\\app\\\\rolelist\":[\"index\",\"ajaxdata\",\"add\",\"power\",\"nav\"]}}', '[\"3\",\"6\",\"13\",\"14\"]');
-
--- --------------------------------------------------------
+LOCK TABLES `epii_role` WRITE;
+/*!40000 ALTER TABLE `epii_role` DISABLE KEYS */;
+INSERT INTO `epii_role` VALUES (1,'总管理员',1,'{\"type\":\"2\",\"power\":{\"epii\\\\admin\\\\center\\\\app\\\\admin\":[\"ajaxdata\",\"add\"],\"epii\\\\admin\\\\center\\\\app\\\\nodelist\":[\"add\",\"edit\"],\"epii\\\\admin\\\\center\\\\app\\\\rolelist\":[\"index\",\"ajaxdata\"],\"epii\\\\admin\\\\center\\\\app\\\\test\":[\"index\"],\"epii\\\\admin\\\\center\\\\app\\\\user\":[\"logout\",\"modify\"]}}',NULL),(9,'运维人员',1,'{\"type\":\"1\",\"power\":{\"epii\\\\admin\\\\center\\\\app\\\\root\":[\"home\"],\"epii\\\\admin\\\\center\\\\app\\\\user\":[\"logout\",\"modify\",\"modify_info\"]}}','[\"5\",\"4\",\"17\",0,3,3]'),(10,'技术人员',1,'{\"type\":\"1\",\"power\":{\"epii\\\\admin\\\\center\\\\app\\\\nodelist\":[\"index\",\"ajaxdata\",\"add\"],\"epii\\\\admin\\\\center\\\\app\\\\rolelist\":[\"index\",\"ajaxdata\",\"add\",\"power\",\"nav\"]}}','[\"6\",\"14\",\"17\",0,3,13]');
+/*!40000 ALTER TABLE `epii_role` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- 表的结构 `epii_setting`
+-- Table structure for table `epii_setting`
 --
 
+DROP TABLE IF EXISTS `epii_setting`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `epii_setting` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
   `value` varchar(1000) NOT NULL,
   `type` tinyint(4) NOT NULL DEFAULT '2' COMMENT '1系统类型0用户类型',
   `addtime` int(11) NOT NULL,
-  `tip` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `tip` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`),
+  KEY `addtime` (`addtime`)
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- 转存表中的数据 `epii_setting`
+-- Dumping data for table `epii_setting`
 --
 
-INSERT INTO `epii_setting` (`id`, `name`, `value`, `type`, `addtime`, `tip`) VALUES
-(5, 'app.style.nav_theme', 'primary', 0, 1, '头部样式light primary warning info  danger success'),
-(6, 'app.style.left_bg_theme', 'dark', 0, 1, '左侧背景dark or light'),
-(7, 'app.style.left_top_theme', 'clear', 1, 1, '左侧头部背景 clear primary warning info  danger success'),
-(8, 'app.style.left_selected_theme', 'primary', 0, 1547189470, '左侧选中时背景primary warning info  danger    success'),
-(9, 'app.logo', 'https://epaii.github.io/epii-admin/public/epiiadmin-js/img/AdminLTELogo.png', 0, 1547191738, '左上角logo图标'),
-(11, 'app.title', '我的管理中心', 0, 1547191854, '左侧上部title'),
-(13, 'app.app_class_namespace_pre', 'epii\\admin\\center\\app\\,app\\', 0, 1547194630, '通过地址栏访问的控制器命名空间前缀。多个用英文逗号,隔开');
+LOCK TABLES `epii_setting` WRITE;
+/*!40000 ALTER TABLE `epii_setting` DISABLE KEYS */;
+INSERT INTO `epii_setting` VALUES (5,'app.style.nav_theme','gray-light',1,1,'头部样式light primary warning info  danger success gray-light'),(6,'app.style.left_bg_theme','dark',1,1,'左侧背景dark or light'),(7,'app.style.left_top_theme','clear',1,1,'左侧头部背景 clear primary warning info  danger success'),(8,'app.style.left_selected_theme','primary',1,1547189470,'左侧选中时背景primary warning info  danger    success'),(9,'app.logo','https://epaii.github.io/epii-admin/public/epiiadmin-js/img/AdminLTELogo.png',1,1547191738,'左上角logo图标'),(11,'app.title','我的管理中心',1,1547191854,'左侧上部titledd');
+/*!40000 ALTER TABLE `epii_setting` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
---
--- Indexes for dumped tables
---
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
---
--- Indexes for table `epii_admin`
---
-ALTER TABLE `epii_admin`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `username` (`username`) USING BTREE,
-  ADD KEY `role` (`role`);
-
---
--- Indexes for table `epii_node`
---
-ALTER TABLE `epii_node`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `pid` (`pid`),
-  ADD KEY `status` (`status`),
-  ADD KEY `pid_2` (`pid`);
-
---
--- Indexes for table `epii_role`
---
-ALTER TABLE `epii_role`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `status` (`status`);
-
---
--- Indexes for table `epii_setting`
---
-ALTER TABLE `epii_setting`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `name` (`name`),
-  ADD KEY `addtime` (`addtime`);
-
---
--- 在导出的表使用AUTO_INCREMENT
---
-
---
--- 使用表AUTO_INCREMENT `epii_admin`
---
-ALTER TABLE `epii_admin`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=16;
-
---
--- 使用表AUTO_INCREMENT `epii_node`
---
-ALTER TABLE `epii_node`
-  MODIFY `id` smallint(6) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
-
---
--- 使用表AUTO_INCREMENT `epii_role`
---
-ALTER TABLE `epii_role`
-  MODIFY `id` smallint(6) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
-
---
--- 使用表AUTO_INCREMENT `epii_setting`
---
-ALTER TABLE `epii_setting`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
-COMMIT;
+-- Dump completed on 2019-01-15 10:25:27

@@ -42,6 +42,21 @@
                 <input type="text" class="form-control" id="prefix" name="prefix" placeholder="prefix" value="epii_" required>
             </div>
         </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 control-label">管理员账号:</label>
+
+            <div class="col-sm-10">
+                <input type="text" class="form-control"   name="admin_username" placeholder="管理员账号" required value="admin">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label   class="col-sm-2 control-label">管理员密码:</label>
+
+            <div class="col-sm-10">
+                <input type="text" class="form-control"   name="admin_password" placeholder="管理员密码" value="" required>
+            </div>
+        </div>
     </div>
     <!-- /.card-body -->
     <div style="text-align: center;">
