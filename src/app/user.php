@@ -147,17 +147,11 @@ class user extends _controller
                 ->setField('password', md5($new_password));
             if ($res) {
                 Session::del('is_login');
-                $cmd = Alert::make()
-                    ->msg('修改成功,点击重新登陆')
-                    ->icon('6')
-                    ->onOk(null);
+                $cmd = Alert::make()->msg('修改成功,点击重新登陆')->icon('6')->onOk(null);
                 //Url::make()->url("?app=root@start")->openType("location")
 
             } else {
-                $cmd = Alert::make()
-                    ->msg('修改失败')
-                    ->icon('5')
-                    ->onOk(null);
+                $cmd = Alert::make()->msg('修改失败')->icon('5')->onOk(null);
             }
             return JsCmd::make()->addCmd($cmd)->run();
 
@@ -175,11 +169,56 @@ class user extends _controller
         if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 
             //头像上传
+            $file = $_FILES['file'];
+            if($file['error']!=0){
+                $data = ['code' => 801, 'msg' => '文件上传出错', 'path' => null];
+                return json_encode($data);
+            }
 
+            if($file['size']>=1024*1024*20){
+                $data = ['code' => 802, 'msg' => '文件大小超出限制', 'path' => null];
+                return json_encode($data);
+            }
+
+            //后缀名
+            $ext = strtolower(substr( $file["name"] , strrpos( $file["name"] , ".")+1 ));
+            $type_array = ['jpeg','jpg','gif','png'];
+            if(!in_array($ext,$type_array)){
+                $data = ['code' => 803, 'msg' => '文件上传类型不允许', 'path' => null];
+                return json_encode($data);
+            }
+
+            //新文件名
+            $nf = md5(microtime(true)+mt_rand(1000,9999));
+            $newFile = $nf . "." . $ext;
+            //上传至服务器
+            $path = "./upload/".$newFile;
+            $res = move_uploaded_file($_FILES["file"]["tmp_name"] , $path);
+            //返回
+            if($res){
+                $data = ['code' => 200, 'msg' => '上传成功', 'path' => $path];
+            }else{
+                $data = ['code' => 999, 'msg' => '上传失败', 'path' => null];
+            }
+            return json_encode($data);
         }else{
 
             $this->adminUiDisplay('user/modify_photo');
         }
     }
+//保存头像路径
+    public function upload_path()
+    {
+        $path = Args::params('path');
+        $id =Session::get('user_id');
+        $res = Db::name('admin')->where('id', $id)->setField('photo', $path);
 
+        if ($res) {
+            $cmd = Alert::make()->msg('修改成功')->icon('6')->onOk(CloseAndRefresh::make());
+        } else {
+            $cmd = Alert::make()->msg('修改失败')->icon('5')->onOk(null);
+        }
+        return JsCmd::make()->addCmd($cmd)->run();
+
+    }
 }
