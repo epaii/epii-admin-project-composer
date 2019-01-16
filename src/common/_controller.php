@@ -26,10 +26,5 @@ class _controller extends admin_center_controller
         parent::init();
     }
 
-    //密码加密
-    protected function password_md5($password)
-    {
-        $pwd = 'E3QihGxs1hPPXH2aMKr^keaFm5F8X#bXX03q1fKli7vicXM&&t4u94RVO@oneoeEcmrvk1EECyLZh83gRaS#VXH9nXfH&Pg0IsI';
-        return md5(md5($password) . $pwd);
-    }
+
 }

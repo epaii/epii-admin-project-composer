@@ -42,7 +42,7 @@ class LoginPageConfig implements IloginConfig
         }
 
         $user = Db::name('admin')
-            ->field('id,password,username,role')
+            ->field('id,password,username,role,photo')
             ->where('username', $username)
             ->find();
         if ($user) {
@@ -52,7 +52,7 @@ class LoginPageConfig implements IloginConfig
                 Session::set("username", $user['username']);
                 Session::set("user_id", $user['id']);
                 Session::set("user_avatar", $user['photo']);
-                $msg = '';
+               $msg = '';
                 return true;
             } else {
                 $msg = '密码错误';

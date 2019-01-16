@@ -75,7 +75,7 @@ class admin extends _controller
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             $username = trim(Args::params("username"));
-            $password = md5(Args::params("password"));
+            $password = Args::params("password");
             $group_name = trim(Args::params("group_name"));
             $status = trim(Args::params("status"));
             $role = trim(Args::params("role"));
@@ -107,7 +107,7 @@ class admin extends _controller
                 return JsCmd::make()->addCmd($cmd)->run();
             }
             $data['username'] = $username;
-            $data['password'] = $password;
+            $data['password'] = md5($password);
             $data['group_name'] = $group_name;
             $data['status'] = $status;
             $data['role'] = $role;
@@ -145,7 +145,7 @@ class admin extends _controller
         $id = trim(Args::params("id"));
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $username = trim(Args::params("username"));
-            $password = md5(Args::params("password"));
+            $password = Args::params("password");
             $group_name = trim(Args::params("group_name"));
             $status = trim(Args::params("status"));
             $role = trim(Args::params("role"));
@@ -182,7 +182,7 @@ class admin extends _controller
                     $cmd = Alert::make()->icon('5')->msg('密码6~16位')->onOk(null);
                     return JsCmd::make()->addCmd($cmd)->run();
                 }
-                $data['password'] = $password;
+                $data['password'] = md5($password);
             }
             $res = Db::name('admin')->update($data);
 

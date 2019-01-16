@@ -7,7 +7,7 @@
                    placeholder="请输入用戶名">
         </div>
         <div class="form-group">
-            <label>秘密：</label>
+            <label>用户密码：</label>
             <input type="password" class="form-control" name="password"  placeholder="请输入密码,不修改密码留空
 ">
         </div>
