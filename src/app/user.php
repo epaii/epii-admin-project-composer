@@ -33,7 +33,7 @@ class user extends _controller
     }
 
     /**
-     * 修改资料
+     * 修改资料页面
      */
     public function modify()
     {
@@ -43,7 +43,15 @@ class user extends _controller
 
     }
 
-
+    /**
+     * @return array|false|string
+     * @throws \think\Exception
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\DbException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\db\exception\PDOException
+     * 修改资料
+     */
     public function modify_info(){
         if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 
@@ -54,6 +62,27 @@ class user extends _controller
 
             if (!$username || !$group_name || !$phone || !$email) {
                 $cmd = Alert::make()->msg('不能为空')->icon('5')->onOk(null);
+                return JsCmd::make()->addCmd($cmd)->run();
+            }
+
+            if(!preg_match("/^[a-zA-Z]{1}[a-zA-Z\d_]{4,19}$/",$username)){
+                $cmd = Alert::make()->icon('5')->msg('用户名格式错误')->onOk(null);
+                return JsCmd::make()->addCmd($cmd)->run();
+
+            }
+
+            if (!preg_match("/^[\x{4e00}-\x{9fa5}]{2,8}$/u", $group_name)) {
+                $cmd = Alert::make()->icon('5')->msg('昵称为2~8个汉字')->onOk(null);
+                return JsCmd::make()->addCmd($cmd)->run();
+            }
+
+            if (!preg_match('/^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$/', $email)) {
+                $cmd = Alert::make()->icon('5')->msg('请输入正确的邮箱')->onOk(null);
+                return JsCmd::make()->addCmd($cmd)->run();
+            }
+
+            if (!preg_match('/^1[3456789]\d{9}$/', $phone)) {
+                $cmd = Alert::make()->icon('5')->msg('请输入正确的手机号')->onOk(null);
                 return JsCmd::make()->addCmd($cmd)->run();
             }
 
@@ -79,7 +108,11 @@ class user extends _controller
         }
     }
 
-
+    /**
+     * @return array|false|string
+     * @throws \think\Exception
+     * 修改密码
+     */
     public function modify_pwd(){
         if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 
@@ -135,6 +168,9 @@ class user extends _controller
         }
     }
 
+    /**
+     * 上传头像
+     */
     public function modify_photo(){
         if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 

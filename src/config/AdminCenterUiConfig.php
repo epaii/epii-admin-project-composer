@@ -39,7 +39,8 @@ class AdminCenterUiConfig implements IEpiiAdminUi
         }
 
         //用户头像
-        //$sitconfig->user_avatar();
+        $user_avatar =Session::has('user_avatar') ?Session::get('user_avatar'):'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1547613682440&di=d372c0a6aef08b965a29c02faba8fc84&imgtype=0&src=http%3A%2F%2Fimg4q.duitang.com%2Fuploads%2Fitem%2F201409%2F30%2F20140930125429_MBKXE.jpeg';
+        $sitconfig->user_avatar($user_avatar);
         return $sitconfig;
     }
 

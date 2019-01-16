@@ -51,6 +51,7 @@ class LoginPageConfig implements IloginConfig
                 Session::set("admin_gid", $user["role"]);
                 Session::set("username", $user['username']);
                 Session::set("user_id", $user['id']);
+                Session::set("user_avatar", $user['photo']);
                 $msg = '';
                 return true;
             } else {

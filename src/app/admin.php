@@ -19,6 +19,12 @@ use think\Db;
 
 class admin extends _controller
 {
+    /**
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\DbException
+     * @throws \think\db\exception\ModelNotFoundException
+     * 菜单
+     */
     public function index()
     {
         $roles = Db::name('role')->field('id,name')->select();
@@ -27,27 +33,28 @@ class admin extends _controller
         $this->adminUiDisplay('admin/index',"",["version"=>time()]);
     }
 
+    /**
+     * 表格数据
+     */
     public function ajaxdata()
     {
         $map = [];
+
         $group_name = Args::postVal('role');
         if($group_name){
-
             $map["a.role"]=$group_name;
-
         }
+
         $name = Args::postVal('username');
         if($name){
             $map["a.username"]=$name;
         }
 
-
-
-
         $table = Db::name('admin')
             ->alias('a')
             ->field('a.*,r.name as rname')
             ->join('role r', 'a.role=r.id');
+
         echo $this->tableJsonData($table, $map, function($data) {
             $data['addtime'] = date('Y-m-d H:i:s', $data['addtime']);
             $data['updatetime'] = date('Y-m-d H:i:s', $data['updatetime']);
@@ -56,6 +63,13 @@ class admin extends _controller
         });
     }
 
+    /**
+     * @return array|false|string
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\DbException
+     * @throws \think\db\exception\ModelNotFoundException
+     * 添加页面+添加
+     */
     public function add()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -68,6 +82,22 @@ class admin extends _controller
 
             if (!$username || !$group_name || !$status || !$role) {
                 $cmd = Alert::make()->msg('不能为空')->icon('5')->onOk(null);
+                return JsCmd::make()->addCmd($cmd)->run();
+            }
+
+            if(!preg_match("/^[a-zA-Z]{1}[a-zA-Z\d_]{4,19}$/",$username)){
+                $cmd = Alert::make()->icon('5')->msg('用户名格式错误')->onOk(null);
+                return JsCmd::make()->addCmd($cmd)->run();
+
+            }
+
+            if (!preg_match("/^[a-zA-Z\d_]{6,16}$/", $password)) {
+                $cmd = Alert::make()->icon('5')->msg('密码6~16位')->onOk(null);
+                return JsCmd::make()->addCmd($cmd)->run();
+            }
+
+            if (!preg_match("/^[\x{4e00}-\x{9fa5}]{2,8}$/u", $group_name)) {
+                $cmd = Alert::make()->icon('5')->msg('昵称为2~8个汉字')->onOk(null);
                 return JsCmd::make()->addCmd($cmd)->run();
             }
 
@@ -84,8 +114,7 @@ class admin extends _controller
             $data['addtime'] = time();
             $data['updatetime'] = time();
 
-            $res = Db::name('admin')
-                ->insert($data);
+            $res = Db::name('admin')->insert($data);
 
             if ($res) {
                 Settings::_saveCache();
@@ -96,19 +125,25 @@ class admin extends _controller
             return JsCmd::make()->addCmd($cmd)->run();
 
         } else {
-
-
             $roles = Db::name('role')->field('id,name')->select();
             $this->assign('roles', $roles);
             $this->adminUiDisplay('admin/add');
         }
     }
 
-
+    /**
+     * @return array|false|string
+     * @throws \think\Exception
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\DbException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\db\exception\PDOException
+     * 编辑页面+编辑
+     */
     public function edit()
     {
+        $id = trim(Args::params("id"));
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $id = trim(Args::params("id"));
             $username = trim(Args::params("username"));
             $password = md5(Args::params("password"));
             $group_name = trim(Args::params("group_name"));
@@ -120,18 +155,36 @@ class admin extends _controller
                 return JsCmd::make()->addCmd($cmd)->run();
             }
 
+            if(!preg_match("/^[a-zA-Z]{1}[a-zA-Z\d_]{4,19}$/",$username)){
+                $cmd = Alert::make()->icon('5')->msg('用户名格式错误')->onOk(null);
+                return JsCmd::make()->addCmd($cmd)->run();
+
+            }
+
+            if (!preg_match("/^[\x{4e00}-\x{9fa5}]{2,8}$/u", $group_name)) {
+                $cmd = Alert::make()->icon('5')->msg('昵称为2~8个汉字')->onOk(null);
+                return JsCmd::make()->addCmd($cmd)->run();
+            }
+
+            $has = Db::name('admin')->where('id','<>',$id)->where('username', $username)->find();
+            if ($has) {
+                $cmd = Alert::make()->msg('名字已存在')->icon('5')->onOk(null);
+                return JsCmd::make()->addCmd($cmd)->run();
+            }
             $data['username'] = $username;
             $data['group_name'] = $group_name;
             $data['status'] = $status;
             $data['role'] = $role;
             $data['updatetime'] = time();
-
+            $data['id']=$id;
             if ($password) {
+                if (!preg_match("/^[a-zA-Z\d_]{6,16}$/", $password)) {
+                    $cmd = Alert::make()->icon('5')->msg('密码6~16位')->onOk(null);
+                    return JsCmd::make()->addCmd($cmd)->run();
+                }
                 $data['password'] = $password;
             }
-            $res = Db::name('admin')
-                ->where('id', $id)
-                ->update($data);
+            $res = Db::name('admin')->update($data);
 
             if ($res) {
                 Settings::_saveCache();
@@ -142,8 +195,6 @@ class admin extends _controller
             return JsCmd::make()->addCmd($cmd)->run();
 
         } else {
-
-            $id = Args::params('id');
             $admin = Db::name('admin')->where('id', $id)->find();
             $roles = Db::name('role')->field('id,name')->select();
             $this->assign('id', $id);
@@ -153,6 +204,12 @@ class admin extends _controller
         }
     }
 
+    /**
+     * @return array|false|string
+     * @throws \think\Exception
+     * @throws \think\db\exception\PDOException
+     * 删除
+     */
     public function del()
     {
         $id = Args::params('id');

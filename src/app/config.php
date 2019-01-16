@@ -19,22 +19,35 @@ use think\Db;
 
 class config extends _controller
 {
+    /**
+     * 菜单
+     */
     public function index()
     {
 
      $this->adminUiDisplay('config/index');
     }
+
+    /**
+     * 数据
+     */
     public function ajaxdata()
     {
         echo $this->tableJsonData('setting',[],function($data){
            return $data;
         });
     }
+
+    /**
+     * @return array|false|string
+     * 添加页面+添加
+     */
     public function add(){
         if ($_SERVER['REQUEST_METHOD'] === 'POST'){
             $name = trim(Args::params("name"));
             $value= trim(Args::params("value"));
             $tip = trim(Args::params("tip"));
+
             if(!$name || !$value || !$tip ){
                 $cmd = Alert::make()->msg('缺少参数')->icon('5')->onOk(null);
                 return JsCmd::make()->addCmd($cmd)->run();
@@ -43,8 +56,8 @@ class config extends _controller
              $data['value']=$value;
              $data['tip']=$tip;
              $data['addtime']=time();
-             $res = Db::name('setting')
-                 ->insert($data);
+             $res = Db::name('setting')->insert($data);
+
             if ($res) {
                 Settings::_saveCache();
                 $cmd = Alert::make()->msg('添加成功')->icon('6')->onOk(CloseAndRefresh::make()->type("table"));
@@ -57,6 +70,16 @@ class config extends _controller
             $this->adminUiDisplay('config/add');
         }
     }
+
+    /**
+     * @return array|false|string
+     * @throws \think\Exception
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\DbException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\db\exception\PDOException
+     * 编辑页面+编辑
+     */
     public function edit()
     {
         $id=Args::params('id');
@@ -64,6 +87,7 @@ class config extends _controller
             $name = trim(Args::params("name"));
             $value= trim(Args::params("value"));
             $tip = trim(Args::params("tip"));
+
             if(!$name || !$value || !$tip ){
                 $cmd = Alert::make()->msg('缺少参数')->icon('5')->onOk(null);
                 return JsCmd::make()->addCmd($cmd)->run();
@@ -71,9 +95,8 @@ class config extends _controller
             $data['name']=$name;
             $data['value']=$value;
             $data['tip']=$tip;
-            $res = Db::name('setting')
-                ->where('id',$id)
-                ->update($data);
+            $data['id']=$id;
+            $res = Db::name('setting')->update($data);
             if ($res) {
                 Settings::_saveCache();
                 $cmd = Alert::make()->msg('修改成功')->icon('6')->onOk(CloseAndRefresh::make()->type("table"));
@@ -83,16 +106,19 @@ class config extends _controller
             return JsCmd::make()->addCmd($cmd)->run();
 
         }else{
-            $config = Db::name('setting')
-                ->where('id',$id)
-                ->find();
+            $config = Db::name('setting')->where('id',$id)->find();
             $this->assign('config',$config);
-
             $this->assign('id',$id);
             $this->adminUiDisplay('config/edit');
         }
     }
 
+    /**
+     * @return array|false|string
+     * @throws \think\Exception
+     * @throws \think\db\exception\PDOException
+     * 删除
+     */
     public function del()
     {
 
