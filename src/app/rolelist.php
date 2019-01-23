@@ -47,8 +47,6 @@ class rolelist extends _controller
             $map[] = ["name", "LIKE", "%{$name}%"];
         }
         echo $this->tableJsonData('role', $map, function($data) {
-
-
             return $data;
         });
     }
@@ -67,7 +65,7 @@ class rolelist extends _controller
             $name = trim(Args::params("name"));
             $status = trim(Args::params("status"));
 
-            if(!$name ){
+            if (!$name) {
                 $cmd = Alert::make()->msg('不能为空')->icon('5')->onOk(null);
                 return JsCmd::make()->addCmd($cmd)->run();
             }
@@ -102,22 +100,21 @@ class rolelist extends _controller
      */
     public function edit()
     {
+        $id = trim(Args::params("id"));
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
-            $id = trim(Args::params("id"));
             $name = trim(Args::params("name"));
             $status = trim(Args::params("status"));
 
-            if( !$name  ){
+            if (!$name) {
                 $cmd = Alert::make()->msg('不能为空')->icon('5')->onOk(null);
                 return JsCmd::make()->addCmd($cmd)->run();
             }
 
             $data['name'] = $name;
             $data['status'] = $status;
-            $res = Db::name('role')
-                ->where('id', $id)
-                ->update($data);
+            $data['id'] = $id;
+
+            $res = Db::name('role')->update($data);
 
             if ($res) {
                 Settings::_saveCache();
@@ -128,7 +125,6 @@ class rolelist extends _controller
             return JsCmd::make()->addCmd($cmd)->run();
 
         } else {
-            $id = trim(Args::params("id"));
             $nodes = Db::name('node')->field('id,name')->select();
             $role = Db::name('role')->where('id', $id)->find();
             $this->assign('role', $role);
@@ -148,8 +144,8 @@ class rolelist extends _controller
     public function del()
     {
         $id = Args::params('id');
-        $admin = Db::name('admin')->where('role',$id)->find();
-        if($admin){
+        $admin = Db::name('admin')->where('role', $id)->find();
+        if ($admin) {
             $alert = Alert::make()->msg("还有属于该角色的用户")->icon('5')->title("重要提示")->btn("好的");
             return JsCmd::make()->addCmd($alert)->run();
         }
@@ -240,21 +236,22 @@ class rolelist extends _controller
      * @throws \think\db\exception\PDOException
      * 导航数据
      */
-    public function nav(){
+    public function nav()
+    {
         $id = Args::params('id');
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $nodes = Args::params('nodes');
-            if(!$nodes[0]){
+            if (!$nodes[0]) {
                 $cmd = Alert::make()->msg('至少选择一项')->icon('5')->onOk(null);
                 return JsCmd::make()->addCmd($cmd)->run();
             }
-            $nodes = array_merge($nodes,Db::name("node")->whereIn("id",$nodes)->column("pid"));
+            $nodes = array_merge($nodes, Db::name("node")->whereIn("id", $nodes)->column("pid"));
 
 
             $nodes = json_encode($nodes);
             $res = Db::name('role')
-                ->where('id',$id)
-                ->update(['nodes'=>$nodes]);
+                ->where('id', $id)
+                ->update(['nodes' => $nodes]);
             if ($res) {
 
                 $cmd = Alert::make()->msg('成功')->icon('6')->onOk(CloseAndRefresh::make()->type("page"));
@@ -262,21 +259,23 @@ class rolelist extends _controller
                 $cmd = Alert::make()->msg('失败')->icon('5')->onOk(null);
             }
             return JsCmd::make()->addCmd($cmd)->run();
-        }else{
+        } else {
+
 
             $nodes= Db::query('SELECT *,if(pid=0,id,pid) as pidd from '.Db::getConfig('prefix').'node where status=1 order by pidd asc,pid asc,sort desc');
+
             $node_str = Db::name('role')
-                ->where('id',$id)
+                ->where('id', $id)
                 ->value('nodes');
-            if($node_str){
-                $node_array = json_decode($node_str,true);
-            }else{
+            if ($node_str) {
+                $node_array = json_decode($node_str, true);
+            } else {
                 $node_array = [];
             }
 
-            $this->assign('node_array',$node_array);
-            $this->assign('id',$id);
-            $this->assign('nodes',$nodes);
+            $this->assign('node_array', $node_array);
+            $this->assign('id', $id);
+            $this->assign('nodes', $nodes);
             $this->adminUiDisplay('rolelist/nav');
         }
     }

@@ -1,6 +1,7 @@
 <section class="col-md-12 	col-sm-12 col-xl-12 col-sm-12" style="padding: 10px">
     <div>
-        <form action="{url user modify_photo _vendor=1}" method="post" id="form" data-form="1">
+        <form action="{url user upload_path _vendor=1}" method="post"
+              id="form" data-form="1">
             <input type="hidden" id="path" value="" name="path">
             <div style="display: none">
                 <input type="submit" id="submit">

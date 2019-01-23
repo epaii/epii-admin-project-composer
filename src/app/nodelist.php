@@ -45,29 +45,29 @@ class nodelist extends _controller
         $pid = trim(Args::params("pid"));
         $offset = trim(Args::params("offset"));
         $limit = trim(Args::params("limit"));
-        $sql= "SELECT *,if(pid=0,id,pid) as pidd from epii_node order by pidd asc,pid asc,sort desc limit ".$offset.','.$limit;
+        $sql = "SELECT *,if(pid=0,id,pid) as pidd from epii_node order by pidd asc,pid asc,sort desc limit " . $offset . ',' . $limit;
         if (!empty($name)) {
-            $sql= "SELECT *,if(pid=0,id,pid) as pidd from epii_node where name like '%".$name."%' order by pidd asc,pid asc,sort desc limit ".$offset.','.$limit;
+            $sql = "SELECT *,if(pid=0,id,pid) as pidd from epii_node where name like '%" . $name . "%' order by pidd asc,pid asc,sort desc limit " . $offset . ',' . $limit;
 
         }
         if (!empty($pid)) {
-            $sql= "SELECT *,if(pid=0,id,pid) as pidd from epii_node where  pid=".$pid." order by pidd asc,pid asc,sort desc limit ".$offset.','.$limit;
-           
+            $sql = "SELECT *,if(pid=0,id,pid) as pidd from epii_node where  pid=" . $pid . " order by pidd asc,pid asc,sort desc limit " . $offset . ',' . $limit;
+
         }
-        if(!empty($name) && !empty($pid)){
-            $sql= "SELECT *,if(pid=0,id,pid) as pidd from epii_node where name like '%".$name."%' and pid=".$pid."order by pidd asc,pid asc,sort desc limit ".$offset.','.$limit;
+        if (!empty($name) && !empty($pid)) {
+            $sql = "SELECT *,if(pid=0,id,pid) as pidd from epii_node where name like '%" . $name . "%' and pid=" . $pid . "order by pidd asc,pid asc,sort desc limit " . $offset . ',' . $limit;
         }
         $data = Db::query($sql);
-        foreach ($data as $k=> $v){
-            if($data[$k]['pid'] != 0){
-                $data[$k]['name']='------'.$v['name'];
+        foreach ($data as $k => $v) {
+            if ($data[$k]['pid'] != 0) {
+                $data[$k]['name'] = '------' . $v['name'];
             }
 
-            $data[$k]['icon']='<i class="'.$v['icon'].'"></i>';
+            $data[$k]['icon'] = '<i class="' . $v['icon'] . '"></i>';
 
         }
         $total = Db::name('node')->count('id');
-        echo json_encode(['rows'=>$data,'total'=>$total]);
+        echo json_encode(['rows' => $data, 'total' => $total]);
 
     }
 
@@ -111,10 +111,12 @@ class nodelist extends _controller
             $data['status'] = $status;
             $data['sort'] = $sort;
             $data['icon'] = $icon;
+
             $data['url'] =  $url;
             $data['open_type'] = (int) Args::params("open_type");
             $re = Db::name('node')
                 ->insertGetId($data);
+
             if ($re) {
                 Settings::_saveCache();
                 $alert = Alert::make()->msg("操作成功")->icon('6')->onOk(CloseAndRefresh::make()->layerNum(0)->closeNum(0))->title("重要提示")->btn("好的");
@@ -126,7 +128,6 @@ class nodelist extends _controller
 
         } else {
             $list = Db::name("node")->where('pid', 0)->select();
-
             $this->assign("list", $list);
             $this->adminUiDisplay('nodelist/add');
         }
@@ -144,8 +145,9 @@ class nodelist extends _controller
 
     public function edit()
     {
+        $id = Args::params("id");
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $id = Args::params("id");
+
             if (!$id) {
                 return JsCmd::make()->addCmd(Alert::make()->msg("缺少参数")->title("重要提示")->btn("好的"))->run();
             }
@@ -176,18 +178,18 @@ class nodelist extends _controller
             $data['sort'] = $sort;
             $data['icon'] = $icon;
             $data['url'] = $url;
+
             $data['open_type'] = (int) Args::params("open_type");
             $re = Db::name("node")
                 ->where("id = '$id'")
                 ->update($data);
 
+
             if ($re) {
                 Settings::_saveCache();
-
-                if (Args::postVal("inhome"))
-                {
+                if (Args::postVal("inhome")) {
                     $alert = Alert::make()->msg("操作成功")->icon('6')->onOk(JsEval::make()->add_string("top.window.location.reload();"))->title("重要提示")->btn("好的");
-                }else{
+                } else {
                     $alert = Alert::make()->msg("操作成功")->icon('6')->onOk(CloseAndRefresh::make()->layerNum(0)->closeNum(0))->title("重要提示")->btn("好的");
                 }
 
@@ -198,14 +200,12 @@ class nodelist extends _controller
             return JsCmd::make()->addCmd($alert)->run();
 
         } else {
-            $id = Args::params('id');
+
             $list = Db::name("node")->where('pid', 0)->select();
             $this->assign("list", $list);
             $this->assign("id", $id);
             $nodeinfo = Db::name("node")->where("id", $id)->find();
             $this->assign('nodeinfo', $nodeinfo);
-
-
             $this->adminUiDisplay('nodelist/edit');
         }
 
