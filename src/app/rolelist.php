@@ -264,7 +264,7 @@ class rolelist extends _controller
             return JsCmd::make()->addCmd($cmd)->run();
         }else{
 
-            $nodes= Db::query('SELECT *,if(pid=0,id,pid) as pidd from epii_node where status=1 order by pidd asc,pid asc,sort desc');
+            $nodes= Db::query('SELECT *,if(pid=0,id,pid) as pidd from '.Db::getConfig('prefix').'node where status=1 order by pidd asc,pid asc,sort desc');
             $node_str = Db::name('role')
                 ->where('id',$id)
                 ->value('nodes');

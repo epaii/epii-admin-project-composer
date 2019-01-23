@@ -67,6 +67,7 @@ CREATE TABLE `epii_node` (
   `icon` varchar(50) NOT NULL COMMENT '图标',
   `badge` varchar(20) DEFAULT NULL COMMENT '小标',
   `is_open` varchar(10) DEFAULT NULL COMMENT '是否默认打开',
+  `_blank` tinyint(1) unsigned DEFAULT 0 COMMENT '状态0addtab打开1新窗口打开',
   PRIMARY KEY (`id`),
   KEY `pid` (`pid`),
   KEY `status` (`status`),

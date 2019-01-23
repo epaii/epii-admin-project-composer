@@ -33,14 +33,19 @@ class AdminCenterUiConfig implements IEpiiAdminUi
         $sitconfig->site_name(Settings::get("app.title"));
 
         $admin_info = Db::name("admin")->where("id", Session::get("user_id"))->find();
-        if ($admin_info["photo"])
-        {
+        if ($admin_info["photo"]) {
             $sitconfig->user_avatar($admin_info["photo"]);
         }
 
         //用户头像
         //$sitconfig->user_avatar();
         return $sitconfig;
+    }
+
+
+    public function getMenuBadgeInfo($menu_id): IBadgeInfo
+    {
+        return null;
     }
 
     public function getLeftMenuData(): \epii\admin\ui\lib\epiiadmin\MenuConfig
@@ -57,7 +62,14 @@ class AdminCenterUiConfig implements IEpiiAdminUi
                     $open_id = $menu['id'];
                 }
             }
-            $m_config->addMenu($menu['id'], $menu['pid'], $menu['name'], $menu['url'], $menu['icon']);
+            $binfo = $this->getMenuBadgeInfo($menu['id']);
+            $b_class = null;
+            $b_text = null;
+            if ($binfo) {
+                $b_class = $binfo->getCssClass();
+                $b_text = $binfo->getText();
+            }
+            $m_config->addMenu($menu['id'], $menu['pid'], $menu['name'], $menu['url'], $menu['icon'], $b_text, $b_class, $menu['open_type']);
 
         }
         if ($open_id === null) $open_id = 0;
@@ -69,7 +81,7 @@ class AdminCenterUiConfig implements IEpiiAdminUi
     public function getTopRightNavHtml(): string
     {
         // TODO: Implement getTopRightNavHtml() method.
-        return file_get_contents(__DIR__."/_nav_right.php");
+        return file_get_contents(__DIR__ . "/_nav_right.php");
     }
 
     private function sortarr($key, $sort, $arr)

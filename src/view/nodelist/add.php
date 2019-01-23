@@ -1,5 +1,7 @@
 
-    <form role="form" class="epii" method="post" data-form="1" action="{url nodelist add _vendor=1}">
+
+
+<form role="form" class="epii" method="post" data-form="1" action="{url nodelist add _vendor=1}">
 
         <div class="form-group">
             <label>节点名称：</label>
@@ -21,6 +23,11 @@
         <div class="form-group">
             <label>链接地址：</label>
             <input type="text" class="form-control" name="url" placeholder="">
+        </div>
+        <div class="form-group">
+            <label>打开方式：</label>
+            <span class="epii-clear"><input type="radio"   name="open_type"  value="0" checked >导航栏,<input type="radio"   name="open_type"  value="1" >新窗口</span>
+
         </div>
         <div class="form-group">
             <label>备注：</label>

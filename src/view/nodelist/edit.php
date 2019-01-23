@@ -15,6 +15,10 @@
         </select>
     </div>
     <div class="form-group">
+        <label>打开方式：</label>
+        <span class="epii-clear"><input type="radio"   name="open_type"  value="0" <?php if ($nodeinfo['open_type'] == 0){ ?>checked<?php } ?> >导航栏,<input type="radio"   name="open_type"  value="1"  <?php if ($nodeinfo['open_type'] == 1){ ?>checked<?php } ?>>新窗口</span>
+    </div>
+    <div class="form-group">
         <label>图标：</label>
         <input type="text" class="form-control" name="icon" value="{$nodeinfo.icon}" required
                placeholder="如: fa fa-circle-o">

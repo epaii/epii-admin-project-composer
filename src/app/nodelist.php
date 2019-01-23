@@ -112,6 +112,7 @@ class nodelist extends _controller
             $data['sort'] = $sort;
             $data['icon'] = $icon;
             $data['url'] =  $url;
+            $data['open_type'] = (int) Args::params("open_type");
             $re = Db::name('node')
                 ->insertGetId($data);
             if ($re) {
@@ -175,7 +176,7 @@ class nodelist extends _controller
             $data['sort'] = $sort;
             $data['icon'] = $icon;
             $data['url'] = $url;
-
+            $data['open_type'] = (int) Args::params("open_type");
             $re = Db::name("node")
                 ->where("id = '$id'")
                 ->update($data);
