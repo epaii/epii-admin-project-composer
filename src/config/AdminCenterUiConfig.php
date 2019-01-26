@@ -67,7 +67,7 @@ class AdminCenterUiConfig implements IEpiiAdminUi
         // TODO: Implement getLeftMenuData() method.
         $m_config = new MenuConfig();
         $menus = $this->getLeftMenu();
-
+        print_r($menus);
         $open_id = Args::getVal("_code_id") ?: null;
 
         foreach ($menus as $menu) {
