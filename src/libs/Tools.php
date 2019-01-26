@@ -75,7 +75,8 @@ class Tools
         $files = get_required_files();
         if ($files) {
             foreach ($files as $file) {
-                if (substr($file, $pos = -strlen($find = "composer/ClassLoader.php")) == $find) {
+
+                if (substr($file, $pos = -strlen($find = "composer".DIRECTORY_SEPARATOR."ClassLoader.php")) == $find) {
                     return self::$vendor_dir = substr($file, 0, $pos - 1);
                 }
             }
