@@ -45,17 +45,17 @@ class nodelist extends _controller
         $pid = trim(Args::params("pid"));
         $offset = trim(Args::params("offset"));
         $limit = trim(Args::params("limit"));
-        $sql = "SELECT *,if(pid=0,id,pid) as pidd from epii_node order by pidd asc,pid asc,sort desc limit " . $offset . ',' . $limit;
+        $sql = "SELECT *,if(pid=0,id,pid) as pidd from ".Db::getConfig("prefix")."node order by pidd asc,pid asc,sort desc limit " . $offset . ',' . $limit;
         if (!empty($name)) {
-            $sql = "SELECT *,if(pid=0,id,pid) as pidd from epii_node where name like '%" . $name . "%' order by pidd asc,pid asc,sort desc limit " . $offset . ',' . $limit;
+            $sql = "SELECT *,if(pid=0,id,pid) as pidd from ".Db::getConfig("prefix")."node where name like '%" . $name . "%' order by pidd asc,pid asc,sort desc limit " . $offset . ',' . $limit;
 
         }
         if (!empty($pid)) {
-            $sql = "SELECT *,if(pid=0,id,pid) as pidd from epii_node where  pid=" . $pid . " order by pidd asc,pid asc,sort desc limit " . $offset . ',' . $limit;
+            $sql = "SELECT *,if(pid=0,id,pid) as pidd from ".Db::getConfig("prefix")."node where  pid=" . $pid . " order by pidd asc,pid asc,sort desc limit " . $offset . ',' . $limit;
 
         }
         if (!empty($name) && !empty($pid)) {
-            $sql = "SELECT *,if(pid=0,id,pid) as pidd from epii_node where name like '%" . $name . "%' and pid=" . $pid . "order by pidd asc,pid asc,sort desc limit " . $offset . ',' . $limit;
+            $sql = "SELECT *,if(pid=0,id,pid) as pidd from ".Db::getConfig("prefix")."node where name like '%" . $name . "%' and pid=" . $pid . "order by pidd asc,pid asc,sort desc limit " . $offset . ',' . $limit;
         }
         $data = Db::query($sql);
         foreach ($data as $k => $v) {
