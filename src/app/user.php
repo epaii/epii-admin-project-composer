@@ -209,6 +209,7 @@ class user extends _controller
 //保存头像路径
     public function upload_path()
     {
+        //echo 11;exit;
         $path = Args::params('path');
         $id =Session::get('user_id');
         $res = Db::name('admin')->where('id', $id)->setField('photo', $path);
