@@ -67,7 +67,7 @@ class AdminCenterUiConfig implements IEpiiAdminUi
         // TODO: Implement getLeftMenuData() method.
         $m_config = new MenuConfig();
         $menus = $this->getLeftMenu();
-        print_r($menus);
+       // print_r($menus);
         $open_id = Args::getVal("_code_id") ?: null;
 
         foreach ($menus as $menu) {
@@ -118,6 +118,7 @@ class AdminCenterUiConfig implements IEpiiAdminUi
             $map['id'] = json_decode($nodes_arr, true);
         }
         $list = Db::name("node")->where($map)->select();
+        print_r($list);
         $arr1 = $this->sortarr('sort', SORT_ASC, array_filter($list, function ($val) {
             return $val['pid'] == 0;
         }));
