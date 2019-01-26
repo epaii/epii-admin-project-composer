@@ -119,7 +119,7 @@ class AdminCenterUiConfig implements IEpiiAdminUi
         }
         $list = Db::name("node")->where($map)->select();
         //print_r($list);
-        print_r(Db::getConfig());
+       // print_r(Db::getConfig());
         $arr1 = $this->sortarr('sort', SORT_ASC, array_filter($list, function ($val) {
             return $val['pid'] == 0;
         }));
