@@ -82,7 +82,17 @@ class install extends _controller
 
             }
 
-            mysqli_query($link, "update `".$config["prefix"]."admin` set username='".$config["admin_username"]."',password='".md5($config["admin_password"])."'  where id=1");
+            $query_info =   mysqli_query($link, "update `".$config["prefix"]."admin` set username='".$config["admin_username"]."', password='".md5($config["admin_password"])."'  where id=1");
+
+
+
+            if ($query_info === false) {
+
+                return JsCmd::make()->addCmd(Alert::make()->msg("安装失败,默认账号密码失败！"))->run();
+            }
+
+
+            mysqli_commit($link);
 
 
             mysqli_close($link);
