@@ -24,50 +24,26 @@ class AdminCenterCommonInit implements IRun
 
             return "?app=".$args[0]."@".$args[1]."&".(isset($args[2])?$args[2]:"");
         });
-        EpiiViewEngine::addFunction("options",function($list,$select_value=null){
+
+        EpiiViewEngine::addFunction("input",function($text,$name,$defualt_value="",$tip="",$other="",$type="text"){
 
 
-             if (  is_array($list))
-             {
+            return "<div class=\"form-group\"><label>{$text}：</label><input type=\"{$type}\" class=\"form-control\" name=\"{$name}\" value='{$defualt_value}' {$other} placeholder=\"{$tip}\"></div>";
+        });
+        EpiiViewEngine::addParser("input",function($args){
 
-                 $out = "";
-                 foreach ($list as $key=>$value)
-                 {
-                     if (!is_array($value))
-                     {
-                         $out.="<option value='".$key."'>".$value."</option>";
-                     }else{
-                         $_v = $key;
-                         if (isset($value["id"]))
-                         {
-                             $_v = $value["id"];
-                         }
-                         if (isset($value["value"]))
-                         {
-                             $_v = $value["value"];
-                         }
-                         $_name = "";
-                         if (isset($value["name"]))
-                         {
-                             $_name = $value["name"];
-                         }
-                         if (isset($value["text"]))
-                         {
-                             $_name = $value["text"];
-                         }
-                         $select = "";
-                        // var_dump($args);
-                         if (  ($select_value!==null && $_v==$select_value)  || (isset($value["selected"]) && $value["selected"]))
-                         {
-                             $select = "selected";
-                         }
-                         $out.="<option value='".$_v."' ".$select.">".$_name."</option>";
 
-                     }
-                 }
-             }
+            $args = array_merge(["value"=>"","tip"=>"","required"=>"","readonly"=>"","type"=>"text"],$args);
+            if ($args["required"])
+            {
+                $args["required"]="required";
+            }
+            if ($args["readonly"])
+            {
+                $args["required"]="readonly";
+            }
+           return "<div class=\"form-group\"><label>{$args["text"]}：</label><input type=\"{$args["type"]}\" class=\"form-control\" name=\"{$args["name"]}\" value='{$args["value"]}' {$args["required"]} placeholder=\"{$args["tip"]}\"></div>";
 
-             return $out;
         });
         Session::start();
     }
