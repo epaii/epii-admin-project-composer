@@ -36,10 +36,6 @@ class LoginPageConfig implements IloginConfig
             return false;
         }
 
-        if(!preg_match("/^[a-zA-Z\d_]{6,16}$/",$password)){
-            $msg = '密码6~16位';
-            return false;
-        }
 
         $user = Db::name('admin')
             ->field('id,password,username,role,photo')
