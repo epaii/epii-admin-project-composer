@@ -7,3 +7,5 @@ composer.lock
 vendor
 runtime
 dist_test
+test1
+test2
