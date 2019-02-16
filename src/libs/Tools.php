@@ -25,8 +25,13 @@ class Tools
         if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') {
             $current_url = 'https://';
         }
-        $_SERVER['HTTP_HOST'] = explode(":",$_SERVER['HTTP_HOST'])[0];
+        $http =explode(":",$_SERVER['HTTP_HOST']);
+        $_SERVER['HTTP_HOST'] = $http[0];
 
+        if (!isset($_SERVER['SERVER_PORT']))
+        {
+            $_SERVER['SERVER_PORT'] = isset($http[1])?$http[1]:"80";
+        }
         if ($_SERVER['SERVER_PORT'] != '80') {
             $current_url .= $_SERVER['HTTP_HOST'] . ':' . $_SERVER['SERVER_PORT'];
         } else {
