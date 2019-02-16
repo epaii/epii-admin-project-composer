@@ -12,6 +12,7 @@
     "php": ">=7.0",
     "epii/tiny-app-plus":">=0.0.1",
     "epii/admin-ui-login":">=0.0.1",
+    "epii/admin-ui-upload":">=0.0.1",
     "wangshouwei/session":">=0.0.1",
     "epii/get-all-classes-and-methods-for-namespaces": ">=0.0.1",
     "ext-json": "*"

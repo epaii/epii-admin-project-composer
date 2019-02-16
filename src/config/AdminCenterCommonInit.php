@@ -11,6 +11,7 @@ namespace epii\admin\center\config;
 
 use epii\server\i\IRun;
 use epii\template\engine\EpiiViewEngine;
+use epii\ui\upload\AdminUiUpload;
 use wangshouwei\session\Session;
 
 class AdminCenterCommonInit implements IRun
@@ -46,5 +47,10 @@ class AdminCenterCommonInit implements IRun
 
         });
         Session::start();
+
+
+        AdminUiUpload::init("?app=upload@img&_vendor=1");
+
+       // AdminUiUpload::init()
     }
 }

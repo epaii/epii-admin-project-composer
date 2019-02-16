@@ -16,6 +16,7 @@ class test  extends controller
     public function index()
     {
 
-         echo  $this->fetch("index/test");
+
+            $this->adminUiDisplay("index/test");
     }
 }
