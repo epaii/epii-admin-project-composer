@@ -21,17 +21,17 @@ class LoginPageConfig implements IloginConfig
     {
         // TODO: Implement onPost() method.
 
-        if(empty($username)){
+        if (empty($username)) {
             $msg = '用户名不能为空!';
             return false;
         }
 
-        if(!preg_match("/^[a-zA-Z]{1}[a-zA-Z\d_]{4,19}$/",$username)){
+        if (!preg_match("/^[a-zA-Z]{1}[a-zA-Z\d_]{4,19}$/", $username)) {
             $msg = '用户名格式错误';
             return false;
         }
 
-        if(empty($password)){
+        if (empty($password)) {
             $msg = '密码不能为空!';
             return false;
         }
@@ -48,7 +48,7 @@ class LoginPageConfig implements IloginConfig
                 Session::set("username", $user['username']);
                 Session::set("user_id", $user['id']);
                 Session::set("user_avatar", $user['photo']);
-               $msg = '';
+                $msg = '';
                 return true;
             } else {
                 $msg = '密码错误';
@@ -63,6 +63,10 @@ class LoginPageConfig implements IloginConfig
     public function getConfigs(): array
     {
         // TODO: Implement getConfigs() method.
-        return ["success_url" => Tools::get_web_root()];
+        $config = ["success_url" => Tools::get_web_root()];
+        if ($tmp = Settings::get("app.login.bgimgs")) {
+            $config["bg_imgs"] = explode(",", $tmp);
+        }
+        return $config;
     }
 }
