@@ -192,6 +192,8 @@ class rolelist extends _controller
                 'power' => $power
             ];
 
+
+
             $res = Db::name('role')
                 ->where('id', $id)
                 ->update(['powers' => json_encode($power_array)]);
