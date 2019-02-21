@@ -25,7 +25,7 @@
     </div>
     <div class="form-group">
         <label>链接地址：</label>
-        <input type="text" class="form-control" name="url" value="{$nodeinfo.url}"
+        <input type="text" class="form-control" name="url" id="icon" value="{$nodeinfo.url}"
                placeholder="如:?app=config@index&_vendor=1,没有父级不填">
     </div>
     <div class="form-group">
@@ -49,3 +49,8 @@
         <button type="submit" class="btn btn-primary">提交</button>
     </div>
 </form>
+<script>
+    function set_icon(icon) {
+        document.getElementById('icon').value=icon;
+    }
+</script>

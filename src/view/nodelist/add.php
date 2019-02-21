@@ -19,7 +19,7 @@
         <div class="form-group">
             <label>图标：</label>
             <input type="text" class="form-control" name="icon"  id="icon" value="fa fa-circle-o" required style="display: block;width: 58%;height: 38px">
-            <a class="btn btn-default btn-dialog"   href="?app=nodelist@icon&_vendor=1" style="width: 84px">更多</a>
+            <a class="btn btn-default btn-dialog"   data-area="95%,100%" title="图标选择" href="?app=nodelist@icon&_vendor=1"  style="width: 84px">更多</a>
         </div>
         <div class="form-group">
             <label>链接地址：</label>
@@ -53,7 +53,7 @@
 
 
 <script>
-    window.onEpiiInit(function() {
-
-    });
+   function set_icon(icon) {
+       document.getElementById('icon').value=icon;
+   }
 </script>
