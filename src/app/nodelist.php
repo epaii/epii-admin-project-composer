@@ -13,12 +13,14 @@ use epii\admin\center\common\_controller;
 use epii\admin\center\config\AdminCenterUiConfig;
 use epii\admin\center\config\Settings;
 use epii\admin\ui\lib\epiiadmin\jscmd\Alert;
+use epii\admin\ui\lib\epiiadmin\jscmd\Close;
 use epii\admin\ui\lib\epiiadmin\jscmd\CloseAndRefresh;
 use epii\admin\ui\lib\epiiadmin\jscmd\JsCmd;
 use epii\admin\ui\lib\epiiadmin\jscmd\JsEval;
 use epii\admin\ui\lib\epiiadmin\jscmd\Refresh;
 use epii\server\Args;
 use think\Db;
+use wangshouwei\session\Session;
 
 class nodelist extends _controller
 {
@@ -127,6 +129,7 @@ class nodelist extends _controller
             return JsCmd::make()->addCmd($alert)->run();
 
         } else {
+
             $list = Db::name("node")->where('pid', 0)->select();
             $this->assign("list", $list);
             $this->adminUiDisplay('nodelist/add');
@@ -229,5 +232,17 @@ class nodelist extends _controller
             $cmd = Alert::make()->msg('删除失败')->icon('5')->onOk(null);
         }
         echo JsCmd::make()->addCmd($cmd)->run();
+    }
+
+    public function icon()
+    {
+        $this->adminUiDisplay('nodelist/icon');
+    }
+
+    public function set_icon()
+    {
+        $icon=Args::params('icon');
+        $this->adminUijsArgs('icon',$icon);
+        echo json_encode(['icon'=>$icon]);
     }
 }

@@ -18,7 +18,8 @@
         </div>
         <div class="form-group">
             <label>图标：</label>
-            <input type="text" class="form-control" name="icon" required placeholder="如: fa fa-circle-o">
+            <input type="text" class="form-control" name="icon"  id="icon" value="fa fa-circle-o" required style="display: block;width: 58%;height: 38px">
+            <a class="btn btn-default btn-dialog"   href="?app=nodelist@icon&_vendor=1" style="width: 84px">更多</a>
         </div>
         <div class="form-group">
             <label>链接地址：</label>
@@ -49,3 +50,10 @@
             <button type="submit" class="btn btn-primary">提交</button>
         </div>
     </form>
+
+
+<script>
+    window.onEpiiInit(function() {
+
+    });
+</script>
