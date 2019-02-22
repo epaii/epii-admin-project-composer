@@ -24,5 +24,9 @@
 
     </form>
 
-
+    <script>
+        function to_login() {
+            window.top.location.reload();
+        }
+    </script>
 </section>

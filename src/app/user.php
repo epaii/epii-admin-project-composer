@@ -13,6 +13,7 @@ use epii\admin\ui\demo\DemoUi;
 use epii\admin\ui\lib\epiiadmin\jscmd\Alert;
 use epii\admin\ui\lib\epiiadmin\jscmd\CloseAndRefresh;
 use epii\admin\ui\lib\epiiadmin\jscmd\JsCmd;
+use epii\admin\ui\lib\epiiadmin\jscmd\JsEval;
 use epii\admin\ui\lib\epiiadmin\jscmd\Refresh;
 use epii\admin\ui\lib\epiiadmin\jscmd\Url;
 use epii\server\Args;
@@ -147,7 +148,7 @@ class user extends _controller
                 ->setField('password', md5($new_password));
             if ($res) {
                 Session::del('is_login');
-                $cmd = Alert::make()->msg('修改成功,重新登陆生效')->icon('6')->onOk(null);
+                $cmd = Alert::make()->msg('修改成功,重新登陆生效')->icon('6')->onOk(JsEval::make()->add_string('to_login();'));
 
             } else {
                 $cmd = Alert::make()->msg('修改失败')->icon('5')->onOk(null);
