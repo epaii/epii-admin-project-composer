@@ -1,3 +1,10 @@
+<style type="text/css">
+     li {
+        float:left; 
+         margin-left: 3%;
+    }
+
+</style>
 <ul class="list-inline">
 
     <li data-font="500px" data-toggle="tooltip" title="" data-original-title="500px">
