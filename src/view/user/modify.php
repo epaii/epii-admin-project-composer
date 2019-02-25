@@ -23,7 +23,6 @@
                    href="{url user modify_info _vendor=1}&id={$user.id}"
                    data-area="50%,50%"
                    data-title="更改资料"
-
                 >更改资料</a>
                 <a class="btn btn-default btn-dialog"
                    href="{url user modify_pwd _vendor=1}&id={$user.id}"
