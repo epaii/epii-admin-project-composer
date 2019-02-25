@@ -7,7 +7,6 @@
                 use wangshouwei\session\Session;
                 $photo = Db::name('admin')->where('id',Session::get('user_id'))->value('photo');
                 echo $photo ?:'http://epii.gitee.io/epiiadmin/img/user2-160x160.jpg'; ?>"
-
                       style="width: 100px;height: 100px;border-radius: 50%"
                 ></td>
             <td><a class="btn btn-default btn-dialog"
@@ -55,58 +54,5 @@
         </tr>
     </table>
         </form>
-
-
-        <script>
-
-            function getObjectURL(file) {
-                var url = null;
-                if (window.createObjectURL != undefined) { // basic
-                    url = window.createObjectURL(file);
-                } else if (window.URL != undefined) { // mozilla(firefox)
-                    url = window.URL.createObjectURL(file);
-                } else if (window.webkitURL != undefined) { // webkit or chrome
-                    url = window.webkitURL.createObjectURL(file);
-                }
-                return url;
-            }
-
-            function upload_show() {
-                $('#msg').text('');
-                var eImg = $('#img');
-                var e = document.getElementById('pic');
-                eImg.attr('src', getObjectURL(e.files[0]));
-                $(e).after(eImg);
-            }
-
-            function removeImg() {
-                $('#img').remove();
-                $('#pic').val('');
-            }
-
-            function upload() {
-                var fm = new FormData();
-                var file = document.getElementById('pic').files;
-                fm.append('file',file[0]);
-                $.ajax({
-                    'url': '{url user updatePhoto _vendor=1}',
-                    'type': 'post',
-                    'data': fm,
-                    'contentType': false,
-                    'processData': false,
-                    success: function (res) {
-                      /*  if (res.code == 200) {
-                            $('#path').attr('value', res.path);
-                            $('#submit').click();
-                        } else {
-                            $('#msg').text(res.msg);
-                        }*/
-                    }
-                })
-            }
-
-
-
-        </script>
 
 </section>
