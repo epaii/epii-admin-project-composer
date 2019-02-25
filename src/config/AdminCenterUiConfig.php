@@ -39,7 +39,8 @@ class AdminCenterUiConfig implements IEpiiAdminUi
 
         //用户头像
         $photo = Db::name('admin')->where('id',Session::get('user_id'))->value('photo');
-        $user_avatar =$photo ?:'/upload/admin.jpg';
+        if (!file_exists('/default')) mkdir('/default');
+        $user_avatar =$photo ?:'./default/admin.jpg';
         $sitconfig->user_avatar($user_avatar);
         return $sitconfig;
     }
