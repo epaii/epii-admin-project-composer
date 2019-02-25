@@ -6,7 +6,7 @@
             <td> <img src="<?php use think\Db;
                 use wangshouwei\session\Session;
                 $photo = Db::name('admin')->where('id',Session::get('user_id'))->value('photo');
-                echo $photo ?:'/upload/admin.jpg'; ?>"
+                echo $photo ?:'/default/admin.jpg'; ?>"
 
                       style="width: 100px;height: 100px;border-radius: 50%"
                 ></td>
