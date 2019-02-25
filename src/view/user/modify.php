@@ -6,7 +6,7 @@
             <td> <img src="<?php use think\Db;
                 use wangshouwei\session\Session;
                 $photo = Db::name('admin')->where('id',Session::get('user_id'))->value('photo');
-                echo $photo ?:'/default/admin.jpg'; ?>"
+                echo $photo ?:'http://epii.gitee.io/epiiadmin/img/user2-160x160.jpg'; ?>"
 
                       style="width: 100px;height: 100px;border-radius: 50%"
                 ></td>
