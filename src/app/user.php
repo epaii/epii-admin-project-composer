@@ -29,7 +29,7 @@ class user extends _controller
     public function logout()
     {
 
-        Session::del('is_login');
+        Session::empty();
         header('location:' . $_SERVER['HTTP_REFERER']);
     }
 
