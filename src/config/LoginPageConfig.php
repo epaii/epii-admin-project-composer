@@ -17,6 +17,12 @@ use wangshouwei\session\Session;
 class LoginPageConfig implements IloginConfig
 {
 
+    protected function onLogin($user)
+    {
+
+    }
+
+
     public function onPost(string $username, string $password, &$msg): bool
     {
         // TODO: Implement onPost() method.
@@ -26,10 +32,6 @@ class LoginPageConfig implements IloginConfig
             return false;
         }
 
-        if (!preg_match("/^[a-zA-Z]{1}[a-zA-Z\d_]{4,19}$/", $username)) {
-            $msg = '用户名格式错误';
-            return false;
-        }
 
         if (empty($password)) {
             $msg = '密码不能为空!';
@@ -48,6 +50,7 @@ class LoginPageConfig implements IloginConfig
                 Session::set("username", $user['username']);
                 Session::set("user_id", $user['id']);
                 Session::set("user_avatar", $user['photo']);
+                $this->onLogin($user);
                 $msg = '';
                 return true;
             } else {
