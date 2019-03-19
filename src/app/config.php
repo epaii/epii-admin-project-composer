@@ -33,7 +33,7 @@ class config extends _controller
      */
     public function ajaxdata()
     {
-        echo $this->tableJsonData('setting',[],function($data){
+        echo $this->tableJsonData('setting',["uid"=>0],function($data){
            return $data;
         });
     }
@@ -96,7 +96,7 @@ class config extends _controller
             $data['value']=$value;
             $data['tip']=$tip;
             $data['id']=$id;
-            $res = Db::name('setting')->update($data);
+            $res = Db::name('setting')->where("id",$id)->update($data);
             if ($res) {
                 Settings::_saveCache();
                 $cmd = Alert::make()->msg('修改成功')->icon('6')->onOk(CloseAndRefresh::make()->type("table"));

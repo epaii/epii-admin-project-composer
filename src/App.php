@@ -5,6 +5,7 @@ namespace epii\admin\center;
 use epii\admin\center\app\root;
 use epii\admin\center\config\AdminCenterCommonInit;
 use epii\admin\center\config\AdminCenterPlusInitConfig;
+use epii\admin\center\config\UpdateConfig;
 use epii\app\i\IAppPlusInitConfig;
 
 use epii\server\Args;
@@ -47,6 +48,7 @@ class App extends \epii\app\App
         }
 
         $this->init(AdminCenterCommonInit::class);
+        $this->init(UpdateConfig::class);
 
         $this->setBaseNameSpace("epii\\admin\\center\\app");
 
