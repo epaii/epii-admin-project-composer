@@ -21,7 +21,7 @@ class App extends \epii\app\App
 
     private $_is_setconfig = false;
 
-    public function __construct()
+    public function __construct($configOrFilePath = null)
     {
 
 
@@ -35,7 +35,7 @@ class App extends \epii\app\App
             $_REQUEST['app'] = root::class . "@start";
 
         }
-        parent::__construct();
+        parent::__construct($configOrFilePath);
 
 
     }
