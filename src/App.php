@@ -9,6 +9,7 @@ use epii\admin\center\config\UpdateConfig;
 use epii\app\i\IAppPlusInitConfig;
 
 use epii\server\Args;
+use think\Db;
 
 /**
  * Created by PhpStorm.
@@ -48,7 +49,12 @@ class App extends \epii\app\App
         }
 
         $this->init(AdminCenterCommonInit::class);
-        $this->init(UpdateConfig::class);
+
+        if (Db::getConfig("hostname"))
+        {
+            $this->init(UpdateConfig::class);
+        }
+
 
         $this->setBaseNameSpace("epii\\admin\\center\\app");
 
