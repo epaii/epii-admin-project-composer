@@ -59,6 +59,7 @@ class admin_center_controller extends controller
             echo "Permission denied;";
             exit;
         }
+        parent::init();
 
 
     }
