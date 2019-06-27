@@ -28,7 +28,7 @@
         }
         function del1(field_value, row, index,field_name) {
             if(row.type ==2){
-                return "<a class='btn btn-outline-danger btn-sm btn-confirm' data-msg=\"确定删除吗?\"  href='?app=config@del&_vendor=1&id="+row.id+"+'><i class='fa fa-trash' ></i>删除</a>";
+                return "<a class='btn btn-outline-danger btn-sm btn-confirm' data-ajax='1' data-msg=\"确定删除吗?\"  href='?app=config@del&_vendor=1&id="+row.id+"+'><i class='fa fa-trash' ></i>删除</a>";
             }else{
                 return "";
             }
