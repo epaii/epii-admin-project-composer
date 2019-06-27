@@ -16,6 +16,17 @@ useage:
 
 ```
 
+更新的sql语句
+
+```
+ALTER TABLE `epii_setting` ADD `uid` INT NOT NULL DEFAULT '0' AFTER `tip`, ADD INDEX (`uid`);
+ALTER TABLE `epii_setting` DROP INDEX `name`, ADD UNIQUE `name` (`name`, `uid`) USING BTREE;
+
+
+```
+
+
+
 初始效果
 
 ![screen]

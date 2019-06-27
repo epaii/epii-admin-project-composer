@@ -15,12 +15,17 @@ class Tools
 {
     public static function get_current_url()
     {
-        return self::get_web_root() . $_SERVER['REQUEST_URI'];
+        return self::get_web_http_domain() . $_SERVER['REQUEST_URI'];
     }
 
     public static function get_web_root()
     {
 
+        return self::get_web_http_domain().(isset($_SERVER["REQUEST_URI"])?parse_url("http://www.ba.ldi/".$_SERVER["REQUEST_URI"])["path"]:"");
+    }
+
+    public static function get_web_http_domain()
+    {
         $current_url = 'http://';
         if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') {
             $current_url = 'https://';
@@ -37,8 +42,6 @@ class Tools
         } else {
             $current_url .= $_SERVER['HTTP_HOST'];
         }
-
-
         return $current_url . (substr($_SERVER["SCRIPT_NAME"], 0, strrpos($_SERVER["SCRIPT_NAME"], "/")));
     }
 
