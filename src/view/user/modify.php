@@ -48,7 +48,7 @@
 
         <tr>
             <td>注册时间</td>
-            <td>{$user.addtime}</td>
+            <td><?php echo date('Y-m-d H:i:s',$user['add_time']) ?></td>
 
         </tr>
     </table>

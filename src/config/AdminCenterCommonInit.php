@@ -10,6 +10,7 @@ namespace epii\admin\center\config;
 
 
 use epii\admin\ui\EpiiAdminUi;
+use epii\server\Args;
 use epii\server\i\IRun;
 use epii\template\engine\EpiiViewEngine;
 use epii\ui\upload\AdminUiUpload;
@@ -26,7 +27,10 @@ class AdminCenterCommonInit implements IRun
 
             return "?app=" . $args[0] . "@" . $args[1] . "&" . (isset($args[2]) ? $args[2] : "");
         });
+        EpiiViewEngine::addParser("args", function ($args) {
 
+            return Args::params($args[0], isset($args[1]) ? $args[1] : "");
+        });
         EpiiViewEngine::addFunction("input", function ($text, $name, $defualt_value = "", $tip = "", $other = "", $type = "text") {
 
 
