@@ -25,14 +25,20 @@ class UpdateConfig implements IRun
         }
         if (!file_exists($file = $dir . "20190319.update")) {
 
-            if ($test = Db::name("setting")->find())
-            {
-                if (!isset($test["uid"]))
-                {
-                    Db::query("ALTER TABLE `".Db::getConfig("prefix")."setting` ADD `uid` INT NOT NULL DEFAULT '0' AFTER `tip`, ADD INDEX (`uid`)");
-                    DB::query("ALTER TABLE `".Db::getConfig("prefix")."setting` DROP INDEX `name`, ADD UNIQUE `name` (`name`, `uid`) USING BTREE");
+            if ($test = Db::name("setting")->find()) {
+                if (!isset($test["uid"])) {
+                    Db::query("ALTER TABLE `" . Db::getConfig("prefix") . "setting` ADD `uid` INT NOT NULL DEFAULT '0' AFTER `tip`, ADD INDEX (`uid`)");
+                    DB::query("ALTER TABLE `" . Db::getConfig("prefix") . "setting` DROP INDEX `name`, ADD UNIQUE `name` (`name`, `uid`) USING BTREE");
                 }
             }
+
+
+            file_put_contents($file, 1);
+        }
+        if (!file_exists($file = $dir . "20190917.update")) {
+
+
+            Db::name("setting")->where("id", 9)->update(["value" => "https://epii.gitee.io/epiiadmin-js/img/AdminLTELogo.png"]);
 
 
             file_put_contents($file, 1);
