@@ -49,7 +49,7 @@ class AdminCenterCommonInit implements IRun
             return "<div class=\"form-group\"><label>{$args["text"]}：</label><input type=\"{$args["type"]}\" class=\"form-control\" name=\"{$args["name"]}\" value='{$args["value"]}' {$args["required"]} placeholder=\"{$args["tip"]}\"></div>";
 
         });
-        Session::start();
+
 
 
         AdminUiUpload::init("?app=upload@img&_vendor=1");

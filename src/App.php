@@ -10,6 +10,7 @@ use epii\app\i\IAppPlusInitConfig;
 
 use epii\server\Args;
 use think\Db;
+use wangshouwei\session\Session;
 
 /**
  * Created by PhpStorm.
@@ -26,6 +27,7 @@ class App extends \epii\app\App
     {
 
 
+        Session::start();
         if (Args::getVal("_vendor") && Args::getVal("_vendor") == 1) {
             if (isset($_REQUEST['app'])) {
                 $_REQUEST['app'] = "epii\\admin\\center\\app\\" . $_REQUEST['app'];
