@@ -57,7 +57,7 @@ class App extends \epii\app\App
 
         $this->setBaseNameSpace("epii\\admin\\center\\app");
 
-        return parent::run($app);
+        parent::run($app);
     }
 
     public function setConfig(IAppPlusInitConfig $appPlusInitConfig)
