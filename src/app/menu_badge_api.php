@@ -19,13 +19,12 @@ class menu_badge_api extends _controller
 {
     public function index()
     {
-        $query = DB::name("node")->where("badge_class","<>",'');
+        $query = DB::name("node")->where("badge_class", "<>", '');
         $menu_id = Args::params("menu_id");
 
-        if ($menu_id)
-        {
-            $menu_id = explode(",",$menu_id);
-            $query->whereIn("id",$menu_id);
+        if ($menu_id) {
+            $menu_id = explode(",", $menu_id);
+            $query->whereIn("id", $menu_id);
         }
         $list = $query->select();
         $outlist = [];
@@ -38,9 +37,10 @@ class menu_badge_api extends _controller
             if ($binfo) {
                 $b_class = $binfo->getCssClass();
                 $b_text = $binfo->getText();
-                $outlist[] = ["id"=>"tab_".$menu["id"],"span" =>"<span class=\"right ".$b_class."\">".$b_text."</span>"];
+                if ($b_text)
+                    $outlist[] = ["id" => "tab_" . $menu["id"], "span" => "<span class=\"right " . $b_class . "\">" . $b_text . "</span>"];
             }
-           // $b_text =5;
+            // $b_text =5;
 
         }
 
