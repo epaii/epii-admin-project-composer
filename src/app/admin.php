@@ -145,6 +145,7 @@ class admin extends _controller
             if ($id = Args::params("id/d")) {
                 $this->_as_admin = Db::name('admin')->where('id', $id)->find();
             }
+
             $roles = Db::name('role')->field('id,name')->select();
             $this->assign('roles', $roles);
             $this->assign("status_arr", [["value" => "nornal", "text" => "正常"], ["value" => "locked", "text" => "锁定"]]);
