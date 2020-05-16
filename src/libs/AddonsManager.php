@@ -24,7 +24,7 @@ class AddonsManager implements IRun
     {
         $dir = self::getAddonsDir();
         $file_arr = scandir($dir);
-       
+
         foreach ($file_arr as $item) {
             if ($item != ".." && $item != ".") {
                 if (is_dir($dir . "/" . $item)) {
@@ -111,10 +111,38 @@ class AddonsManager implements IRun
         }
     }
 
+    public static function loadAddons($name)
+    {
+        $config = self::getAddonsConfig($name);
+        if (!$config) {
+
+            return false;
+        }
+
+        include_once $config["autoload_file"];
+        return $config;
+    }
+    public static function getAddonsApp($name)
+    {
+
+        $config = self::loadAddons($name);
+        if ($config) {
+            $app = $config["app"];
+            if (!class_exists($app)) {
+                return false;
+            }
+            $app_obj = new $app();
+            if (!($app_obj instanceof AddonsApp)) {
+                return false;
+            }
+            return $app_obj;
+        }
+        return false;
+    }
 
     public static function install($name)
     {
-         return  Db::transaction(function () use ($name) {
+        return  Db::transaction(function () use ($name) {
             $config = self::getAddonsConfig($name);
             if (!$config) {
 

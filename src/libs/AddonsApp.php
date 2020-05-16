@@ -8,6 +8,8 @@ abstract class AddonsApp
 {
     abstract public function install(): bool;
     abstract public function update($new_version, $old_version): bool;
+    abstract public function onOpen(): bool;
+    abstract public function onClose(): bool;
     protected $config = [];
     protected $id = 0;
     protected $info = [];

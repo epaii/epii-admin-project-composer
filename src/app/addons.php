@@ -32,14 +32,28 @@ class addons extends _controller{
         echo  json_encode($outdata, JSON_UNESCAPED_UNICODE);
     }
     public function status(){
-        $name = Args::params("name/1");
-        Db::name("addons")->where("name",$name)->update(["status"=>Args::params("status/d")]);
-        $info = DB::name("addons")->where("name",$name)->find();
-        if($info["menu_ids"])
-        {
-            Db::name('node')->whereIn("id",explode(",",$info["menu_ids"]))->update(["status"=>Args::params("status/d")]);
-        }
+        $ret = Db::transaction(function(){
+            $name = Args::params("name/1");
+            Db::name("addons")->where("name",$name)->update(["status"=>Args::params("status/d")]);
+            $info = DB::name("addons")->where("name",$name)->find();
+            if($info["menu_ids"])
+            {
+                Db::name('node')->whereIn("id",explode(",",$info["menu_ids"]))->update(["status"=>Args::params("status/d")]);
+            }
+            $app = AddonsManager::getAddonsApp($name);
+            if($app){
+                if(Args::params("status/d")){
+                   return $app->onOpen();
+                }else{
+                    return $app->onClose();
+                }
+            }
+            return false;
+        });
+      
+        if( $ret )
         return JsCmd::alertRefresh("操作成功");
+        else return JsCmd::alert("操作失败");
     }
 
     public function install(){
