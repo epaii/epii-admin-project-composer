@@ -75,4 +75,10 @@ class App extends \epii\app\App
 
         return parent::setConfig($appPlusInitConfig);
     }
+
+    public function setAddonsDevelopment($name){
+         Args::setConfig("__addons",$name);
+         Args::setConfig("__addons_development",true);
+        return $this;
+    }
 }

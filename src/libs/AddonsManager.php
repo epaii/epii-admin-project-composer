@@ -158,14 +158,15 @@ class AddonsManager implements IRun
         }
 
         $cinfo = self::getCurrentAddonsConfig();
-        if ($cinfo && !$cinfo["install"]) {
+        $is__addons_development = Args::params("__addons_development");
+        if ($cinfo &&  (!$is__addons_development) && !$cinfo["install"]) {
             self::error("模块没有安装");
         }
-        if ($cinfo && !$cinfo["status"]) {
+        if ($cinfo &&  (!$is__addons_development) && !$cinfo["status"]) {
             self::error("模块已经关闭");
         }
 
-        if ($cinfo) {
+        if ($cinfo && $cinfo["install"]) {
             if ($cinfo["__data"]["version"] != $cinfo["version"]) {
                 $app_obj = new $cinfo["app"]();
                 if (!($app_obj instanceof AddonsApp)) {
