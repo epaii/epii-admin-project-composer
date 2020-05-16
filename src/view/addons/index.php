@@ -12,7 +12,7 @@
                      <th data-field="status" data-formatter="epiiFormatter.switch" data-align="center"> 开启状态</th>
                      <th data-field="install" data-formatter="epiiFormatter.switch" data-align="center"> 安装状态</th>
                      <th data-field="" data-formatter="install" data-align="center"> 安装</th>
-                     <th data-field="" data-formatter="status" data-align="center"> 安装</th>
+                     <th data-field="" data-formatter="status" data-align="center"> 状态</th>
                  </tr>
              </thead>
          </table>

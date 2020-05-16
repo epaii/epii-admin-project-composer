@@ -34,6 +34,11 @@ class addons extends _controller{
     public function status(){
         $name = Args::params("name/1");
         Db::name("addons")->where("name",$name)->update(["status"=>Args::params("status/d")]);
+        $info = DB::name("addons")->where("name",$name)->find();
+        if($info["menu_ids"])
+        {
+            Db::name('node')->whereIn("id",explode(",",$info["menu_ids"]))->update(["status"=>Args::params("status/d")]);
+        }
         return JsCmd::alertRefresh("操作成功");
     }
 
