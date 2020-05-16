@@ -82,6 +82,17 @@ class UpdateConfig implements IRun
 
                     file_put_contents($file, 1);
                 }
+                if (!file_exists($file = $dir . "2020051602.update")) {
+
+                    $info = Db::name("node")->where("id", 9)->find();
+                    if (!isset($info["addons_id"])) {
+                        $ret = Tools::execSqlFile(__DIR__."/../data/update_sql/2020051602.sql","epii_");
+                        if(! $ret) return false;
+                     }
+
+                    file_put_contents($file, 1);
+                }
+
             }
         );
     }
