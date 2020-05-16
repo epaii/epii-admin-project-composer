@@ -6,10 +6,10 @@ use epii\admin\center\app\root;
 use epii\admin\center\config\AdminCenterCommonInit;
 use epii\admin\center\config\AdminCenterPlusInitConfig;
 use epii\admin\center\config\UpdateConfig;
+use epii\admin\center\libs\AddonsManager;
 use epii\app\i\IAppPlusInitConfig;
 
 use epii\server\Args;
-use think\Db;
 use wangshouwei\session\Session;
 
 /**
@@ -55,8 +55,10 @@ class App extends \epii\app\App
 
 
         $this->init(UpdateConfig::class);
-
-
+     
+        $this->init(AddonsManager::class);
+       
+        AddonsManager::onRequest();
         $this->setBaseNameSpace("epii\\admin\\center\\app");
 
         parent::run($app);
