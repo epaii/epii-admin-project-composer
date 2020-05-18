@@ -3,6 +3,7 @@ namespace epii\admin\center\app;
 
 use epii\admin\center\common\_controller;
 use epii\admin\center\libs\AddonsManager;
+use epii\admin\center\libs\AddonsScan;
 use epii\admin\ui\lib\epiiadmin\jscmd\JsCmd;
 use epii\orm\Db;
 use epii\server\Args;
@@ -13,11 +14,18 @@ class addons extends _controller{
     
         $this->adminUiDisplay('addons/index', "", ["version" => time()]);
     }
+
+    public function scan(){
+       $ok =   AddonsScan::scan();
+       if(!$ok) return JsCmd::alert("失败");
+       return JsCmd::alertRefresh("成功");
+    }
     public function ajaxdata()
     { 
 
-
-        $all = AddonsManager::getAllAddons();
+        $all =   AddonsScan::scan();
+        
+        if(!$all) $all=[];
         foreach ($all as $key=>$value){
             if($value["__data"])
             {
@@ -33,6 +41,7 @@ class addons extends _controller{
     }
     public function status(){
         $ret = Db::transaction(function(){
+            $out = false;
             $name = Args::params("name/1");
             Db::name("addons")->where("name",$name)->update(["status"=>Args::params("status/d")]);
             $info = DB::name("addons")->where("name",$name)->find();
@@ -43,10 +52,13 @@ class addons extends _controller{
             $app = AddonsManager::getAddonsApp($name);
             if($app){
                 if(Args::params("status/d")){
-                   return $app->onOpen();
+                   $out = $app->onOpen();
                 }else{
-                    return $app->onClose();
+                    $out =  $app->onClose();
                 }
+            }
+            if($out){
+                AddonsScan::scan();
             }
             return false;
         });
@@ -70,9 +82,6 @@ class addons extends _controller{
         if(!$ret){
             return JsCmd::alert("安装失败");
         }
-
-       
-
         return JsCmd::alertRefresh("安装成功");
 
     }

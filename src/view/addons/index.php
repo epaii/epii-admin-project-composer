@@ -7,6 +7,7 @@
 
                      <th data-field="name" data-formatter="epiiFormatter">name</th>
                      <th data-field="title" data-formatter="epiiFormatter">title</th>
+                     <th data-field="description" data-formatter="epiiFormatter">说明</th>
                      <th data-field="version" data-formatter="epiiFormatter">版本</th>
                      <th data-field="addtime" data-formatter="epiiFormatter">安装时间</th>
                      <th data-field="status" data-formatter="epiiFormatter.switch" data-align="center"> 开启状态</th>

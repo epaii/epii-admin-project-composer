@@ -12,7 +12,8 @@ class AddonsManager implements IRun
 {
 
     private static $__addones_dir = null;
-    private static $__addones_configs = [];
+    public static $__addones_one_dirs = [];
+
     public static function getAddonsDir()
     {
         if (self::$__addones_dir === null) {
@@ -22,21 +23,15 @@ class AddonsManager implements IRun
     }
     public static function getAllAddons()
     {
-        $dir = self::getAddonsDir();
-        $file_arr = scandir($dir);
-
-        foreach ($file_arr as $item) {
-            if ($item != ".." && $item != ".") {
-                if (is_dir($dir . "/" . $item)) {
-                    self::getAddonsConfig($item);
-                }
-            }
-        }
-        return array_filter(self::$__addones_configs);
+        return AddonsScan::getAllAddons();
     }
     public static function setAddonsDir($dir)
     {
         self::$__addones_dir = rtrim($dir, DIRECTORY_SEPARATOR);
+    }
+    public static function addAddonsPath($PathToOne)
+    {
+        self::$__addones_one_dirs[] = rtrim($PathToOne, DIRECTORY_SEPARATOR);
     }
     public static function getCurrentAddonsName()
     {
@@ -53,64 +48,13 @@ class AddonsManager implements IRun
 
     public static function getAddonsConfig($addons_name)
     {
-        if (isset(self::$__addones_configs[$addons_name])) {
-            return self::$__addones_configs[$addons_name];
-        }
-        $path = self::getAddonsDir() . DIRECTORY_SEPARATOR . $addons_name . DIRECTORY_SEPARATOR . "app.json";
-        $load_file = self::getAddonsDir() . DIRECTORY_SEPARATOR . $addons_name . DIRECTORY_SEPARATOR . "vendor/autoload.php";
-        if (!file_exists($path)) {
-            return self::$__addones_configs[$addons_name] = null;
-        }
-        if (!file_exists($load_file)) {
-            return self::$__addones_configs[$addons_name] = null;
-        }
-        $config =  json_decode(file_get_contents($path), true);
-        if (!$config) return self::$__addones_configs[$addons_name] = null;
-        $config["autoload_file"] = $load_file;
-        $config["name"] = $addons_name;
-        $config["subject"] =  $config["subject"] ? $config["subject"] : "";
-        if (isset($config["base_name_space"])) {
-            if (!is_array($config["base_name_space"])) {
-                $config["base_name_space"] = [$config["base_name_space"]];
-            }
-        }
-        $config["__path_dir"] = self::getAddonsDir() . DIRECTORY_SEPARATOR . $addons_name;
-        if (Db::getConfig("hostname")) {
-            $installinfo = Db::name("addons")->where("name", $addons_name)->find();
-            $config["install"] =  $installinfo  && ($installinfo["install"]);
-            $config["status"] =  $installinfo ? $installinfo["status"] : "0";
-            $config["__data"] = $installinfo;
-        }
-
-        return self::$__addones_configs[$addons_name] = $config;
+        return AddonsScan::getAddons($addons_name);
     }
     public static function error($msg)
     {
         Response::error($msg);
     }
-
-
-    public   static function onRequest()
-    {
-        $addonsname = self::getCurrentAddonsName();
-        if ($addonsname) {
-            $config = self::getAddonsConfig($addonsname, false);
-
-            if (!$config) {
-                self::error($addonsname . "不存在");
-            }
-
-            include_once $config["autoload_file"];
-            $app = $config["app"];
-            if (!class_exists($app)) {
-                self::error($addonsname . "对应的app不存在");
-            }
-            foreach ($config["base_name_space"] as $class_pre) {
-                App::getInstance()->setBaseNameSpace($class_pre);
-            }
-        }
-    }
-
+  
     public static function loadAddons($name)
     {
         $config = self::getAddonsConfig($name);
@@ -119,14 +63,17 @@ class AddonsManager implements IRun
             return false;
         }
 
-        include_once $config["autoload_file"];
+        if ($config["autoload_file"] && is_file($config["autoload_file"])) {
+            include_once $config["autoload_file"];
+        }
+
         return $config;
     }
     public static function getAddonsApp($name)
     {
 
         $config = self::loadAddons($name);
-        if ($config) {
+        if ($config && isset($config["app"])) {
             $app = $config["app"];
             if (!class_exists($app)) {
                 return false;
@@ -142,62 +89,81 @@ class AddonsManager implements IRun
 
     public static function install($name)
     {
-        return  Db::transaction(function () use ($name) {
-            $config = self::getAddonsConfig($name);
+        $out =   Db::transaction(function () use ($name) {
+            $is__addons_development = self::isAddonsDevelopment($name);
+            $config = self::loadAddons($name);
             if (!$config) {
-
                 return false;
             }
-
-            include_once $config["autoload_file"];
-            $app = $config["app"];
-            if (!class_exists($app)) {
-
-                return false;
-            }
-
-            $app_obj = new $app();
-            if (!($app_obj instanceof AddonsApp)) {
-                return false;
-            }
-
-            $id =  Db::name("addons")->insertGetId(["name" => $config["name"], "title" => $config["title"], "addtime" => 0, "status" => 0, "version" => $config["version"], "subject" => $config["subject"]]);
+            $id =  Db::name("addons")->insertGetId(["name" => $config["name"], "title" => $config["title"], "addtime" => 0, "status" => 0, "version" => $config["version"], "subject" => $config["description"]]);
             if (!$id) return false;
-            $app_obj->setConfig($id, $config);
-            $ret =  $app_obj->install();
-            if (!$ret) return false;
+            if (!$is__addons_development) {
+                $app_obj = self::getAddonsApp($name);
+                if ($app_obj) {
+                    $app_obj->setConfig($id, $config);
+                    $ret =  $app_obj->install();
+                    if (!$ret) return false;
+                }
+            }
             $ret1 =  Db::name("addons")->where("id", $id)->update(["install" => 1, "status" => 1, "addtime" => time()]);
             if ($ret1) return true;
             return false;
         });
+        if($out){
+            AddonsScan::scan();
+        }
+        return $out;
+    }
+
+    public static function isAddonsDevelopment($name=null){
+        $addons = $name?$name:Args::getVal("__addons");
+        return Args::configVal("__addons_development") && $addons && ($addons===Args::configVal("__addons_development_name"));
+     
     }
 
     public   function run()
     {
-
-        foreach (self::$__addones_configs as $key => $value) {
-            if (!isset($value["__data"])) {
-                $installinfo = Db::name("addons")->where("name", $key)->find();
-
-                self::$__addones_configs[$key]["install"] =  $installinfo  && ($installinfo["install"]);
-                self::$__addones_configs[$key]["status"] =  $installinfo ? $installinfo["status"] : "0";
-                self::$__addones_configs[$key]["__data"] = $installinfo;
+      
+       
+        $addonsname = self::getCurrentAddonsName();
+        if(! $addonsname) return;
+        $is__addons_development = self::isAddonsDevelopment();
+       
+        $config =  self::loadAddons($addonsname);
+        if(!$config){
+            if($is__addons_development)
+            {
+                AddonsScan::scan();
+                $config =  self::loadAddons($addonsname);
+            }else{
+                self::error("模块没安装");
+            }
+           
+        }
+        if ($config && isset($config["base_name_space"]) && $config["base_name_space"]) {
+            foreach ($config["base_name_space"] as $class_pre) {
+                App::getInstance()->setBaseNameSpace($class_pre);
             }
         }
-
-        $cinfo = self::getCurrentAddonsConfig();
-        $is__addons_development = Args::params("__addons_development");
-        if ($cinfo &&  (!$is__addons_development) && !$cinfo["install"]) {
-            self::error("模块没有安装");
+      
+        if ($config  && !$config["install"]) {
+             
+            if($is__addons_development){
+                if(!self::install($addonsname)){
+                    self::error("模块没有自动安装成功");
+                }
+                $config = self::loadAddons($addonsname);
+            }else 
+                self::error("模块没有安装");
         }
-        if ($cinfo &&  (!$is__addons_development) && !$cinfo["status"]) {
+        if ($config   && !$config["status"]) {
             self::error("模块已经关闭");
         }
-
-        if ($cinfo && $cinfo["install"]) {
+        $cinfo = $config;
+        if ($cinfo && $cinfo["install"] && !$is__addons_development) {
             if ($cinfo["__data"]["version"] != $cinfo["version"]) {
-                $app_obj = new $cinfo["app"]();
-                if (!($app_obj instanceof AddonsApp)) {
+                $app_obj = self::getAddonsApp($addonsname);
+                if ( (!$app_obj) || !($app_obj instanceof AddonsApp)) {
                     return false;
                 }
                 if ($app_obj->update($cinfo["version"], $cinfo["__data"]["version"])) {

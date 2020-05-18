@@ -7,9 +7,11 @@ use epii\admin\center\config\AdminCenterCommonInit;
 use epii\admin\center\config\AdminCenterPlusInitConfig;
 use epii\admin\center\config\UpdateConfig;
 use epii\admin\center\libs\AddonsManager;
+use epii\admin\center\libs\AddonsScan;
 use epii\app\i\IAppPlusInitConfig;
 
 use epii\server\Args;
+use epii\server\Response;
 use wangshouwei\session\Session;
 
 /**
@@ -57,8 +59,7 @@ class App extends \epii\app\App
         $this->init(UpdateConfig::class);
      
         $this->init(AddonsManager::class);
-       
-        AddonsManager::onRequest();
+  
         $this->setBaseNameSpace("epii\\admin\\center\\app");
 
         parent::run($app);
@@ -77,8 +78,21 @@ class App extends \epii\app\App
     }
 
     public function setAddonsDevelopment($name){
-         Args::setConfig("__addons",$name);
+         Args::setConfig("__addons_development_name",$name);
          Args::setConfig("__addons_development",true);
+         $this->init(function() use ($name){
+            $config =  AddonsManager::loadAddons($name);
+            if(!$config){
+                    AddonsScan::scan();
+                    $config =  AddonsManager::loadAddons($name);  
+            }
+            if ($config  && !$config["install"]) {
+
+                    if(!AddonsManager::install($name)){
+                        AddonsManager::error("模块没有自动安装成功");
+                    }
+            }
+         });
         return $this;
     }
 }
