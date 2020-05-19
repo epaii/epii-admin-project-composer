@@ -82,6 +82,8 @@ class AddonsManager implements IRun
             if (!($app_obj instanceof AddonsApp)) {
                 return false;
             }
+            if(isset($config["__data"]) && $config["__data"])
+             $app_obj->setConfig(isset($config["__data"]["id"])?$config["__data"]["id"]:0,$config);
             return $app_obj;
         }
         return false;
