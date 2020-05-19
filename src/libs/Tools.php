@@ -49,7 +49,7 @@ class Tools
 
     public static function getEnableNameSpacePre()
     {
-        $name_pre = Tools::getObjectAttr(App::getInstance(), "name_space_pre", App::class);
+        $name_pre = App::getInstance()->getBaseNameSpace();//  Tools::getObjectAttr(App::getInstance(), "name_space_pre", App::class);
         $app_need = true;
         foreach ($name_pre as $value) {
             if (stripos($value, "app\\") === 0) {
@@ -63,15 +63,15 @@ class Tools
         return $name_pre;
     }
 
-    public static function getObjectAttr($object, $name, $newscop = null)
-    {
-        $tmp = Closure::bind(function () use ($name) {
-           return $this->{$name};
-        }, $object, $newscop ? $newscop : get_class($object));
+    // public static function getObjectAttr($object, $name, $newscop = null)
+    // {
+    //     $tmp = Closure::bind(function () use ($name) {
+    //        return $this->{$name};
+    //     }, $object, $newscop ? $newscop : get_class($object));
 
 
-        return $tmp();
-    }
+    //     return $tmp();
+    // }
 
 
     private static $vendor_dir = null;

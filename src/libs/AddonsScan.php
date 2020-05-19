@@ -34,14 +34,14 @@ class AddonsScan
         }
         
         $composer_list = array_filter($composer_list, function ($item) {
-            return isset($item["extra"]["epii_admin_addons"]) && isset($item["extra"]["epii_admin_addons"]["title"]) && isset($item["description"]);
+            return isset($item["extra"]["epii_admin_addons"]) && isset($item["extra"]["epii_admin_addons"]["title"]) && isset($item["description"]) && ( isset($item["version"]) || isset($item["extra"]["version"]) );
         });
         $list = [];
         $installinfos = Db::name("addons")->column("*","name");
        
         foreach ($composer_list as $item){
             
-            $config = array_merge(["name"=>$item["name"],"version"=>$item["version"],"__path_dir"=>$item["path"],"description"=>$item["description"],"autoload_file"=>$item["autoload_file"]],$item["extra"]["epii_admin_addons"]);
+            $config = array_merge(["name"=>$item["name"],"version"=>isset($item["version"])?$item["version"]:"","__path_dir"=>$item["path"],"description"=>$item["description"],"autoload_file"=>$item["autoload_file"]],$item["extra"]["epii_admin_addons"]);
            
             if (isset($config["base_name_space"])) {
                 if (!is_array($config["base_name_space"])) {
