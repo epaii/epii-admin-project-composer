@@ -7,6 +7,7 @@ use epii\server\App;
 use epii\server\Args;
 use epii\server\i\IRun;
 use epii\server\Response;
+use epii\template\View;
 
 class AddonsManager implements IRun
 {
@@ -175,5 +176,11 @@ class AddonsManager implements IRun
                 }
             }
         }
+
+        View::changeConfig(["tpl_dir"=> $config["__path_dir"].DIRECTORY_SEPARATOR."view"]);
+
+
+         
+
     }
 }

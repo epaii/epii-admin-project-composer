@@ -45,7 +45,6 @@ use epii\app\i\IAppPlusInitConfig;
 
         // TODO: Implement get_db_config() method.
         if (file_exists($db_config = Tools::getVendorDir()."/../config/db.conf.php"))
-
         {
 
             return include $db_config;
