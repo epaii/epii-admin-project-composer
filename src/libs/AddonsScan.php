@@ -12,14 +12,18 @@ class AddonsScan
     {
         $dirs = AddonsManager::$__addones_one_dirs;
         $dir = AddonsManager::getAddonsDir();
-        $file_arr = scandir($dir);
-        foreach ($file_arr as $item) {
-            if ($item != ".." && $item != ".") {
-                if (is_dir($dir . "/" . $item) && file_exists($dir . "/" . $item . "/composer.json")) {
-                    $dirs[] = $dir . "/" . $item;
+        if(is_dir($dir))
+        {
+            $file_arr = scandir($dir);
+            foreach ($file_arr as $item) {
+                if ($item != ".." && $item != ".") {
+                    if (is_dir($dir . "/" . $item) && file_exists($dir . "/" . $item . "/composer.json")) {
+                        $dirs[] = $dir . "/" . $item;
+                    }
                 }
             }
         }
+       
         $composer_list = json_decode(file_get_contents(Tools::getVendorDir() . "/composer/installed.json"), true);
         array_walk($composer_list,function (&$item) {
             $item["path"] = Tools::getVendorDir() . DIRECTORY_SEPARATOR . $item["name"];
