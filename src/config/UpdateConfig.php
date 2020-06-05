@@ -11,9 +11,8 @@ namespace epii\admin\center\config;
 
 use epii\admin\center\libs\Tools;
 use epii\admin\center\ProjectConfig;
-use epii\orm\Db;
 use epii\server\i\IRun;
- 
+use think\Db;
 
 class UpdateConfig implements IRun
 {
@@ -26,10 +25,10 @@ class UpdateConfig implements IRun
         // TODO: Implement run() method.
 
         $dir = ProjectConfig::getAdminCenterPlusInitConfig()->get_cache_dir() . DIRECTORY_SEPARATOR . "update" . DIRECTORY_SEPARATOR;
-              
+
         Db::transaction(
-            function () use($dir){
-               if (!is_dir($dir)) {
+            function () use ($dir) {
+                if (!is_dir($dir)) {
                     mkdir($dir, 0777, true);
                 }
                 if (!file_exists($file = $dir . "20190319.update")) {
@@ -40,7 +39,6 @@ class UpdateConfig implements IRun
                             DB::query("ALTER TABLE `" . Db::getConfig("prefix") . "setting` DROP INDEX `name`, ADD UNIQUE `name` (`name`, `uid`) USING BTREE");
                         }
                     }
-
 
                     file_put_contents($file, 1);
                 }
@@ -59,42 +57,52 @@ class UpdateConfig implements IRun
                         DB::query("update  `" . Db::getConfig("prefix") . "node` set icon='fa fa-circle-o text-info'  where id=18");
                         DB::query("update  `" . Db::getConfig("prefix") . "node` set badge_class='epii\\\\admin\\\\center\\\\menu\\\\badge_test'  where id in (5,16)");
 
-
                         Db::query("INSERT INTO `" . Db::getConfig("prefix") . "node` (`id`, `name`, `url`, `status`, `remark`, `sort`, `pid`, `icon`, `badge`, `is_open`, `open_type`) VALUES(7, '样式(adminlite3)', 'http://epii.gitee.io/adminlite3/', 1, '', 100, 0, 'fa fa-circle-o text-danger', NULL, NULL, 1)");
                         Db::query("INSERT INTO `" . Db::getConfig("prefix") . "setting` (`id`, `name`, `value`, `type`, `addtime`, `tip`) VALUES(4, 'app.menu.open', '1', 1, 1547191854, '左侧导航默认展开')");
                     }
 
                     file_put_contents($file, 1);
                 }
+                return true;
             }
         );
 
-        Db::transaction(
-            function () use($dir){
-                if (!file_exists($file = $dir . "20200516.update")) {
+        if (!file_exists($file = $dir . "20200516.update")) {
 
-                    $info = Db::name("node")->where("id", 9)->find();
-                    if (!$info) {
-                        $ret = Tools::execSqlFile(__DIR__."/../data/update_sql/20200516.sql","epii_");
-                        if(! $ret) return false;
-                        Db::query("INSERT INTO `" . Db::getConfig("prefix") . "node` (`id`, `name`, `url`, `status`, `remark`, `sort`, `pid`, `icon`, `badge`, `is_open`, `open_type`) VALUES(8, '扩展中心', '', 1, '扩展中心', 9, 0, 'fa fa-cloud', NULL, NULL, 0)");
-                        Db::query("INSERT INTO `" . Db::getConfig("prefix") . "node` (`id`, `name`, `url`, `status`, `remark`, `sort`, `pid`, `icon`, `badge`, `is_open`, `open_type`,`badge_class`) VALUES(9, '应用列表', '?app=addons@index&_vendor=1', 1, '应用列表', 1, 8, 'fa fa-cloud', NULL, NULL, 0,'epii\\\\admin\\\\center\\\\menu\\\\badge_test')");
-                    }
-
-                    file_put_contents($file, 1);
+            $info = Db::name("node")->where("id", 9)->find();
+            if (!$info) {
+                $ret = Tools::execSqlFile(__DIR__ . "/../data/update_sql/20200516.sql", "epii_");
+                if (!$ret) {
+                    return false;
                 }
-                if (!file_exists($file = $dir . "2020051602.update")) {
 
-                    $info =  Db::name("setting")->find();
-                    if (!isset($info["addons_id"])) {
-                        $ret = Tools::execSqlFile(__DIR__."/../data/update_sql/2020051602.sql","epii_");
-                        if(! $ret) return false;
-                     }
+                 Db::query("INSERT INTO `" . Db::getConfig("prefix") . "node` (`id`, `name`, `url`, `status`, `remark`, `sort`, `pid`, `icon`, `badge`, `is_open`, `open_type`) VALUES(8, '扩展中心', '', 1, '扩展中心', 9, 0, 'fa fa-cloud', NULL, NULL, 0)");
+                 Db::query("INSERT INTO `" . Db::getConfig("prefix") . "node` (`id`, `name`, `url`, `status`, `remark`, `sort`, `pid`, `icon`, `badge`, `is_open`, `open_type`,`badge_class`) VALUES(9, '应用列表', '?app=addons@index&_vendor=1', 1, '应用列表', 1, 8, 'fa fa-cloud', NULL, NULL, 0,'epii\\\\admin\\\\center\\\\menu\\\\badge_test')");
+            }
 
-                    file_put_contents($file, 1);
+            file_put_contents($file, 1);
+        }
+
+        if (!file_exists($file = $dir . "2020051602.update")) {
+
+            $info = Db::name("setting")->find();
+            if (!isset($info["addons_id"])) {
+                $ret = Tools::execSqlFile(__DIR__ . "/../data/update_sql/2020051602.sql", "epii_");
+                if (!$ret) {
+                    return false;
                 }
 
             }
-        );
+
+            file_put_contents($file, 1);
+        }
+
+        if (!file_exists($file = $dir . "20200607.update")) {
+
+            $ret = Tools::execSqlFile(__DIR__ . "/../data/update_sql/20200607.sql", "epii_");
+            file_put_contents($file, 1);
+        }
+       
+
     }
 }

@@ -56,4 +56,5 @@ ALTER TABLE `epii_addons`
 --
 ALTER TABLE `epii_addons`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
+
 COMMIT;

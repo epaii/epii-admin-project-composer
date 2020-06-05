@@ -2,7 +2,6 @@
 
 namespace epii\admin\center\libs;
 
-use Closure;
 use epii\orm\Db;
 use epii\server\App;
 
@@ -14,6 +13,7 @@ use epii\server\App;
  */
 class Tools
 {
+    private static $link = null;
     public static function get_current_url()
     {
         return self::get_web_http_domain() . $_SERVER['REQUEST_URI'];
@@ -22,7 +22,7 @@ class Tools
     public static function get_web_root()
     {
 
-        return self::get_web_http_domain().(isset($_SERVER["REQUEST_URI"])?parse_url("http://www.ba.ldi/".$_SERVER["REQUEST_URI"])["path"]:"");
+        return self::get_web_http_domain() . (isset($_SERVER["REQUEST_URI"]) ? parse_url("http://www.ba.ldi/" . $_SERVER["REQUEST_URI"])["path"] : "");
     }
 
     public static function get_web_http_domain()
@@ -31,12 +31,11 @@ class Tools
         if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') {
             $current_url = 'https://';
         }
-        $http =explode(":",$_SERVER['HTTP_HOST']);
+        $http = explode(":", $_SERVER['HTTP_HOST']);
         $_SERVER['HTTP_HOST'] = $http[0];
 
-        if (!isset($_SERVER['SERVER_PORT']))
-        {
-            $_SERVER['SERVER_PORT'] = isset($http[1])?$http[1]:"80";
+        if (!isset($_SERVER['SERVER_PORT'])) {
+            $_SERVER['SERVER_PORT'] = isset($http[1]) ? $http[1] : "80";
         }
         if ($_SERVER['SERVER_PORT'] != '80') {
             $current_url .= $_SERVER['HTTP_HOST'] . ':' . $_SERVER['SERVER_PORT'];
@@ -46,10 +45,9 @@ class Tools
         return $current_url . (substr($_SERVER["SCRIPT_NAME"], 0, strrpos($_SERVER["SCRIPT_NAME"], "/")));
     }
 
-
     public static function getEnableNameSpacePre()
     {
-        $name_pre = App::getInstance()->getBaseNameSpace();//  Tools::getObjectAttr(App::getInstance(), "name_space_pre", App::class);
+        $name_pre = App::getInstance()->getBaseNameSpace(); //  Tools::getObjectAttr(App::getInstance(), "name_space_pre", App::class);
         $app_need = true;
         foreach ($name_pre as $value) {
             if (stripos($value, "app\\") === 0) {
@@ -69,10 +67,8 @@ class Tools
     //        return $this->{$name};
     //     }, $object, $newscop ? $newscop : get_class($object));
 
-
     //     return $tmp();
     // }
-
 
     private static $vendor_dir = null;
 
@@ -87,7 +83,7 @@ class Tools
         if ($files) {
             foreach ($files as $file) {
 
-                if (substr($file, $pos = -strlen($find = "composer".DIRECTORY_SEPARATOR."ClassLoader.php")) == $find) {
+                if (substr($file, $pos = -strlen($find = "composer" . DIRECTORY_SEPARATOR . "ClassLoader.php")) == $find) {
                     return self::$vendor_dir = substr($file, 0, $pos - 1);
                 }
             }
@@ -95,33 +91,36 @@ class Tools
         return self::$vendor_dir = "";
     }
 
-    public static function execSqlFile($file,$replace_prefix=""):bool
+    public static function execSqlFile($file, $replace_prefix = ""): bool
     {
         $sql = file_get_contents($file);
-        $config = Db::getConfig();
-        $link = mysqli_connect($config["hostname"], $config["username"], $config["password"], '', $config["hostport"]);
+        if (self::$link===null) {
 
-        if (!$link) {
-            return false;
+           
+            $config = Db::getConfig();
+            self::$link = mysqli_connect($config["hostname"], $config["username"], $config["password"], '', $config["hostport"]);
+            if(!self::$link) return false;
+            $db_has = mysqli_query(self::$link, "use " . $config["database"]);
+            if (!$db_has) {
+                return false;
+            }
         }
-        $db_has = mysqli_query($link, "use " . $config["database"]);
-        if (!$db_has) {
-            return false;
+       
+  
+        if ($replace_prefix) {
+            $sql = str_replace("`" . $replace_prefix, "`" . Db::getConfig("prefix"), $sql);
         }
-        if($replace_prefix)
-          $sql = str_replace("`".$replace_prefix, "`" . Db::getConfig("prefix"), $sql);
 
         $_arr = explode(';', $sql);
         $_arr = explode(';', $sql);
-        mysqli_query($link, "SET AUTOCOMMIT=0");
-        mysqli_begin_transaction($link);
+        mysqli_query(self::$link, "SET AUTOCOMMIT=0");
+        mysqli_begin_transaction(self::$link);
         foreach ($_arr as $_value) {
             if ($_value = trim($_value)) {
-                $query_info = mysqli_query($link, $_value);
-
+                $query_info = mysqli_query(self::$link, $_value);
 
                 if ($query_info === false) {
-                    mysqli_query($link, "ROLLBACK");     
+                    mysqli_query(self::$link, "ROLLBACK");
                     return false;
                 }
             }
