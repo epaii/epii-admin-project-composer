@@ -8,6 +8,7 @@ use epii\orm\Db;
 trait addons_controller{
     protected $addons_info = [];
     protected $addons_config = [];
+    protected $static_url_pre = "";
     public function init()
     {
 
@@ -16,6 +17,8 @@ trait addons_controller{
          $config = AddonsManager::getAddonsConfig($addonsname);
          $this->addons_info = $config;
          $this->addons_config = Db::name("setting")->where("addons_id", $config["__data"]["id"])->column("value","name");
+         $this->static_url_pre = \epii\server\Tools::get_web_root()."addons_static/".$config["name"];
+
          
          
     }

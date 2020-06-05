@@ -11,8 +11,9 @@ namespace epii\admin\center\config;
 
 use epii\admin\center\libs\Tools;
 use epii\admin\center\ProjectConfig;
+use epii\orm\Db;
 use epii\server\i\IRun;
-use think\Db;
+ 
 
 class UpdateConfig implements IRun
 {
@@ -84,7 +85,7 @@ class UpdateConfig implements IRun
                 }
                 if (!file_exists($file = $dir . "2020051602.update")) {
 
-                    $info = Db::name("node")->where("id", 9)->find();
+                    $info =  Db::name("setting")->find();
                     if (!isset($info["addons_id"])) {
                         $ret = Tools::execSqlFile(__DIR__."/../data/update_sql/2020051602.sql","epii_");
                         if(! $ret) return false;
