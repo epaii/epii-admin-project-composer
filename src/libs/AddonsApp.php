@@ -64,7 +64,7 @@ abstract class AddonsApp
             Db::name("setting")->where("id", $find["id"])->update(["value" => $value]);
             return $find["id"];
         } else {
-            $data = array_merge($data, ["value" => $value, "type" => 1, "addtime" => time()]);
+            $data = array_merge($data, ["value" => $value, "type" => 1, "addtime" => time(),"tip"=>$mark]);
             return Db::name("setting")->insertGetId($data);
         }
 
