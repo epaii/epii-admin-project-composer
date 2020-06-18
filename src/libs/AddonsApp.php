@@ -51,12 +51,26 @@ abstract class AddonsApp
     }
     protected function copyDirToStatic($source)
     {
-  
-       $dest = \epii\server\Tools::getRootFileDirectory() . DIRECTORY_SEPARATOR . "addons_static/" . $this->info["name"];
-        $this->copydir($source,$dest);
+
+        $dest = \epii\server\Tools::getRootFileDirectory() . DIRECTORY_SEPARATOR . "addons_static/" . $this->info["name"];
+        $this->copydir($source, $dest);
 
     }
-    private function copydir($source,$dest){
+
+    protected function setAddonsConfig($key, $value, $mark = "")
+    {
+        $data = ["addons_id" => $this->id, "name" => $key];
+        if ($find = Db::name("setting")->where($data)->find()) {
+            Db::name("setting")->where("id", $find["id"])->update(["value" => $value]);
+            return $find["id"];
+        } else {
+            $data = array_merge($data, ["value" => $value, "type" => 1, "addtime" => time()]);
+            return Db::name("setting")->insertGetId($data);
+        }
+
+    }
+    private function copydir($source, $dest)
+    {
         \epii\server\Tools::mkdir($dest);
         $handle = opendir($source);
         while (($item = readdir($handle)) !== false) {

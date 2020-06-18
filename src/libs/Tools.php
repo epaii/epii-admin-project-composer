@@ -112,7 +112,6 @@ class Tools
         }
 
         $_arr = explode(';', $sql);
-        $_arr = explode(';', $sql);
         mysqli_query(self::$link, "SET AUTOCOMMIT=0");
         mysqli_begin_transaction(self::$link);
         foreach ($_arr as $_value) {
@@ -126,6 +125,7 @@ class Tools
             }
 
         }
+        mysqli_query(self::$link, "COMMIT");
         return true;
     }
 

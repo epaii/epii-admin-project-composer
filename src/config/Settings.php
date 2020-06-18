@@ -10,6 +10,7 @@ namespace epii\admin\center\config;
 
 
 use epii\admin\center\ProjectConfig;
+use epii\server\Tools;
 use think\Db;
 use wangshouwei\session\Session;
 
@@ -28,9 +29,17 @@ class Settings
     private static function getCachefile()
     {
 
-        $cachedir = ($dir = ProjectConfig::getAdminCenterPlusInitConfig()->get_cache_dir() . DIRECTORY_SEPARATOR . "setting") . DIRECTORY_SEPARATOR . "setting.php";
+        $config = ProjectConfig::getAdminCenterPlusInitConfig();
+        if($config){
+            $dir = ProjectConfig::getAdminCenterPlusInitConfig()->get_cache_dir() . DIRECTORY_SEPARATOR . "setting";
+        }else{
+            $dir =  Tools::getRuntimeDirectory(). DIRECTORY_SEPARATOR . "cache".DIRECTORY_SEPARATOR."setting";
+        }
         if (!is_dir($dir))
-            mkdir($dir, 0777, true);
+        mkdir($dir, 0777, true);
+        
+        $cachedir = $dir. DIRECTORY_SEPARATOR . "setting.php";
+       
         return $cachedir;
     }
 
