@@ -8,7 +8,7 @@
 
 namespace epii\admin\center\config;
 
-
+use epii\admin\center\AdminCenter;
 use epii\admin\center\libs\Tools;
 use epii\ui\login\IloginConfig;
 use think\Db;
@@ -45,11 +45,7 @@ class LoginPageConfig implements IloginConfig
             ->find();
         if ($user) {
             if ($user['password'] == md5($password)) {
-                Session::set("is_login", 1);
-                Session::set("admin_gid", $user["role"]);
-                Session::set("username", $user['username']);
-                Session::set("user_id", $user['id']);
-                Session::set("user_avatar", $user['photo']);
+                AdminCenter::login($user);
                 $this->onLogin($user);
                 $msg = '';
                 return true;
