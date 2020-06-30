@@ -134,7 +134,7 @@ INSERT INTO `epii_setting` (`id`, `name`, `value`, `type`, `addtime`, `tip`) VAL
 (7, 'app.style.left_top_theme', 'clear', 1, 1, '左侧头部背景 clear primary warning info  danger success'),
 (8, 'app.style.left_selected_theme', 'primary', 1, 1547189470, '左侧选中时背景primary warning info  danger    success'),
 (9, 'app.logo', 'https://epii.gitee.io/epiiadmin-js/img/AdminLTELogo.png', 1, 1547191738, '左上角logo图标'),
-(10, 'app.login.bgimgs', 'http://epii.gitee.io/static/imgs/login_imgs/login4.jpg', 1, 1547191738, '左上角logo图标'),
+(10, 'app.login.bgimgs', '0', 1, 1547191738, '登录背景图'),
 (11, 'app.title', '我的管理中心', 1, 1547191854, '左侧上部titledd');
 
 --
