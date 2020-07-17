@@ -45,7 +45,7 @@ class AddonsScan
        
         foreach ($composer_list as $item){
             
-            $config = array_merge(["name"=>$item["name"],"version"=>isset($item["version"])?$item["version"]:"","__path_dir"=>$item["path"],"description"=>$item["description"],"autoload_file"=>$item["autoload_file"]],$item["extra"]["epii_admin_addons"]);
+            $config = array_merge(["name"=>$item["name"],"version"=>isset($item["version"])?$item["version"]:(isset($item["extra"]["version"])?$item["extra"]["version"]:""),"__path_dir"=>$item["path"],"description"=>$item["description"],"autoload_file"=>$item["autoload_file"]],$item["extra"]["epii_admin_addons"]);
            
             if (isset($config["base_name_space"])) {
                 if (!is_array($config["base_name_space"])) {
