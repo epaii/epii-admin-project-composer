@@ -22,6 +22,10 @@ class root extends _controller
     {
         $this->adminUiDisplay("start/home");
     }
+    public function login(){//此函数可以自定义，实现完全自主的登录方式
+        if (!Session::get("is_login"))
+            AdminLogin::login(ProjectConfig::getLoginPageConfig());
+    }
 
     public function start()
     {
@@ -34,7 +38,7 @@ class root extends _controller
         }
 
         if (!Session::get("is_login"))
-            AdminLogin::login(ProjectConfig::getLoginPageConfig());
+           $this->login();
         else
             $this->adminUiBaseDisplay(ProjectConfig::getAdminUiConfig());
 
