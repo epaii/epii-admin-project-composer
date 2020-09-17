@@ -12,6 +12,7 @@ use epii\app\i\IAppPlusInitConfig;
 
 use epii\server\Args;
 use epii\server\Response;
+use epii\ui\upload\AdminUiUpload;
 use wangshouwei\session\Session;
 
 /**
@@ -41,7 +42,7 @@ class App extends \epii\app\App
 
         }
         parent::__construct($configOrFilePath);
-
+        AdminUiUpload::init("?app=upload@img&_vendor=1");
 
     }
 

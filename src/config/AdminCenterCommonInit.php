@@ -52,7 +52,7 @@ class AdminCenterCommonInit implements IRun
 
 
 
-        AdminUiUpload::init("?app=upload@img&_vendor=1");
+        
         EpiiAdminUi::addPluginData("skin_save_api", "?app=skin_change@save&_vendor=1&type={type}&value={value}");
 
         EpiiAdminUi::addPluginData("menu_badge_api","?app=menu_badge_api@index&_vendor=1");
