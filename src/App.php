@@ -36,11 +36,7 @@ class App extends \epii\app\App
                 $_REQUEST['app'] = "epii\\admin\\center\\app\\" . $_REQUEST['app'];
             }
         }
-        if (!isset($_REQUEST['app'])) {
-
-            $_REQUEST['app'] = root::class . "@start";
-
-        }
+     
         parent::__construct($configOrFilePath);
         AdminUiUpload::init("?app=upload@img&_vendor=1");
 
@@ -49,7 +45,7 @@ class App extends \epii\app\App
     public function run($app = null)
     {
 
-
+        $this->defaultApp(root::class . "@start");
         if (!$this->_is_setconfig) {
             $this->setConfig(new AdminCenterPlusInitConfig());
         }
