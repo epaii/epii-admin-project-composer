@@ -13,6 +13,7 @@ use epii\admin\center\common\_controller;
 use epii\admin\center\libs\Tools;
 use epii\admin\ui\lib\epiiadmin\jscmd\Alert;
 use epii\admin\ui\lib\epiiadmin\jscmd\JsCmd;
+use epii\server\Args;
 
 class install extends _controller
 {
@@ -38,7 +39,7 @@ class install extends _controller
     public function config()
     {
 
-
+        $is_has = Args::params("is_has/d",0);
         if ($_POST) {
             $config_dir = Tools::getVendorDir() . "/../config";
             \epii\server\Tools::mkdir($config_dir);
@@ -64,6 +65,14 @@ class install extends _controller
             $db_has = mysqli_query($link, "use " . $config["database"]);
             if (!$db_has) {
                 return JsCmd::alert("数据库不存在");
+            }
+
+            if($is_has == 1){
+                unset($config["is_has"]);
+                $config["type"] = "mysql";
+                if(file_put_contents(Tools::getVendorDir() . "/../config/db.conf.php", "<?php return  " . var_export($config, true) . " ;")){
+                    return JsCmd::alertCloseRefresh("绑定成功");
+                }
             }
 
             $sql = file_get_contents(__DIR__ . "/../config/install.sql");
@@ -111,6 +120,7 @@ class install extends _controller
             }
 
         } else {
+            $this->_as_is_has = $is_has;
             $this->adminUiDisplay("install/config", "安装程序");
         }
 

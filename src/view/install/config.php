@@ -1,4 +1,5 @@
 <form class="form-horizontal epii" data-form="1" style="margin-top: -20px" method="post"  action="?app=install@config">
+    <input type="hidden" name="is_has" value="{$is_has}">
     <div class="card-body">
         <div class="form-group">
             <label for="hostname" class="control-label">数据库Ip:</label>
@@ -37,6 +38,7 @@
 
         </div>
 
+        {if $is_has != 1}
         <div class="form-group">
             <label class="control-label">管理员账号:</label>
 
@@ -50,6 +52,7 @@
                 <input type="text" class="form-control"   name="admin_password" placeholder="管理员密码" value="" required>
 
         </div>
+        {/if}
     </div>
     <!-- /.card-body -->
     <div style="text-align: center;">
