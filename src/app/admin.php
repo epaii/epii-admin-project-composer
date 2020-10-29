@@ -58,7 +58,7 @@ class admin extends _controller
         echo $this->tableJsonData($table, $map, function ($data) {
             $data['addtime'] = date('Y-m-d H:i:s', $data['addtime']);
             $data['updatetime'] = date('Y-m-d H:i:s', $data['updatetime']);
-            $data['status'] = $data['status'] == 'normal' ? "1" : "0";
+            $data['status'] = $data['status'] == 'nornal' ? "1" : "0";
             return $data;
         });
     }
