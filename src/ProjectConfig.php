@@ -20,6 +20,7 @@ class ProjectConfig
     private static $adminUi = null;
     private static $AdminCenterPlusInitConfig = null;
     private static $loginConfig = null;
+    private static $upload_file_types = ["gif", "jpeg", "jpg", "png","doc","zip","pdf","rar","bmp"];
 
     public static function _setAdminUiConfig(AdminCenterUiConfig $adminUi)
     {
@@ -55,5 +56,11 @@ class ProjectConfig
         return self::$AdminCenterPlusInitConfig;
     }
 
+    public static function setUploadFileTypes(array $types){
+        self::$upload_file_types = $types;
+    }
+    public static function getUploadFileTypes(){
+       return  self::$upload_file_types ;
+    }
 
 }

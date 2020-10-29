@@ -10,13 +10,14 @@ namespace epii\admin\center\app;
 
 
 use epii\admin\center\common\_controller;
+use epii\admin\center\ProjectConfig;
 use epii\ui\upload\AdminUiUpload;
 
 class upload extends _controller
 {
     public function img()
     {
-        echo AdminUiUpload::doUpload(["gif", "jpeg", "jpg", "png"], 2048000);
+        echo AdminUiUpload::doUpload(ProjectConfig::getUploadFileTypes(), 2048000);
         exit;
     }
 }
