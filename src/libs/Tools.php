@@ -47,7 +47,16 @@ class Tools
 
     public static function getEnableNameSpacePre()
     {
+        
         $name_pre = App::getInstance()->getBaseNameSpace(); //  Tools::getObjectAttr(App::getInstance(), "name_space_pre", App::class);
+        $addons =  AddonsScan::getAllAddons();
+        if($addons){
+            foreach ($addons as $key => $value) {
+               
+                AddonsManager::loadAddons($value["name"] );
+                $name_pre = array_merge($name_pre,$value["base_name_space"]);
+            }
+        }
         $app_need = true;
         foreach ($name_pre as $value) {
             if (stripos($value, "app\\") === 0) {
