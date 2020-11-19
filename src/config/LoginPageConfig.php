@@ -63,9 +63,16 @@ class LoginPageConfig implements IloginConfig
     {
         // TODO: Implement getConfigs() method.
         $config = ["success_url" => Tools::get_web_root()];
-        if ($tmp = Settings::get("app.login.bgimgs")) {
-            $config["bg_imgs"] = explode(",", $tmp);
+        $allset = Settings::get();
+        foreach ($allset as $key => $value) {
+            if(stripos($key,"app.login.")===0){
+                $config[str_replace("app.login.","",$key)] = $value;
+            }
         }
+        if(isset($config["bg_imgs"]) && $config["bg_imgs"]){
+            $config["bg_imgs"] = explode(",", $config["bg_imgs"]);
+        }
+
         return $config;
     }
 }
