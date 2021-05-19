@@ -25,6 +25,7 @@ class AddonsScan
         }
        
         $composer_list = json_decode(file_get_contents(Tools::getVendorDir() . "/composer/installed.json"), true);
+        isset($composer_list["packages"]) && ($composer_list = $composer_list["packages"]);
         array_walk($composer_list,function (&$item) {
             $item["path"] = Tools::getVendorDir() . DIRECTORY_SEPARATOR . $item["name"];
             $item["autoload_file"] = null;
