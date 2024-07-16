@@ -10,6 +10,7 @@ namespace epii\admin\center\config;
 
 use epii\admin\center\AdminCenter;
 use epii\admin\center\libs\Tools;
+use epii\server\Tools as ServerTools;
 use epii\ui\login\IloginConfig;
 use think\Db;
 use wangshouwei\session\Session;
@@ -62,7 +63,7 @@ class LoginPageConfig implements IloginConfig
     public function getConfigs(): array
     {
         // TODO: Implement getConfigs() method.
-        $config = ["success_url" => Tools::get_web_root()];
+        $config = ["success_url" =>  ServerTools::get_web_root()];
         $allset = Settings::get();
         foreach ($allset as $key => $value) {
             if(stripos($key,"app.login.")===0){

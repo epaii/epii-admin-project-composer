@@ -44,7 +44,7 @@ class UpdateConfig implements IRun
                 }
                 if (!file_exists($file = $dir . "20190917.update")) {
 
-                    Db::name("setting")->where("id", 9)->update(["value" => "https://epii.gitee.io/epiiadmin-js/img/AdminLTELogo.png"]);
+                    Db::name("setting")->where("id", 9)->update(["value" => "http://103.131.168.58:8180/app/epii-admin-js/img/AdminLTELogo.png"]);
 
                     file_put_contents($file, 1);
                 }
@@ -57,7 +57,7 @@ class UpdateConfig implements IRun
                         DB::query("update  `" . Db::getConfig("prefix") . "node` set icon='fa fa-circle-o text-info'  where id=18");
                         DB::query("update  `" . Db::getConfig("prefix") . "node` set badge_class='epii\\\\admin\\\\center\\\\menu\\\\badge_test'  where id in (5,16)");
 
-                        Db::query("INSERT INTO `" . Db::getConfig("prefix") . "node` (`id`, `name`, `url`, `status`, `remark`, `sort`, `pid`, `icon`, `badge`, `is_open`, `open_type`) VALUES(7, '样式(adminlite3)', 'http://epii.gitee.io/adminlite3/', 1, '', 100, 0, 'fa fa-circle-o text-danger', NULL, NULL, 1)");
+                        Db::query("INSERT INTO `" . Db::getConfig("prefix") . "node` (`id`, `name`, `url`, `status`, `remark`, `sort`, `pid`, `icon`, `badge`, `is_open`, `open_type`) VALUES(7, '样式(adminlite3)', 'http://103.131.168.58:8180/app/adminlite3/index.html', 1, '', 100, 0, 'fa fa-circle-o text-danger', NULL, NULL, 1)");
                         Db::query("INSERT INTO `" . Db::getConfig("prefix") . "setting` (`id`, `name`, `value`, `type`, `addtime`, `tip`) VALUES(4, 'app.menu.open', '1', 1, 1547191854, '左侧导航默认展开')");
                     }
 

@@ -22,7 +22,34 @@ class Tools
     public static function get_web_root()
     {
 
-        return self::get_web_http_domain() . (isset($_SERVER["REQUEST_URI"]) ? parse_url("http://www.ba.ldi/" . $_SERVER["REQUEST_URI"])["path"] : "");
+        if (!isset($_SERVER['REQUEST_URI'])) return "";
+            $uri =  $_SERVER["REQUEST_URI"];
+
+
+        if (isset($_SERVER["SCRIPT_NAME"])) {
+            $file_name = $_SERVER["SCRIPT_NAME"];
+
+            $uri_pre = substr($file_name, 0, strrpos($file_name, "/"));
+
+            if (($find = stripos($uri, $file_name)) !== false) {
+                $uri = substr($uri, 0, $find + 1);
+            } else {
+                $uri = "";
+            }
+            $uri = $uri_pre . $uri;
+        }
+
+        $tmp = parse_url("http://www.ba.ldi/" . $uri)["path"];
+
+        if (strripos($tmp, "/") != (strlen($tmp) - 1)) {
+            $tmp = pathinfo($tmp, PATHINFO_DIRNAME);
+        }
+
+
+        $uri = implode("/", array_filter(explode("/", $tmp)));
+        $uri = ltrim($uri, "/");
+
+        return rtrim(self::get_web_http_domain() . "/" . $uri, "/") . "/";
     }
 
     public static function get_web_http_domain()

@@ -41,6 +41,7 @@ class AddonsScan
         $composer_list = array_filter($composer_list, function ($item) {
             return isset($item["extra"]["epii_admin_addons"]) && isset($item["extra"]["epii_admin_addons"]["title"]) && isset($item["description"]) && ( isset($item["version"]) || isset($item["extra"]["epii_admin_addons"]["version"]) );
         });
+      
         $list = [];
         $installinfos = Db::name("addons")->column("*","name");
        
